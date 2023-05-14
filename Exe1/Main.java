@@ -98,6 +98,19 @@ public class Main {
                         System.out.print(phonebook.getContact(i).toString());
                     }
                     break;
+                case 6:
+                    // Sort all contacts by number
+                    phonebook.sortByNumber();
+
+                    System.out.println("Here's Your Phonebook after sorting it by number:");
+                    for (int i = 0; i < phonebook.getSize(); i++) {
+                        System.out.print(phonebook.getContact(i).toString());
+                    }
+                    break;
+                case 7:
+                case 8:
+                case 9:
+                case 10:
                 case 11:
                     System.out.println("Goodbye!\n");
 
