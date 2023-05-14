@@ -103,18 +103,14 @@ public class Main {
                     phonebook.sortByNumber();
 
                     System.out.println("Here's Your Phonebook after sorting it by number:");
-                    for (int i = 0; i < phonebook.getSize(); i++) {
-                        System.out.print(phonebook.getContact(i).toString());
-                    }
+                    System.out.println(phonebook.toString());
                     break;
                 case 7:
                     // Remove duplicates
                     phonebook.removeDuplicates();
 
                     System.out.println("Here's Your Phonebook after removing duplicates:");
-                    for (int i = 0; i < phonebook.getSize(); i++) {
-                        System.out.print(phonebook.getContact(i).toString());
-                    }
+                    System.out.println(phonebook.toString());
 
                     break;
                 case 8:
