@@ -1,8 +1,8 @@
 package Exe1;
 
 public class Contact {
-    String name;
-    int phoneNumber;
+    private String name;
+    private int phoneNumber;
 
     public Contact(String n, int p) {
         this.name = n;
