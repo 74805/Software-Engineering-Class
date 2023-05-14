@@ -74,4 +74,15 @@ public class Phonebook {
             }
         });
     }
+
+    public void removeDuplicates() {
+        for (int i = 0; i < contacts.size(); i++) {
+            for (int j = i + 1; j < contacts.size(); j++) {
+                if (contacts.get(i).getName().equals(contacts.get(j).getName())) {
+                    contacts.remove(j);
+                    j--;
+                }
+            }
+        }
+    }
 }

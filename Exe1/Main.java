@@ -108,6 +108,15 @@ public class Main {
                     }
                     break;
                 case 7:
+                    // Remove duplicates
+                    phonebook.removeDuplicates();
+
+                    System.out.println("Here's Your Phonebook after removing duplicates:");
+                    for (int i = 0; i < phonebook.getSize(); i++) {
+                        System.out.print(phonebook.getContact(i).toString());
+                    }
+
+                    break;
                 case 8:
                 case 9:
                 case 10:
