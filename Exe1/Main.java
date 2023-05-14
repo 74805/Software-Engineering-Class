@@ -49,7 +49,7 @@ public class Main {
                     phonebook.addContact(temp);
 
                     System.out.println("You added: ");
-                    System.out.println(temp.toString());
+                    System.out.println(temp);
                     break;
                 case 2:
                     // Delete a contact
@@ -70,7 +70,7 @@ public class Main {
                         continue;
                     }
 
-                    System.out.println(phonebook.toString());
+                    System.out.println(phonebook);
                     break;
                 case 4:
                     // Search for a contact
@@ -95,7 +95,7 @@ public class Main {
 
                     System.out.println("Here's Your Phonebook after sorting it alphabetically (A-Z):");
                     for (int i = 0; i < phonebook.getSize(); i++) {
-                        System.out.print(phonebook.getContact(i).toString());
+                        System.out.print(phonebook.getContact(i));
                     }
                     break;
                 case 6:
@@ -103,14 +103,14 @@ public class Main {
                     phonebook.sortByNumber();
 
                     System.out.println("Here's Your Phonebook after sorting it by number:");
-                    System.out.println(phonebook.toString());
+                    System.out.println(phonebook);
                     break;
                 case 7:
                     // Remove duplicates
                     phonebook.removeDuplicates();
 
                     System.out.println("Here's Your Phonebook after removing duplicates:");
-                    System.out.println(phonebook.toString());
+                    System.out.println(phonebook);
 
                     break;
                 case 8:

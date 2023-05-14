@@ -40,7 +40,7 @@ public class Phonebook {
     public String toString() {
         String res = "";
         for (int i = 0; i < this.contacts.size(); i++) {
-            res += "[" + (i + 1) + "] " + this.contacts.get(i).toString();
+            res += "[" + (i + 1) + "] " + this.contacts.get(i);
         }
         return res;
     }
@@ -78,7 +78,8 @@ public class Phonebook {
     public void removeDuplicates() {
         for (int i = 0; i < contacts.size(); i++) {
             for (int j = i + 1; j < contacts.size(); j++) {
-                if (contacts.get(i).getName().equals(contacts.get(j).getName())) {
+                if (contacts.get(i).getName().equals(contacts.get(j).getName())
+                        && contacts.get(i).getPhoneNumber() == contacts.get(j).getPhoneNumber()) {
                     contacts.remove(j);
                     j--;
                 }
