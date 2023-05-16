@@ -92,20 +92,20 @@ public class Phonebook {
     }
 
     public void reverseOrder() {
-        Contact temp;
+        Contact temp=new Contact("", 0);
         for (int i = 0; i < contacts.size()/2; i++) {
-            temp=contacts.get(i);
-            contacts.get(i)=contacts.get(contacts.size()-i-1);
-            contacts.get(contacts.size()-i-1)=temp;
+            temp.setContact(contacts.get(i).getName(),contacts.get(i).getPhoneNumber());
+            contacts.get(i).setContact(contacts.get(contacts.size()-i-1).getName(),contacts.get(contacts.size()-i-1).getPhoneNumber());
+            contacts.get(contacts.size()-i-1).setContact(temp.getName(),temp.getPhoneNumber());
         }
     }
 
-    public void saveingPhonebook(string textFileName) throws IOException{
+    public void savingPhonebook(String textFileName) throws IOException{
         File phonebookInfo = new File(textFileName);// creat text file
-        FileWriter writer = new FileWriter(file, false);// to write
-        for (int i= 0; i< contacts.size; i++){ // run all over the contacts in the phonebook
-            writer.write ("name: "+ contacts.get(i).getName+ " number:"+ contacts.getPhoneNumber()+"/n");
-            writer. close();
+        FileWriter writer = new FileWriter(phonebookInfo, false);// to write
+        for (int i= 0; i< contacts.size(); i++){ // run all over the contacts in the phonebook
+            writer.write ("name: "+ contacts.get(i).getName()+ " number:"+ contacts.get(i).getPhoneNumber()+"/n");
+            writer.close();
         }
     }
 }

@@ -123,7 +123,11 @@ public class Main {
                     //save in text file
                     System.out.println("Enter The Name of the file that you want to save your phonbook in: ");
                     String fileName = In.next();
-                    phonebook.saveingPhonebook(fileName);
+                    try {
+                        phonebook.savingPhonebook(fileName);
+                    } catch (Exception e) {
+                        System.out.println("file not found");
+                    }
                     break;
                 case 10:
                 case 11:
