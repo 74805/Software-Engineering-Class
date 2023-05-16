@@ -86,4 +86,13 @@ public class Phonebook {
             }
         }
     }
+
+    public void reverseOrder() {
+        Contact temp;
+        for (int i = 0; i < contacts.size()/2; i++) {
+            temp=contacts.get(i);
+            contacts.get(i)=contacts.get(contacts.size()-i-1);
+            contacts.get(contacts.size()-i-1)=temp;
+        }
+    }
 }

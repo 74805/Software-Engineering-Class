@@ -114,6 +114,11 @@ public class Main {
 
                     break;
                 case 8:
+                    //reverse order
+                    phonebook.reverseOrder();
+                    System.out.println("Here's Your Phonebook after reversing its order:");
+                    System.out.println(phonebook);
+                    break;
                 case 9:
                 case 10:
                 case 11:
