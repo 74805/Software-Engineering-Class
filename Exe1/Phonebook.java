@@ -3,6 +3,10 @@ package Exe1;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.io.File;
+import java.io.IOException; 
+import java.io.FileWriter;
+
 
 public class Phonebook {
     private ArrayList<Contact> contacts;
@@ -93,6 +97,15 @@ public class Phonebook {
             temp=contacts.get(i);
             contacts.get(i)=contacts.get(contacts.size()-i-1);
             contacts.get(contacts.size()-i-1)=temp;
+        }
+    }
+
+    public void saveingPhonebook(string textFileName) throws IOException{
+        File phonebookInfo = new File(textFileName);// creat text file
+        FileWriter writer = new FileWriter(file, false);// to write
+        for (int i= 0; i< contacts.size; i++){ // run all over the contacts in the phonebook
+            writer.write ("name: "+ contacts.get(i).getName+ " number:"+ contacts.getPhoneNumber()+"/n");
+            writer. close();
         }
     }
 }

@@ -120,6 +120,11 @@ public class Main {
                     System.out.println(phonebook);
                     break;
                 case 9:
+                    //save in text file
+                    System.out.println("Enter The Name of the file that you want to save your phonbook in: ");
+                    String fileName = In.next();
+                    phonebook.saveingPhonebook(fileName);
+                    break;
                 case 10:
                 case 11:
                     System.out.println("Goodbye!\n");
