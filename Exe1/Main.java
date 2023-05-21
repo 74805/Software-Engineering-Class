@@ -100,6 +100,11 @@ public class Main {
                     break;
                 case 6:
                     // Sort all contacts by number
+                    if (phonebook.getSize() == 0) {
+                        System.out.println("Your Phonebook is empty.");
+                        continue;
+                    }
+                    
                     phonebook.sortByNumber();
 
                     System.out.println("Here's Your Phonebook after sorting it by number:");
@@ -107,6 +112,11 @@ public class Main {
                     break;
                 case 7:
                     // Remove duplicates
+                    if (phonebook.getSize() == 0) {
+                        System.out.println("Your Phonebook is empty.");
+                        continue;
+                    }
+                    
                     phonebook.removeDuplicates();
 
                     System.out.println("Here's Your Phonebook after removing duplicates:");
@@ -115,6 +125,11 @@ public class Main {
                     break;
                 case 8:
                     //reverse order
+                    if (phonebook.getSize() == 0) {
+                        System.out.println("Your Phonebook is empty.");
+                        continue;
+                    }
+                    
                     phonebook.reverseOrder();
                     System.out.println("Here's Your Phonebook after reversing its order:");
                     System.out.println(phonebook);
