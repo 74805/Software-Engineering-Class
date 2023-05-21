@@ -145,6 +145,16 @@ public class Main {
                     }
                     break;
                 case 10:
+                	//load from text file
+                	System.out.println("Enter The Name of the file that you want to save your phonbook in: ");
+                    String file = In.next();
+                    try {
+                        phonebook.loadingPhonebook(file);
+                    } catch (Exception e) {
+                        System.out.println("file not found");
+                    }
+                    break;
+
                 case 11:
                     System.out.println("Goodbye!\n");
 
