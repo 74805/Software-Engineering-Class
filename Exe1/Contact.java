@@ -4,6 +4,10 @@ public class Contact {
     private String name;
     private int phoneNumber;
 
+    public Contact() {
+        this("", 0);
+    }
+
     public Contact(String n, int p) {
         this.name = n;
         this.phoneNumber = p;
@@ -31,7 +35,7 @@ public class Contact {
     }
 
     public void setContact(String name, int phoneNumber) {
-        this.name=name;
-        this.phoneNumber=phoneNumber;
+        this.name = name;
+        this.phoneNumber = phoneNumber;
     }
 }

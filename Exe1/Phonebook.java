@@ -92,7 +92,7 @@ public class Phonebook {
     }
 
     public void reverseOrder() {
-        Contact temp = new Contact("", 0);
+        Contact temp = new Contact();
         for (int i = 0; i < contacts.size() / 2; i++) {
             temp.setContact(contacts.get(i).getName(), contacts.get(i).getPhoneNumber());
             contacts.get(i).setContact(contacts.get(contacts.size() - i - 1).getName(),
