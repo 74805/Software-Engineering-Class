@@ -3,6 +3,7 @@ package Exe1;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Scanner;
 import java.io.File;
 import java.io.IOException;
 import java.io.FileWriter;
@@ -110,13 +111,19 @@ public class Phonebook {
     }
 
     public void loadingPhonebook(String textFileName) throws IOException {
-        // File myObj = new File("filename.txt");
-        // Scanner myReader = new Scanner(myObj);
-        // while (myReader.hasNextLine()) {
-        // String name = myReader.nextLine();
-        // int phone = Integer.parseInt(myReader.nextLine());
-        // Contact t = new Contact(name, phone);
-        // contacts.add(t);
-        // }
+        File myObj = new File(textFileName);
+        Scanner myReader = new Scanner(myObj);
+
+        while (myReader.hasNextLine()) {
+            String contactString = myReader.nextLine();
+
+            String name = contactString.split(" - ")[0];
+            int phone = Integer.parseInt(contactString.split(" - ")[1]);
+
+            Contact t = new Contact(name, phone);
+            contacts.add(t);
+        }
+
+        myReader.close();
     }
 }
