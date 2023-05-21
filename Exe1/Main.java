@@ -1,11 +1,12 @@
 package Exe1;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 public class Main {
-    public static Scanner In = new Scanner(System.in);
-
     public static void main(String[] args) {
+        Scanner In = new Scanner(System.in);
+
         Phonebook phonebook = new Phonebook();
         System.out.println("[+] Phone Book \n "
                 + "------------");
@@ -104,7 +105,7 @@ public class Main {
                         System.out.println("Your Phonebook is empty.");
                         continue;
                     }
-                    
+
                     phonebook.sortByNumber();
 
                     System.out.println("Here's Your Phonebook after sorting it by number:");
@@ -116,7 +117,7 @@ public class Main {
                         System.out.println("Your Phonebook is empty.");
                         continue;
                     }
-                    
+
                     phonebook.removeDuplicates();
 
                     System.out.println("Here's Your Phonebook after removing duplicates:");
@@ -124,41 +125,45 @@ public class Main {
 
                     break;
                 case 8:
-                    //reverse order
+                    // reverse order
                     if (phonebook.getSize() == 0) {
                         System.out.println("Your Phonebook is empty.");
                         continue;
                     }
-                    
+
                     phonebook.reverseOrder();
                     System.out.println("Here's Your Phonebook after reversing its order:");
                     System.out.println(phonebook);
                     break;
                 case 9:
-                    //save in text file
+                    // save in text file
                     System.out.println("Enter The Name of the file that you want to save your phonbook in: ");
                     String fileName = In.next();
+
                     try {
                         phonebook.savingPhonebook(fileName);
-                    } catch (Exception e) {
-                        System.out.println("file not found");
+                        System.out.println("Your Phonebook has been saved successfully.");
+                    } catch (IOException e) {
+                        System.out.println("Error saving file: " + e);
                     }
                     break;
                 case 10:
-                	//load from text file
-                	System.out.println("Enter The Name of the file that you want to save your phonbook in: ");
+                    // load from text file
+                    System.out.println("Enter The Name of the file that you want to save your phonbook in: ");
                     String file = In.next();
+
                     try {
                         phonebook.loadingPhonebook(file);
-                    } catch (Exception e) {
-                        System.out.println("file not found");
+                        System.out.println("Your Phonebook has been loaded successfully.");
+                    } catch (IOException e) {
+                        System.out.println("Error loading file: " + e);
                     }
                     break;
-
                 case 11:
                     System.out.println("Goodbye!\n");
 
                     flag = false;
+                    In.close();
                     break;
             }
         }

@@ -4,9 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.io.File;
-import java.io.IOException; 
+import java.io.IOException;
 import java.io.FileWriter;
-
 
 public class Phonebook {
     private ArrayList<Contact> contacts;
@@ -92,31 +91,32 @@ public class Phonebook {
     }
 
     public void reverseOrder() {
-        Contact temp=new Contact("", 0);
-        for (int i = 0; i < contacts.size()/2; i++) {
-            temp.setContact(contacts.get(i).getName(),contacts.get(i).getPhoneNumber());
-            contacts.get(i).setContact(contacts.get(contacts.size()-i-1).getName(),contacts.get(contacts.size()-i-1).getPhoneNumber());
-            contacts.get(contacts.size()-i-1).setContact(temp.getName(),temp.getPhoneNumber());
+        Contact temp = new Contact("", 0);
+        for (int i = 0; i < contacts.size() / 2; i++) {
+            temp.setContact(contacts.get(i).getName(), contacts.get(i).getPhoneNumber());
+            contacts.get(i).setContact(contacts.get(contacts.size() - i - 1).getName(),
+                    contacts.get(contacts.size() - i - 1).getPhoneNumber());
+            contacts.get(contacts.size() - i - 1).setContact(temp.getName(), temp.getPhoneNumber());
         }
     }
 
-    public void savingPhonebook(String textFileName) throws IOException{
+    public void savingPhonebook(String textFileName) throws IOException {
         File phonebookInfo = new File(textFileName);// creat text file
         FileWriter writer = new FileWriter(phonebookInfo, false);// to write
-        for (int i= 0; i< contacts.size(); i++){ // run all over the contacts in the phonebook
-            writer.write ("name: "+ contacts.get(i).getName()+ " number:"+ contacts.get(i).getPhoneNumber()+"/n");
-            writer.close();
+        for (int i = 0; i < contacts.size(); i++) { // run all over the contacts in the phonebook
+            writer.write(contacts.get(i).toString());
         }
+        writer.close();
     }
-    
-    public void loadingPhonebook(String textFileName) throws IOException{
-    	File myObj = new File("filename.txt");
-        Scanner myReader = new Scanner(myObj);
-        while (myReader.hasNextLine()) {
-        	String name = myReader.nextLine();
-        	int phone = Integer.parseInt(myReader.nextLine());
-        	Contact t = new Contact (name, phone);
-        	contacts.add(t);
-        }
+
+    public void loadingPhonebook(String textFileName) throws IOException {
+        // File myObj = new File("filename.txt");
+        // Scanner myReader = new Scanner(myObj);
+        // while (myReader.hasNextLine()) {
+        // String name = myReader.nextLine();
+        // int phone = Integer.parseInt(myReader.nextLine());
+        // Contact t = new Contact(name, phone);
+        // contacts.add(t);
+        // }
     }
 }
