@@ -108,4 +108,15 @@ public class Phonebook {
             writer.close();
         }
     }
+    
+    public void loadingPhonebook(String textFileName) throws IOException{
+    	File myObj = new File("filename.txt");
+        Scanner myReader = new Scanner(myObj);
+        while (myReader.hasNextLine()) {
+        	String name = myReader.nextLine();
+        	int phone = Integer.parseInt(myReader.nextLine());
+        	Contact t = new Contact (name, phone);
+        	contacts.add(t);
+        }
+    }
 }
