@@ -1,3 +1,5 @@
+// Group serial number: 12
+
 package Exe1;
 
 public class Contact {
