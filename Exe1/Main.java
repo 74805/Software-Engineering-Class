@@ -39,12 +39,13 @@ public class Main {
                     break;
                 }
             }
+            In.nextLine();
 
             switch (choise) {
                 case 1:
                     // Add Contact To Your Phonebook.
                     System.out.println("Enter The Name of the contact:");
-                    String n = In.next();
+                    String n = In.nextLine();
                     System.out.println("Enter The Number of the contact:");
                     int p = In.nextInt();
 
@@ -62,7 +63,7 @@ public class Main {
                     }
 
                     System.out.println("Enter The Name of the contact you'd like to delete:");
-                    String remName = In.next();
+                    String remName = In.nextLine();
 
                     phonebook.removeContact(remName);
                     break;
@@ -83,7 +84,7 @@ public class Main {
                     }
 
                     System.out.println("Enter The Name of the contact you'd like to find:");
-                    String findName = In.next();
+                    String findName = In.nextLine();
 
                     phonebook.searchContact(findName);
                     break;
@@ -140,7 +141,7 @@ public class Main {
                 case 9:
                     // save in text file
                     System.out.println("Enter The Name of the file that you want to save your phonbook in: ");
-                    String fileName = In.next();
+                    String fileName = In.nextLine();
 
                     try {
                         phonebook.savingPhonebook(fileName);
@@ -152,7 +153,7 @@ public class Main {
                 case 10:
                     // load from text file
                     System.out.println("Enter The Name of the file that you want to save your phonbook in: ");
-                    String file = In.next();
+                    String file = In.nextLine();
 
                     try {
                         phonebook.loadingPhonebook(file);
