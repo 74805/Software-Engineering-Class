@@ -8,8 +8,10 @@ public class Main {
         Scanner In = new Scanner(System.in);
 
         Phonebook phonebook = new Phonebook();
-        System.out.println("[+] Phone Book \n "
-                + "------------");
+        System.out.println("[+] Phone Book\n------------");
+
+        phonebook.addContact(new Contact("Amos", 583696427));
+        phonebook.addContact(new Contact("Yossi", 529723081));
 
         boolean flag = true;
         while (flag) {
