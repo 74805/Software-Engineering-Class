@@ -147,7 +147,7 @@ public class Main {
                         phonebook.savingPhonebook(fileName);
                         System.out.println("Your Phonebook has been saved successfully.");
                     } catch (IOException e) {
-                        System.out.println("Error saving file: " + e);
+                        System.out.println("Error saving to file: " + e);
                     }
                     break;
                 case 10:
@@ -159,7 +159,7 @@ public class Main {
                         phonebook.loadingPhonebook(file);
                         System.out.println("Your Phonebook has been loaded successfully.");
                     } catch (IOException e) {
-                        System.out.println("Error loading file: " + e);
+                        System.out.println("Error loading from file: " + e);
                     }
                     break;
                 case 11:
