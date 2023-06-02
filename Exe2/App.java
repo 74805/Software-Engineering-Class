@@ -10,7 +10,6 @@ interface App {
     public void printAll();
 
     default public void exit(Scanner scanner) {
-        scanner.close();
-        System.out.println("Exiting App...");
+        System.out.println("Exiting App...\n");
     }
 }
