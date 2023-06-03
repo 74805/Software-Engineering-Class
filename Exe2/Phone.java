@@ -21,13 +21,14 @@ public class Phone {
         boolean exit = false;
 
         while (!exit) {
-            System.out.println("Phone");
-            System.out.println("Choose an app to run:");
-            System.out.println("1. Contacts");
-            System.out.println("2. SMS");
-            System.out.println("3. Calender");
-            System.out.println("4. Media");
-            System.out.println("5. Exit");
+            System.out.println("\nPhone");
+            System.out.println("Choose one of the options below:");
+            System.out.println("1. Run Contacts App");
+            System.out.println("2. Run SMS App");
+            System.out.println("3. Run Calender App");
+            System.out.println("4. Run Media App");
+            System.out.println("5. Print all apps' content");
+            System.out.println("6. Exit");
             System.out.print("Enter your choice: ");
 
             Scanner scanner = new Scanner(System.in);
@@ -53,6 +54,9 @@ public class Phone {
                     apps.get(3).run();
                     break;
                 case 5:
+                    printAll();
+                    break;
+                case 6:
                     exit(scanner);
                     exit = true;
                     break;
@@ -66,6 +70,7 @@ public class Phone {
     public void printAll() {
         System.out.println("Printing all apps");
         for (App app : apps) {
+            System.out.println();
             app.printAll();
         }
     }
