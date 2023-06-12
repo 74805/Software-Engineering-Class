@@ -13,7 +13,7 @@ public class Phone {
         // Add the four apps
         // apps.add(new ContactsApp());
         // apps.add(new SMSApp());
-        // apps.add(new CalenderApp());
+        apps.add(new CalendarApp());
         apps.add(new MediaApp());
     }
 
