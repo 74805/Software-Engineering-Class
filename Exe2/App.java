@@ -1,7 +1,5 @@
 package Exe2;
 
-import java.util.Scanner;
-
 interface App {
     public void add(Object obj) throws Exception;
 
@@ -9,7 +7,7 @@ interface App {
 
     public void printAll();
 
-    default public void exit(Scanner scanner) {
+    default public void exit() {
         System.out.println("Exiting App...\n");
     }
 }
