@@ -53,7 +53,7 @@ public class MediaApp implements App {
                     boolean validLength = false;
                     double length = 0;
                     while (!validLength) {
-                        System.out.print("Enter music length: ");
+                        System.out.print("Enter music length (in seconds): ");
                         try {
                             String line = scanner.nextLine();
                             length = Double.parseDouble(line);
@@ -112,7 +112,7 @@ public class MediaApp implements App {
                     printAll();
                     break;
                 case 4:
-                    exit(scanner);
+                    exit();
                     exit = true;
                     break;
                 default:
@@ -165,7 +165,7 @@ public class MediaApp implements App {
 
         @Override
         public void play() {
-            System.out.println("Playing song " + name + " for " + length + " time");
+            System.out.println("Playing song " + name + " for " + length + " seconds");
         }
     }
 
@@ -177,7 +177,7 @@ public class MediaApp implements App {
 
         @Override
         public void play() {
-            System.out.println("Playing video " + name + " for " + length + " time");
+            System.out.println("Playing video " + name + " for " + length + " seconds");
         }
     }
 }
