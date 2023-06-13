@@ -50,16 +50,15 @@ public class Phonebook {
         return res;
     }
 
-    public List<Contact> searchContact(String name) {
-        List<Contact> res = new ArrayList<Contact>();
-
+    public Contact searchContact(String name) {
         for (int i = 0; i < contacts.size(); i++) {
             if (contacts.get(i).getName().equals(name)) {
-                res.add(contacts.get(i));
+                // return the first one because name is unique
+                return contacts.get(i);
             }
         }
 
-        return res;
+        return null;
     }
 
     public void sortByName() {

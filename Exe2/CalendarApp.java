@@ -5,8 +5,8 @@ import java.util.*;
 public class CalendarApp implements App {
 	// Each index in the calendar list represents a date (not neccessarily in
 	// chronological order)
-	private static List<List<Event>> calendar;
-	private Phonebook phoneBook;
+	private List<List<Event>> calendar;
+	private static Phonebook phoneBook;
 
 	public CalendarApp() {
 		calendar = new ArrayList<>(30);
@@ -14,8 +14,10 @@ public class CalendarApp implements App {
 		for (int i = 0; i < 30; i++) {
 			calendar.add(new ArrayList<>());
 		}
+	}
 
-		phoneBook = new Phonebook();
+	public static void setPhonebook(Phonebook phoneBook) {
+		CalendarApp.phoneBook = phoneBook;
 	}
 
 	public int searchDateIndex(Date date) {
@@ -185,7 +187,7 @@ public class CalendarApp implements App {
 
 			int choice = 0;
 			String shortDescription = "";
-			Contact c = null;
+			Contact c;
 			Date d;
 			Boolean invalidInput;
 
@@ -223,22 +225,12 @@ public class CalendarApp implements App {
 									break;
 								}
 
-								if (phoneBook.getSize() == 0 || phoneBook.searchContact(contactName).isEmpty()) {
-									System.out
-											.print("There's no contact with the name " + contactName
-													+ ", would you like to add it? (y/n): ");
+								c = phoneBook.searchContact(contactName);
+								if (c == null) {
+									System.out.print("There's no contact with the name " + contactName
+											+ ", you can add it in the Contacts App");
 
-									String addContact = In.nextLine();
-									if (addContact.equals("y") || addContact.equals("Y")) {
-										System.out.print("Enter the phone number of the contact: ");
-										int phoneNumber = In.nextInt();
-										In.nextLine();
-
-										c = new Contact(contactName, phoneNumber);
-										phoneBook.addContact(c);
-									} else {
-										break;
-									}
+									break;
 								}
 
 								d = receiveDate(In);
@@ -358,7 +350,7 @@ public class CalendarApp implements App {
 					printEventsByDate(d);
 					break;
 				case 7:
-					System.out.print("Goobye!");
+					System.out.print("Goobye!\n");
 					exit();
 					exit = true;
 					break;

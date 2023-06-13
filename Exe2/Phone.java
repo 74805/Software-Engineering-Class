@@ -48,6 +48,7 @@ public class Phone {
                     apps.get(1).run();
                     break;
                 case 3:
+                    // CalendarApp.setPhonebook(((ContactsApp)apps.get(0)).getPhonebook());
                     apps.get(2).run();
                     break;
                 case 4:
