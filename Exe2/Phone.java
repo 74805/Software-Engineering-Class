@@ -49,7 +49,11 @@ public class Phone {
                     break;
                 case 3:
                     // CalendarApp.setPhonebook(((ContactsApp)apps.get(0)).getPhonebook());
-                    apps.get(2).run();
+                    Phonebook phonebook = new Phonebook();
+                    phonebook.addContact(new Contact("a", 1));
+                    CalendarApp.setPhonebook(phonebook);
+
+                    apps.get(0).run();
                     break;
                 case 4:
                     apps.get(3).run();
