@@ -187,7 +187,7 @@ public class CalendarApp implements App {
 
 			int choice = 0;
 			String shortDescription = "";
-			Contact c;
+			Contact Arik_contact;
 			Date d;
 			Boolean invalidInput;
 
@@ -224,17 +224,15 @@ public class CalendarApp implements App {
 									System.out.print("Invalid name. Try again.");
 									break;
 								}
-
-								c = phoneBook.searchContact(contactName);
-								if (c == null) {
-									System.out.print("There's no contact with the name " + contactName
-											+ ", you can add it in the Contacts App");
-
+								try{
+									Arik_contact = phoneBook.searchContact(contactName);
+								}catch(Exception e){
+									System.out.println(e.getMessage());
 									break;
 								}
 
 								d = receiveDate(In);
-								eve = receiveEventWithContact(d, c, In);
+								eve = receiveEventWithContact(d, Arik_contact, In);
 								try {
 									add(eve);
 									System.out.println("Added event successfully");

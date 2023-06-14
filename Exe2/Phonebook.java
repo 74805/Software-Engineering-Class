@@ -57,16 +57,14 @@ public class Phonebook implements App {
         return res;
     }
 
-    public ArrayList<Contact> searchContact(String name ) {
+    public Contact searchContact(String name ) throws Exception {
        Iterator<Contact> iterator = contacts.iterator();
-       ArrayList<Contact> same_name = new ArrayList<>(); 
         while (iterator.hasNext()) {
-            Contact currentContact = iterator.next(); 
-            if (currentContact.getName().equalsIgnoreCase(name));
-            same_name.add(currentContact);
-                System.out.println(currentContact);
+            Contact currentContact = iterator.next();
+            return currentContact;
         }
-        return same_name;
+        throw new Exception("Name not found");
+        
     }
 
     public void sortByName() {
@@ -258,8 +256,12 @@ public class Phonebook implements App {
 
                     System.out.println("Enter The Name of the contact you'd like to find:");
                     String findName = In.nextLine();
-
-                    phonebook.searchContact(findName);
+                    try{
+                        phonebook.searchContact(findName);
+                    }catch(Exception e){
+                        System.out.println(e.getMessage());
+                    }
+                    
                     break;
                 case 5:
                     // Sort all contacts alphabetically
