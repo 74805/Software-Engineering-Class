@@ -1,6 +1,7 @@
 package Exe2;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
@@ -26,7 +27,7 @@ public class CalendarApp implements App {
 		// Search the date in the calendar
 		int index = -1;
 		for (int i = 0; i < calendar.size(); i++) {
-			if (calendar.get(i).isEmpty() || calendar.get(i).get(0).getDate().compareTo(date) <= 0) {
+			if (calendar.get(i).isEmpty() || calendar.get(i).get(0).getDate().compareTo(date) >= 0) {
 				index = i;
 				break;
 			}
@@ -90,10 +91,10 @@ public class CalendarApp implements App {
 				return;
 			}
 
-			calendar.add(calendar.get(calendar.size() - 1));
-			for (int i = calendar.size() - 2; i > index; i--) {
-				calendar.set(i, calendar.get(i));
+			for (int i = calendar.size() - 1; i > index; i--) { // shift the events to the right
+				calendar.set(i, calendar.get(i - 1));
 			}
+			calendar.set(index, new ArrayList<>());
 			calendar.get(index).add(eve); // add the event if all the requirements are satisfied.
 		} catch (Exception e) {
 			throw new Exception("Invalid object type");
@@ -150,8 +151,10 @@ public class CalendarApp implements App {
 			}
 		}
 
-		Date d = new Date(day, month, year); // if everything has met the requirements, a new Date object will be made.
-		return d; // returns the Date object.
+		// if everything has met the requirements, a new Date object will be made.
+		@SuppressWarnings("deprecation")
+		Date date = new Date(year - 1900, month - 1, day);
+		return date;
 	}
 
 	public MeetingEvent receiveEventWithContact(Date d, Contact con, Scanner In) {
@@ -472,64 +475,4 @@ public class CalendarApp implements App {
 		}
 	}
 
-	public static class Date implements Comparable<Date> {
-		private int day;
-		private int month;
-		private int year;
-
-		public Date(int day, int month, int year) {
-			this.day = day;
-			this.month = month;
-			this.year = year;
-		}
-
-		public int getDay() {
-			return day;
-		}
-
-		public int getMonth() {
-			return month;
-		}
-
-		public int getYear() {
-			return year;
-		}
-
-		public void setDay(int day) {
-			this.day = day;
-		}
-
-		public void setMonth(int month) {
-			this.month = month;
-		}
-
-		public void setYear(int year) {
-			this.year = year;
-		}
-
-		@Override
-		public String toString() {
-			return day + "/" + month + "/" + year;
-		}
-
-		@Override
-		public boolean equals(Object obj) {
-			if (obj instanceof Date) {
-				Date d = (Date) obj;
-				return this.day == d.day && this.month == d.month && this.year == d.year;
-			}
-			return false;
-		}
-
-		@Override
-		public int compareTo(Date other) {
-			if (this.year != other.year) {
-				return Integer.compare(this.year, other.year);
-			} else if (this.month != other.month) {
-				return Integer.compare(this.month, other.month);
-			} else {
-				return Integer.compare(this.day, other.day);
-			}
-		}
-	}
 }
