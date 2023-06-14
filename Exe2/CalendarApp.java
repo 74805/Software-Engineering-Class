@@ -55,21 +55,63 @@ public class CalendarApp implements App {
 		}
 	}
 
-	// public void deletTheoverlappingEvents() {
-	// for (int i = 0; i < calendar.size(); i++) {
-	// for (int j = 0; j < calendar.get(i).size(); j++)
+	public void deletTheoverlappingEvents() {
+		for (int i = 0; i < calendar.size(); i++) {
+			for (int j = 0; j < calendar.get(i).size(); j++)
+				for (int a = j + 1; a < calendar.get(i).size(); a++) {
+					Event event1 = calendar.get(i).get(j);
+					Event event2 = calendar.get(i).get(a);
+					Date date_event1 = calendar.get(i).get(j).getDate();
+					Date date_event2 = calendar.get(i).get(a).getDate();
+					if (date_event1.getYear() == date_event2.getYear()
+							&& date_event1.getMonth() == date_event2.getMonth()
+							&& date_event1.getDay() == date_event2.getDay()) {
+						if (date_event1.getHours() == date_event2.getHours()) {
+							if (date_event1.getMinutes() == date_event2.getMinutes()) {
+								try {
+									remove(event2);
+								} catch (Exception e) {
+									System.out.println(e.getMessage());
+								}
+							}
+							if (date_event1.getMinutes() + event1.durationMinutes > date_event2.getMinutes()) {
+								try {
+									remove(event2);
+								} catch (Exception e) {
+									System.out.println(e.getMessage());
+								}
+							}
+							if (date_event2.getMinutes() + event2.durationMinutes > date_event1.getMinutes()) {
+								try {
+									remove(event1);
+								} catch (Exception e) {
+									System.out.println(e.getMessage());
+								}
+							}
+						}
+						if (date_event1.getHours() == date_event2.getHours() + 1) {
+							if (date_event1.getMinutes() + event1.durationMinutes - 60 > date_event2.getMinutes()) {
+								try {
+									remove(event2);
+								} catch (Exception e) {
+									System.out.println(e.getMessage());
+								}
+							}
+						}
+						if (date_event1.getHours() + 1 == date_event2.getHours()) {
+							if (date_event2.getMinutes() + event2.durationMinutes - 60 > date_event1.getMinutes()) {
+								try {
+									remove(event1);
+								} catch (Exception e) {
+									System.out.println(e.getMessage());
+								}
+							}
+						}
+					}
+				}
+		}
+	}
 
-	// for (int a = j + 1; a < calendar.get(i).size(); a++) {
-	// Date date_event1 = calendar.get(i).get(j).getDate();
-	// Date date_event2 = calendar.get(i).get(a).getDate();
-	// if (date_event1.getYear() == date_event2.getYear()
-	// && date_event1.getMonth() == date_event2.getMonth()
-	// && date_event1.getDay() == date_event2.getDay()) {
-
-	// }
-	// }
-	// }
-	// }
 	public void printAllEvents() {// print all event
 		for (int i = 0; i < calendar.size(); i++) {
 			for (int j = 0; j < calendar.get(i).size(); j++) {
@@ -476,7 +518,7 @@ public class CalendarApp implements App {
 					printSameContactEvent(name);
 					break;
 				case 5:
-
+					System.out.println("delet The overlapping Events: ");
 				case 6:
 					System.out.println("All evens: ");
 					printAllEvents();
