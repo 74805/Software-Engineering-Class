@@ -34,9 +34,17 @@ public class CalendarApp implements App {
 		return index;
 	}
 
-	// public void printSameContactEvent(Contact cobtact) {
-	// for (int i=0 ; )
-	// }
+	public void printSameContactEvent(String name) {
+		for (int i = 0; i < calendar.size(); i++) {
+			for (int j = 0; j < calendar.get(i).size(); j++) {
+				Event event = calendar.get(i).get(j);
+				if (event instanceof MeetingEvent
+						&& ((MeetingEvent) event).getContact().getName().equals(name)) {
+					System.out.println(event);
+				}
+			}
+		}
+	}
 
 	@Override
 	public void add(Object obj) throws Exception {
@@ -119,7 +127,7 @@ public class CalendarApp implements App {
 			}
 		}
 
-		Date d = new Date(year, month, day); // if everything has met the requirements, a new Date object will be made.
+		Date d = new Date(day, month, year); // if everything has met the requirements, a new Date object will be made.
 		return d; // returns the Date object.
 	}
 
@@ -362,6 +370,13 @@ public class CalendarApp implements App {
 				case 3:
 					d = receiveDate(In);
 					printEventsByDate(d);
+					break;
+				case 4:
+					System.out.println("Please enter contact name: ");
+					In.nextLine();
+					String name = In.nextLine();
+
+					printSameContactEvent(name);
 					break;
 				case 7:
 					System.out.print("Goobye!\n");
