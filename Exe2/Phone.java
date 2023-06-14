@@ -16,12 +16,9 @@ public class Phone {
         apps.add(new SmsApp());
         SmsApp.setPhoneBook((Phonebook) apps.get(0));
 
-        // CalenderApp.setPhoneBook((Phonebook) apps.get(0));
-        // apps.add(new CalenderApp());
-
+        apps.add(new CalendarApp());
+        CalendarApp.setPhonebook((Phonebook) apps.get(0));
         apps.add(new MediaApp());
-
-        apps.get(1);
     }
 
     public void mainMenu() {
@@ -65,7 +62,6 @@ public class Phone {
                     System.out.println("Invalid choice, please try again");
                     break;
             }
-
         }
     }
 

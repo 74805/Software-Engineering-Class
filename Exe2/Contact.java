@@ -13,8 +13,7 @@ public class Contact {
         this.phoneNumber = p;
     }
 
-    public Contact(Contact other)
-    {
+    public Contact(Contact other) {
         this(other.getName(), other.getPhoneNumber());
     }
 
@@ -36,26 +35,25 @@ public class Contact {
     }
 
     public void setPhoneNumber(int phoneNumber) throws Exception {
-	    String regEx = "5[0-9]{8}";
-	    if(Integer.toString(phoneNumber).matches(regEx))
-	        this.phoneNumber = phoneNumber;
+        String regEx = "5[0-9]{8}";
+        if (Integer.toString(phoneNumber).matches(regEx))
+            this.phoneNumber = phoneNumber;
         else
-        	throw new Exception("Invalid phone number");
-	}
-	
-	public void setContact(String name, int phoneNumber) throws Exception{
+            throw new Exception("Invalid phone number");
+    }
+
+    public void setContact(String name, int phoneNumber) throws Exception {
         this.setName(name);
         this.setPhoneNumber(phoneNumber);
     }
 
     @Override
-    public boolean equals(Object obj)
-    {
+    public boolean equals(Object obj) {
         if (obj instanceof Contact) {
-				Contact other = (Contact) obj;
-				return this.name.equalsIgnoreCase(other.name) && this.phoneNumber == other.phoneNumber;
-			}
-			return false;
+            Contact other = (Contact) obj;
+            return this.name.equalsIgnoreCase(other.name) && this.phoneNumber == other.phoneNumber;
+        }
+        return false;
     }
-    
+
 }
