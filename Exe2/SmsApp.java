@@ -2,9 +2,20 @@ package Exe2;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Scanner;
+
+import Exe2.MediaApp.Music;
+import Exe2.MediaApp.Video;
 
 public class SmsApp implements App {
-    ArrayList<Chat> myChat;
+    private ArrayList<Chat> myChat;
+    private Phonebook myPhonebook;
+
+    public SmsApp(Phonebook phonebook)
+    {
+        myPhonebook = phonebook;
+        myChat = new ArrayList<>();
+    }
 
     //1
     @Override
@@ -51,10 +62,65 @@ public class SmsApp implements App {
         }   
     }
 
+    //run and haspaa
     @Override
     public void run()
     {
-        printAll();
+        boolean exit = false;
+        try (Scanner scanner = new Scanner(System.in)) {
+            while (!exit) {
+                System.out.println("\nSMS App");
+                System.out.println("1. Add messag to contact");
+                System.out.println("2. Delete Contact");
+                System.out.println("3. Print a contact");
+                System.out.println("4. Get all the contacts with a user chosen sentance");
+                System.out.println("5. Print all chats");
+                System.out.print("Enter your choice: ");
+
+                // Ask for user choice until valid choice is entered
+                int userChoice = 0;
+                try {
+                    String line = scanner.nextLine();
+                    userChoice = Integer.parseInt(line);
+                } catch (Exception e) {
+                    System.out.println("Invalid choice, please try again");
+                    continue;
+                }
+
+                switch (userChoice) {
+                    case 1:
+                        System.out.println("Choose a contact to send him message:");
+                        String name_contact;
+                        try {
+                            String line = scanner.nextLine();
+                            name_contact = line;
+                        } catch (Exception e) {
+                         System.out.println("Invalid choice, please try again");
+                         continue;
+                        }
+                        try{
+                            
+                        }
+
+                        break;
+                    case 2:
+                        System.out.print("Enter media name: ");
+                        String mediaNameToPlay = scanner.nextLine();
+
+                        playByName(mediaNameToPlay);
+                        break;
+                    case 3:
+                        printAll();
+                        break;
+                    case 4:
+                        exit();
+                        exit = true;
+                        break;
+                    default:
+                        System.out.println("Invalid choice. Please try again.");
+                }
+            }
+        }
     }
 
 
