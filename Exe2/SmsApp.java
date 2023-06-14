@@ -5,7 +5,7 @@ import java.util.Iterator;
 import java.util.Scanner;
 
 public class SmsApp implements App {
-    private static ArrayList<Chat> myChat;
+    private ArrayList<Chat> myChat;
     private static Phonebook myPhonebook;
 
     public static void setPhoneBook(Phonebook phonebook) throws Exception {
@@ -22,10 +22,10 @@ public class SmsApp implements App {
         }
     }
 
-    public SmsApp(Phonebook phonebook)
+    public SmsApp()
     {
         try{
-            setPhoneBook(phonebook);
+            setPhoneBook(myPhonebook);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -144,7 +144,7 @@ public class SmsApp implements App {
                         printAll();
                         break;
                     case 6:
-                    exit();
+                        exit();
                         exit = true;
                         break;
                     default:
