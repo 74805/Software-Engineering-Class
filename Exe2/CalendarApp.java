@@ -114,21 +114,28 @@ public class CalendarApp implements App {
 			}
 
 			calendar.get(dateIndex).remove(eve); // remove the event if all the requirements are satisfied.
+
+			if (calendar.get(dateIndex).isEmpty()) { // if the date is empty, shift the events to the left
+				for (int i = dateIndex; i < calendar.size() - 1; i++) {
+					calendar.set(i, calendar.get(i + 1));
+				}
+				calendar.set(calendar.size() - 1, new ArrayList<>());
+			}
 		} catch (Exception e) {
 			throw new Exception("Invalid object type");
 		}
 	}
 
 	public Date receiveDate(Scanner In) {
-		int day = 0, month = 0, year = 0;
+		int minute = 0, hour = 0, day = 0, month = 0, year = 0;
 
 		System.out.println("Enter the date: ");
 		while (true) {
-			System.out.print("Enter the day: ");
-			day = In.nextInt();
+			System.out.print("Enter the year: ");
+			year = In.nextInt();
 			In.nextLine();
-			if (day < 1 || day > 30) { // checks the validity of the input
-				System.out.println("Invalid day. Please enter a value between 1 and 31.");
+			if (year < 0) { // checks the validity of the input
+				System.out.println("Invalid year. Please enter a positive value.");
 				continue;
 			}
 
@@ -140,20 +147,37 @@ public class CalendarApp implements App {
 				continue;
 			}
 
-			System.out.print("Enter the year: ");
-			year = In.nextInt();
+			System.out.print("Enter the day: ");
+			day = In.nextInt();
 			In.nextLine();
-			if (year < 0) { // checks the validity of the input
-				System.out.println("Invalid year. Please enter a positive value.");
+			if (day < 1 || day > 30) { // checks the validity of the input
+				System.out.println("Invalid day. Please enter a value between 1 and 31.");
 				continue;
-			} else {
-				break;
 			}
+
+			System.out.print("Enter the hour (0-23): ");
+			hour = In.nextInt();
+			In.nextLine();
+			if (hour < 0 || hour > 23) { // checks the validity of the input
+				System.out.println("Invalid hour. Please enter a value between 0 and 23.");
+				continue;
+			}
+
+			System.out.print("Enter the minute (0-59): ");
+			minute = In.nextInt();
+			In.nextLine();
+			if (hour < 0 || hour > 59) { // checks the validity of the input
+				System.out.println("Invalid minute. Please enter a value between 0 and 59.");
+				continue;
+			}
+
+			break;
+
 		}
 
 		// if everything has met the requirements, a new Date object will be made.
 		@SuppressWarnings("deprecation")
-		Date date = new Date(year - 1900, month - 1, day);
+		Date date = new Date(year - 1900, month - 1, day, hour, minute);
 		return date;
 	}
 
@@ -401,6 +425,12 @@ public class CalendarApp implements App {
 					System.out.println("Please enter contact name: ");
 					In.nextLine();
 					String name = In.nextLine();
+
+					// validate that the name contains only letters
+					if (!name.matches("[a-zA-Z]+")) {
+						System.out.print("Invalid name. Try again.");
+						break;
+					}
 
 					printSameContactEvent(name);
 					break;
