@@ -11,14 +11,23 @@ public class Phone {
         apps = new ArrayList<App>();
 
         // Add the four apps
-        // apps.add(new ContactsApp());
-        // apps.add(new SMSApp());
+        apps.add(new Phonebook());
+
+        apps.add(new SmsApp());
+        SmsApp.setPhoneBook((Phonebook) apps.get(0));
+
+        // CalenderApp.setPhoneBook((Phonebook) apps.get(0));
         // apps.add(new CalenderApp());
+
         apps.add(new MediaApp());
+
+        apps.get(1);
     }
 
     public void mainMenu() {
         boolean exit = false;
+        Scanner scanner = new Scanner(System.in);
+        int userChoice = 0;
 
         while (!exit) {
             System.out.println("\nPhone");
@@ -29,17 +38,9 @@ public class Phone {
             System.out.println("4. Run Media App");
             System.out.println("5. Print all apps' content");
             System.out.println("6. Exit");
-            System.out.print("Enter your choice: ");
+            System.out.println("Enter your choice: ");
 
-            Scanner scanner = new Scanner(System.in);
-            int userChoice = 0;
-            try {
-                userChoice = scanner.nextInt();
-            } catch (Exception e) {
-                System.out.println("Invalid choice, please try again");
-                continue;
-            }
-
+            userChoice = scanner.nextInt();
             switch (userChoice) {
                 case 1:
                     apps.get(0).run();
@@ -64,6 +65,7 @@ public class Phone {
                     System.out.println("Invalid choice, please try again");
                     break;
             }
+
         }
     }
 
