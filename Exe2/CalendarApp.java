@@ -291,9 +291,26 @@ public class CalendarApp implements App {
 		}
 	}
 
+	public void removeContacts() {
+		for (int i = 0; i < calendar.size(); i++) {
+			for (int j = 0; j < calendar.get(i).size(); j++) {
+				if (calendar.get(i).get(j) instanceof MeetingEvent && phoneBook
+						.searchContact(((MeetingEvent) calendar.get(i).get(j)).getContact().getName()) == null) {
+					try {
+						remove(calendar.get(i).get(j));
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		}
+	}
+
 	@Override
 	public void run() {
 		System.out.println("\nWelcome to the Calendar App!");
+
+		removeContacts();
 
 		boolean exit = false;
 		Scanner In = new Scanner(System.in);
