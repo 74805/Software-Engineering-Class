@@ -27,7 +27,15 @@ public class CalendarApp implements App {
 		// Search the date in the calendar
 		int index = -1;
 		for (int i = 0; i < calendar.size(); i++) {
+
 			if (calendar.get(i).isEmpty() || calendar.get(i).get(0).getDate().compareTo(date) >= 0) {
+				index = i;
+				break;
+			}
+
+			Date date2 = calendar.get(i).get(0).getDate();
+			if (date2.getYear() == date.getYear() && date2.getMonth() == date.getMonth()
+					&& date2.getDay() == date.getDay()) {
 				index = i;
 				break;
 			}
@@ -229,8 +237,8 @@ public class CalendarApp implements App {
 	}
 
 	public void printEventsByDate(Date date) {
-		List<Event> eventsByDate = getEventsByDate(date); // takes the list from the function getEventsByDate
-		if (eventsByDate.isEmpty()) { // if the date has no events / meetings
+		List<Event> eventsByDate = getEventsByDate(date); // takes the list from the function g		
+		if (eventsByDate.isEmpty() || eventsByDate.get(0).getDate().getYear() != date.getYear() || eventsByDate.get(0).getDate().getMonth() != date.getMonth() || eventsByDate.get(0).getDate().getDay() != date.getDay()) { // if the date has no events / meetings
 			System.out.println("No events scheduled for the specified date.");
 			return;
 		}
@@ -418,7 +426,38 @@ public class CalendarApp implements App {
 					}
 					break;
 				case 3:
-					d = receiveDate(In);
+					int day = 0, month = 0, year = 0;
+
+					System.out.println("Enter the date: ");
+					while (true) {
+						System.out.print("Enter the year: ");
+						year = In.nextInt();
+						In.nextLine();
+						if (year < 0) { // checks the validity of the input
+							System.out.println("Invalid year. Please enter a positive value.");
+							continue;
+						}
+
+						System.out.print("Enter the month: ");
+						month = In.nextInt();
+						In.nextLine();
+						if (month < 1 || month > 12) { // checks the validity of the input
+							System.out.println("Invalid month. Please enter a value between 1 and 12.");
+							continue;
+						}
+
+						System.out.print("Enter the day: ");
+						day = In.nextInt();
+						In.nextLine();
+						if (day < 1 || day > 30) { // checks the validity of the input
+							System.out.println("Invalid day. Please enter a value between 1 and 31.");
+							continue;
+						}
+
+						break;
+					}
+
+					d = new Date(year - 1900, month - 1, day);
 					printEventsByDate(d);
 					break;
 				case 4:
