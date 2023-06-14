@@ -11,11 +11,13 @@ import java.util.Iterator;
 
 
 public class Phonebook implements App {
-    private ArrayList<Contact> contacts;
+    protected ArrayList<Contact> contacts;
 
     public Phonebook() {
         this.contacts = new ArrayList<Contact>();
     }
+
+    
 
     public void addContact(Contact c) throws Exception {
         if(! inPhoneBook(c.getName())){

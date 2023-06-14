@@ -4,16 +4,31 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Scanner;
 
-import Exe2.MediaApp.Music;
-import Exe2.MediaApp.Video;
-
 public class SmsApp implements App {
-    private ArrayList<Chat> myChat;
-    private Phonebook myPhonebook;
+    private static ArrayList<Chat> myChat;
+    private static Phonebook myPhonebook;
+
+    public static void setPhoneBook(Phonebook phonebook) throws Exception {
+        Iterator<Contact> iterator = phonebook.contacts.iterator();
+        while(iterator.hasNext()){
+            Contact contact = iterator.next();
+            if(myPhonebook.inPhoneBook(contact.getName())) {
+                try {
+                    myPhonebook.add(contact);
+                } catch (Exception e) {
+                    throw new Exception(e.getMessage());
+                }
+            }
+        }
+    }
 
     public SmsApp(Phonebook phonebook)
     {
-        myPhonebook = phonebook;
+        try{
+            setPhoneBook(phonebook);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
         myChat = new ArrayList<>();
     }
 
@@ -30,15 +45,23 @@ public class SmsApp implements App {
     }
 
     //2
-    public void deleteConv(Contact c) throws Exception
+    public void deleteConv(String name) throws Exception
     {
-        searchChat(c).deleteChat();
+        try{
+            searchChat(name).deleteChat();
+        } catch (Exception e) {
+            throw new Exception("couldn't delete chat");
+        }
     }
 
     //3
-    public void printSpecific(Contact c) throws Exception
+    public void printSpecific(String name)
     {
-        System.out.println(searchChat(c).allText());
+        try{
+            System.out.println(searchChat(name).allText());
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     //4
@@ -47,7 +70,8 @@ public class SmsApp implements App {
         boolean found = false;
         while(iterator.hasNext()){
             Chat element = iterator.next();
-            if(element.isSentenceInChat(sentence)) System.out.println(element.getContact().getName());
+            if(element.isSentenceInChat(sentence)) 
+                System.out.println(element.getContact().getName());
         }
         if(!found) System.out.println("No chat contain this sentence");
     }
@@ -55,7 +79,7 @@ public class SmsApp implements App {
     //5
     @Override 
     public void printAll(){
-        Iterator<Chat> iterator = this.myChat.iterator();
+        Iterator<Chat> iterator = myChat.iterator();
         while (iterator.hasNext()) {
             Chat element = iterator.next();
             System.out.println(element);
@@ -70,11 +94,12 @@ public class SmsApp implements App {
         try (Scanner scanner = new Scanner(System.in)) {
             while (!exit) {
                 System.out.println("\nSMS App");
-                System.out.println("1. Add messag to contact");
-                System.out.println("2. Delete Contact");
-                System.out.println("3. Print a contact");
-                System.out.println("4. Get all the contacts with a user chosen sentance");
+                System.out.println("1. Add chat with contact");
+                System.out.println("2. Delete chat with contact");
+                System.out.println("3. Print a chat");
+                System.out.println("4. Search a sentance");
                 System.out.println("5. Print all chats");
+                System.out.println("6. Exit app");
                 System.out.print("Enter your choice: ");
 
                 // Ask for user choice until valid choice is entered
@@ -89,47 +114,53 @@ public class SmsApp implements App {
 
                 switch (userChoice) {
                     case 1:
-                        System.out.println("Choose a contact to send him message:");
-                        String name_contact;
+                        System.out.println("Choose a contact");
+                        String name = scanner.nextLine();
                         try {
-                            String line = scanner.nextLine();
-                            name_contact = line;
-                        } catch (Exception e) {
-                         System.out.println("Invalid choice, please try again");
-                         continue;
+                            add(new Chat(myPhonebook.searchContact(name),""));
+                        } catch(Exception e){
+                            System.out.println(e.getMessage());
                         }
-                        try{
-                            
-                        }
-
                         break;
                     case 2:
-                        System.out.print("Enter media name: ");
-                        String mediaNameToPlay = scanner.nextLine();
-
-                        playByName(mediaNameToPlay);
+                        System.out.print("Which chat would you like to delete? (input contact name)");
+                        String name2 = scanner.nextLine();
+                        try{deleteConv(name2);} catch (Exception e) {
+                            System.out.println(e.getMessage());
+                        }
                         break;
                     case 3:
-                        printAll();
+                        System.out.println("What chat would you like to print? (input contact name)");
+                        String name3 = scanner.nextLine();
+                        printSpecific(name3);
                         break;
                     case 4:
-                        exit();
+                        System.out.println("What sentence would you like to search?");
+                        String sentence = scanner.nextLine();
+                        System.out.println("\nThe sentence was found in chats with the following contacts:");
+                        printContactBySentence(sentence);
+                        break;
+                    case 5:
+                        printAll();
+                        break;
+                    case 6:
+                    exit();
                         exit = true;
                         break;
                     default:
-                        System.out.println("Invalid choice. Please try again.");
+                    System.out.println("Invalid choice. Please try again.");
                 }
             }
         }
     }
 
 
-    public Chat searchChat(Contact c) throws Exception
+    public Chat searchChat(String name) throws Exception
     {
         Iterator<Chat> iterator = myChat.iterator();
         while(iterator.hasNext()){
             Chat element = iterator.next();
-            if (element.getContact().equals(c))
+            if (element.getContact().getName().equals(name))
             {
                 return element;
             }
