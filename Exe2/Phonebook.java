@@ -52,6 +52,7 @@ public class Phonebook implements App {
                 contacts.remove(currContact);
                 System.out.println("An account with the name " + name
                         + " has been deleted.");
+                return;
             }
         }
         System.out.println("No account with the name "
