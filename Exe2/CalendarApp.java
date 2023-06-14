@@ -538,7 +538,12 @@ public class CalendarApp implements App {
 
 	@Override
 	public void printAll() {
-		// Enter Code Here
+		System.out.println("All events: ");
+		for (int i = 0; i < calendar.size(); i++) {
+			for (int j = 0; j < calendar.get(i).size(); j++) {
+				System.out.println(calendar.get(i).get(j));
+			}
+		}
 	}
 
 	public static abstract class Event {

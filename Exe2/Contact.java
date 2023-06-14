@@ -13,6 +13,10 @@ public class Contact {
         this.phoneNumber = p;
     }
 
+    public Contact(Contact other) {
+        this(other.getName(), other.getPhoneNumber());
+    }
+
     @Override
     public String toString() {
         return name + " - " + phoneNumber + "\n";
@@ -30,12 +34,26 @@ public class Contact {
         this.name = name;
     }
 
-    public void setPhoneNumber(int phoneNumber) {
-        this.phoneNumber = phoneNumber;
+    public void setPhoneNumber(int phoneNumber) throws Exception {
+        String regEx = "5[0-9]{8}";
+        if (Integer.toString(phoneNumber).matches(regEx))
+            this.phoneNumber = phoneNumber;
+        else
+            throw new Exception("Invalid phone number");
     }
 
-    public void setContact(String name, int phoneNumber) {
-        this.name = name;
-        this.phoneNumber = phoneNumber;
+    public void setContact(String name, int phoneNumber) throws Exception {
+        this.setName(name);
+        this.setPhoneNumber(phoneNumber);
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Contact) {
+            Contact other = (Contact) obj;
+            return this.name.equalsIgnoreCase(other.name) && this.phoneNumber == other.phoneNumber;
+        }
+        return false;
+    }
+
 }
