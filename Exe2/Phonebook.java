@@ -247,10 +247,12 @@ public class Phonebook implements App {
 
                     System.out.println("Enter The Name of the contact you'd like to find:");
                     String findName = In.nextLine();
-                    try {
-                        searchContact(findName);
-                    } catch (Exception e) {
-                        System.out.println(e.getMessage());
+                    Contact c = searchContact(findName);
+
+                    if (c == null) {
+                        System.out.println("Contact not found.");
+                    } else {
+                        System.out.println(c);
                     }
 
                     break;
