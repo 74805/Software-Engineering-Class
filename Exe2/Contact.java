@@ -48,9 +48,14 @@ public class Contact {
         this.setPhoneNumber(phoneNumber);
     }
 
-    public boolean equals(Contact other)
+    @Override
+    public boolean equals(Object obj)
     {
-        return this.name.equalsIgnoreCase(other.name) && this.phoneNumber == other.phoneNumber;
+        if (obj instanceof Contact) {
+				Contact other = (Contact) obj;
+				return this.name.equalsIgnoreCase(other.name) && this.phoneNumber == other.phoneNumber;
+			}
+			return false;
     }
     
 }
