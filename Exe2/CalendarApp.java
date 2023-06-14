@@ -1,4 +1,4 @@
-package ex2;
+package Exe2;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -325,212 +325,213 @@ public class CalendarApp implements App {
 			}
 
 			switch (choice) {
-			case 1:
-				System.out.print("Choose the type of event to add: \n");
-				System.out.print("[1] Meeting with a Contact. \n");
-				System.out.print("[2] An event with no meeting. \n");
+				case 1:
+					System.out.print("Choose the type of event to add: \n");
+					System.out.print("[1] Meeting with a Contact. \n");
+					System.out.print("[2] An event with no meeting. \n");
 
-				System.out.println("Your choice is: ");
-				int meetingChoice = In.nextInt();
-				In.nextLine();
+					System.out.println("Your choice is: ");
+					int meetingChoice = In.nextInt();
+					In.nextLine();
 
-				Event eve;
-				invalidInput = true;
-				while (invalidInput) {
-					switch (meetingChoice) {
-					case 1:
-						System.out.print("\nEnter the name of the contact: ");
-						String contactName = In.nextLine();
+					Event eve;
+					invalidInput = true;
+					while (invalidInput) {
+						switch (meetingChoice) {
+							case 1:
+								System.out.print("\nEnter the name of the contact: ");
+								String contactName = In.nextLine();
 
-						// validate that the name contains only letters
-						if (!contactName.matches("[a-zA-Z]+")) {
-							System.out.print("Invalid name. Try again.");
-							break;
+								// validate that the name contains only letters
+								if (!contactName.matches("[a-zA-Z]+")) {
+									System.out.print("Invalid name. Try again.");
+									break;
+								}
+
+								c = phoneBook.searchContact(contactName);
+								if (c == null) {
+									System.out.print("There's no contact with the name " + contactName
+											+ ", you can add it in the Contacts App");
+
+									break;
+								}
+
+								d = receiveDate(In);
+								eve = receiveEventWithContact(d, c, In);
+								try {
+									add(eve);
+									System.out.println("Added event successfully");
+								} catch (Exception e) {
+									System.out.println(e.getMessage());
+								}
+
+								invalidInput = false;
+								break;
+							case 2:
+								System.out.print("Enter a short description of one line about the event: ");
+								shortDescription = In.nextLine();
+
+								d = receiveDate(In);
+								eve = receiveEventNoContact(d, shortDescription, In);
+								try {
+									add(eve);
+									System.out.println("Added event successfully");
+								} catch (Exception e) {
+									System.out.println(e.getMessage());
+								}
+
+								invalidInput = false;
+								break;
+							default:
+								System.out.println("Invalid Input. Try Again..");
+								break;
 						}
+					}
+					break;
+				case 2:
+					System.out.print("Choose the type of meeting to remove: \n");
+					System.out.print("[1] Meeting with a Contact. \n");
+					System.out.print("[2] An event with no meeting. \n");
 
-						c = phoneBook.searchContact(contactName);
-						if (c == null) {
-							System.out.print("There's no contact with the name " + contactName
-									+ ", you can add it in the Contacts App");
+					System.out.println("Your choice is: ");
+					meetingChoice = In.nextInt();
 
-							break;
-						}
+					invalidInput = true;
+					while (invalidInput) {
+						List<Event> events;
+						boolean eventFound = false;
 
 						d = receiveDate(In);
-						eve = receiveEventWithContact(d, c, In);
-						try {
-							add(eve);
-							System.out.println("Added event successfully");
-						} catch (Exception e) {
-							System.out.println(e.getMessage());
-						}
+						switch (meetingChoice) {
+							case 1:
+								// Assuming with each contact there is no more than one meeting each date
+								System.out.print("Enter the name of the contact: ");
+								String contactName = In.nextLine();
 
-						invalidInput = false;
-						break;
-					case 2:
-						System.out.print("Enter a short description of one line about the event: ");
-						shortDescription = In.nextLine();
+								events = getEventsByDate(d);
 
-						d = receiveDate(In);
-						eve = receiveEventNoContact(d, shortDescription, In);
-						try {
-							add(eve);
-							System.out.println("Added event successfully");
-						} catch (Exception e) {
-							System.out.println(e.getMessage());
-						}
-
-						invalidInput = false;
-						break;
-					default:
-						System.out.println("Invalid Input. Try Again..");
-						break;
-					}
-				}
-				break;
-			case 2:
-				System.out.print("Choose the type of meeting to remove: \n");
-				System.out.print("[1] Meeting with a Contact. \n");
-				System.out.print("[2] An event with no meeting. \n");
-
-				System.out.println("Your choice is: ");
-				meetingChoice = In.nextInt();
-
-				invalidInput = true;
-				while (invalidInput) {
-					List<Event> events;
-					boolean eventFound = false;
-
-					d = receiveDate(In);
-					switch (meetingChoice) {
-					case 1:
-						// Assuming with each contact there is no more than one meeting each date
-						System.out.print("Enter the name of the contact: ");
-						String contactName = In.nextLine();
-
-						events = getEventsByDate(d);
-
-						eventFound = false;
-						for (int i = 0; i < events.size(); i++) {
-							if (events.get(i) instanceof MeetingEvent) { // looks for MeetingEvent type events
-								MeetingEvent mEvent = (MeetingEvent) events.get(i);
-								if (mEvent.getContact().getName().equals(contactName)) {
-									eventFound = true;
-									try {
-										remove(mEvent);
-									} catch (Exception e) {
-										System.out.println(e.getMessage());
+								eventFound = false;
+								for (int i = 0; i < events.size(); i++) {
+									if (events.get(i) instanceof MeetingEvent) { // looks for MeetingEvent type events
+										MeetingEvent mEvent = (MeetingEvent) events.get(i);
+										if (mEvent.getContact().getName().equals(contactName)) {
+											eventFound = true;
+											try {
+												remove(mEvent);
+											} catch (Exception e) {
+												System.out.println(e.getMessage());
+											}
+										}
 									}
 								}
-							}
-						}
-						if (!eventFound) {
-							System.out.print("Event was not found");
-							break;
-						}
+								if (!eventFound) {
+									System.out.print("Event was not found");
+									break;
+								}
 
-						System.out.print("Removed the event successfully\n");
-						invalidInput = false;
-						break;
-					case 2:
-						// Assuming the description is unique for each event
-						System.out.print("Enter the short description about the event: ");
-						shortDescription = In.nextLine();
+								System.out.print("Removed the event successfully\n");
+								invalidInput = false;
+								break;
+							case 2:
+								// Assuming the description is unique for each event
+								System.out.print("Enter the short description about the event: ");
+								shortDescription = In.nextLine();
 
-						events = getEventsByDate(d);
-						eventFound = false;
-						for (int i = 0; i < events.size(); i++) {
-							if (events.get(i) instanceof EventWithoutMeeting) { // looks for MeetingEvent
-																				// type
-																				// events
-								EventWithoutMeeting nEvent = (EventWithoutMeeting) events.get(i);
-								if (nEvent.getDescription().equals(shortDescription)) {
-									eventFound = true;
-									try {
-										remove(nEvent);
-									} catch (Exception e) {
-										System.out.println(e.getMessage());
+								events = getEventsByDate(d);
+								eventFound = false;
+								for (int i = 0; i < events.size(); i++) {
+									if (events.get(i) instanceof EventWithoutMeeting) { // looks for MeetingEvent
+																						// type
+																						// events
+										EventWithoutMeeting nEvent = (EventWithoutMeeting) events.get(i);
+										if (nEvent.getDescription().equals(shortDescription)) {
+											eventFound = true;
+											try {
+												remove(nEvent);
+											} catch (Exception e) {
+												System.out.println(e.getMessage());
+											}
+										}
 									}
 								}
-							}
+								if (!eventFound) {
+									System.out.print("Event was not found");
+									break;
+								}
+
+								System.out.print("Removed the event successfully");
+								invalidInput = false;
+								break;
+							default:
+								System.out.println("Invalid Input. Try Again..");
+								break;
 						}
-						if (!eventFound) {
-							System.out.print("Event was not found");
-							break;
+					}
+					break;
+				case 3:
+					int day = 0, month = 0, year = 0;
+
+					System.out.println("Enter the date: ");
+					while (true) {
+						System.out.print("Enter the year: ");
+						year = In.nextInt();
+						In.nextLine();
+						if (year < 0) { // checks the validity of the input
+							System.out.println("Invalid year. Please enter a positive value.");
+							continue;
 						}
 
-						System.out.print("Removed the event successfully");
-						invalidInput = false;
+						System.out.print("Enter the month: ");
+						month = In.nextInt();
+						In.nextLine();
+						if (month < 1 || month > 12) { // checks the validity of the input
+							System.out.println("Invalid month. Please enter a value between 1 and 12.");
+							continue;
+						}
+
+						System.out.print("Enter the day: ");
+						day = In.nextInt();
+						In.nextLine();
+						if (day < 1 || day > 30) { // checks the validity of the input
+							System.out.println("Invalid day. Please enter a value between 1 and 31.");
+							continue;
+						}
+
 						break;
-					default:
-						System.out.println("Invalid Input. Try Again..");
+					}
+
+					d = new Date(year - 1900, month - 1, day);
+					printEventsByDate(d);
+					break;
+				case 4:
+					System.out.println("Please enter contact name: ");
+					In.nextLine();
+					String name = In.nextLine();
+
+					// validate that the name contains only letters
+					if (!name.matches("[a-zA-Z]+")) {
+						System.out.print("Invalid name. Try again.");
 						break;
 					}
-				}
-				break;
-			case 3:
-				int day = 0, month = 0, year = 0;
 
-				System.out.println("Enter the date: ");
-				while (true) {
-					System.out.print("Enter the year: ");
-					year = In.nextInt();
-					In.nextLine();
-					if (year < 0) { // checks the validity of the input
-						System.out.println("Invalid year. Please enter a positive value.");
-						continue;
-					}
-
-					System.out.print("Enter the month: ");
-					month = In.nextInt();
-					In.nextLine();
-					if (month < 1 || month > 12) { // checks the validity of the input
-						System.out.println("Invalid month. Please enter a value between 1 and 12.");
-						continue;
-					}
-
-					System.out.print("Enter the day: ");
-					day = In.nextInt();
-					In.nextLine();
-					if (day < 1 || day > 30) { // checks the validity of the input
-						System.out.println("Invalid day. Please enter a value between 1 and 31.");
-						continue;
-					}
-
+					printSameContactEvent(name);
 					break;
-				}
-
-				d = new Date(year - 1900, month - 1, day);
-				printEventsByDate(d);
-				break;
-			case 4:
-				System.out.println("Please enter contact name: ");
-				In.nextLine();
-				String name = In.nextLine();
-
-				// validate that the name contains only letters
-				if (!name.matches("[a-zA-Z]+")) {
-					System.out.print("Invalid name. Try again.");
+				case 5:
+					deletTheoverlappingEvents(calendar);
+					System.out.println("delet The overlapping Events: ");
 					break;
-				}
-
-				printSameContactEvent(name);
-				break;
-			case 5:
-				deletTheoverlappingEvents(calendar);
-				System.out.println("delet The overlapping Events: ");
-			case 6:
-				System.out.println("All evens: ");
-				printAllEvents();
-				break;
-			case 7:
-				System.out.print("Goobye!\n");
-				exit(In);
-				exit = true;
-				break;
-			default:
-				System.out.println("Invalid choice. Please try again.");
-				break;
+				case 6:
+					System.out.println("All evens: ");
+					printAllEvents();
+					break;
+				case 7:
+					System.out.print("Goobye!\n");
+					exit();
+					exit = true;
+					break;
+				default:
+					System.out.println("Invalid choice. Please try again.");
+					break;
 			}
 		}
 	}
