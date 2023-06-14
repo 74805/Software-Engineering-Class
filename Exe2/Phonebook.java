@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.io.FileWriter;
 import java.util.Iterator;
 
-
 public class Phonebook implements App {
     protected ArrayList<Contact> contacts;
 
@@ -17,13 +16,10 @@ public class Phonebook implements App {
         this.contacts = new ArrayList<Contact>();
     }
 
-    
-
     public void addContact(Contact c) throws Exception {
-        if(! inPhoneBook(c.getName())){
-           contacts.add(c);
-        }
-        else {
+        if (!inPhoneBook(c.getName())) {
+            contacts.add(c);
+        } else {
             throw new Exception("This name was added already");
         }
     }
@@ -36,14 +32,14 @@ public class Phonebook implements App {
         return this.contacts.size();
     }
 
-    public void removeContact(String name) { 
-        Iterator <Contact> iterator = contacts.iterator();
-        while(iterator.hasNext()){
+    public void removeContact(String name) {
+        Iterator<Contact> iterator = contacts.iterator();
+        while (iterator.hasNext()) {
             Contact currContact = iterator.next();
-            if(currContact.getName().equals(name)){
+            if (currContact.getName().equals(name)) {
                 contacts.remove(currContact);
                 System.out.println("An account with the name " + name
-                + " has been deleted.");
+                        + " has been deleted.");
             }
         }
         System.out.println("No account with the name "
@@ -59,14 +55,14 @@ public class Phonebook implements App {
         return res;
     }
 
-    public Contact searchContact(String name ) throws Exception {
-       Iterator<Contact> iterator = contacts.iterator();
+    public Contact searchContact(String name) throws Exception {
+        Iterator<Contact> iterator = contacts.iterator();
         while (iterator.hasNext()) {
             Contact currentContact = iterator.next();
             return currentContact;
         }
         throw new Exception("Name not found");
-        
+
     }
 
     public void sortByName() {
@@ -87,10 +83,8 @@ public class Phonebook implements App {
 
     public void removeDuplicates() {
         ArrayList<Contact> New_contacts = new ArrayList<>();
-        for (Contact c : contacts)
-        {
-            if(!New_contacts.contains(c))
-            {
+        for (Contact c : contacts) {
+            if (!New_contacts.contains(c)) {
                 New_contacts.add(c);
             }
         }
@@ -101,14 +95,12 @@ public class Phonebook implements App {
     public void reverseOrder() {
         Contact temp = new Contact();
         for (int i = 0; i < contacts.size() / 2; i++) {
-            try{
+            try {
                 temp.setContact(contacts.get(i).getName(), contacts.get(i).getPhoneNumber());
                 contacts.get(i).setContact(contacts.get(contacts.size() - i - 1).getName(),
-                contacts.get(contacts.size() - i - 1).getPhoneNumber());
+                        contacts.get(contacts.size() - i - 1).getPhoneNumber());
                 contacts.get(contacts.size() - i - 1).setContact(temp.getName(), temp.getPhoneNumber());
-            }
-            catch(Exception e)
-            {
+            } catch (Exception e) {
                 System.out.println("Can not reverse order.");
                 continue;
             }
@@ -143,7 +135,7 @@ public class Phonebook implements App {
         myReader.close();
     }
 
-    public boolean inPhoneBook(String name) //new!!!!
+    public boolean inPhoneBook(String name) // new!!!!
     {
         Iterator<Contact> iterator = contacts.iterator();
         while (iterator.hasNext()) {
@@ -156,23 +148,19 @@ public class Phonebook implements App {
     }
 
     @Override
-    public void run(){
+    public void run() {
         Scanner In = new Scanner(System.in);
 
         Phonebook phonebook = new Phonebook();
         System.out.println("[+] Phone Book\n------------");
-        try{
-        phonebook.addContact(new Contact("Amos", 583696427));
-        }
-        catch(Exception e)
-        {
+        try {
+            phonebook.addContact(new Contact("Amos", 583696427));
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-        try{
-        phonebook.addContact(new Contact("Yossi", 529723081));
-        }
-        catch(Exception e)
-        {
+        try {
+            phonebook.addContact(new Contact("Yossi", 529723081));
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
 
@@ -211,21 +199,19 @@ public class Phonebook implements App {
                     String n = In.nextLine();
                     System.out.println("Enter The Number of the contact (05 and 8 digit):");
                     int p = In.nextInt();
-                    String regEx = "5[0-9]{8}"; 
-                    if(Integer.toString((p)).matches(regEx))
-                    {
+                    String regEx = "5[0-9]{8}";
+                    if (Integer.toString((p)).matches(regEx)) {
                         Contact temp = new Contact(n, p);
-                        try{
+                        try {
                             phonebook.addContact(temp);
                             System.out.println("You added: ");
                             System.out.println(temp);
-                        }catch(Exception e){
+                        } catch (Exception e) {
                             System.out.println(e.getMessage());
                         }
-                    }
-                    else
-                    {
-                        System.out.println("Illegal Phone number!");;
+                    } else {
+                        System.out.println("Illegal Phone number!");
+                        ;
                     }
                     break;
                 case 2:
@@ -258,12 +244,12 @@ public class Phonebook implements App {
 
                     System.out.println("Enter The Name of the contact you'd like to find:");
                     String findName = In.nextLine();
-                    try{
+                    try {
                         phonebook.searchContact(findName);
-                    }catch(Exception e){
+                    } catch (Exception e) {
                         System.out.println(e.getMessage());
                     }
-                    
+
                     break;
                 case 5:
                     // Sort all contacts alphabetically
@@ -343,7 +329,6 @@ public class Phonebook implements App {
                     System.out.println("Goodbye!\n");
 
                     flag = false;
-                    In.close();
                     break;
             }
         }
@@ -352,22 +337,19 @@ public class Phonebook implements App {
     @Override
     public void add(Object obj) throws Exception {
         try {
-            Contact m = (Contact) obj;
-            this.addContact(m);
+            Contact contact = (Contact) obj;
+            this.addContact(contact);
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
     }
-    
+
     @Override
     public void printAll() {
         Iterator<Contact> iterator = this.contacts.iterator();
         while (iterator.hasNext()) {
             Contact element = iterator.next();
-            System.out.println(element); //overrides tostring
+            System.out.println(element); // overrides tostring
+        }
     }
 }
-}
-
-
-
