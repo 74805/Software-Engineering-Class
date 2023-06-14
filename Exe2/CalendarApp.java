@@ -237,8 +237,10 @@ public class CalendarApp implements App {
 	}
 
 	public void printEventsByDate(Date date) {
-		List<Event> eventsByDate = getEventsByDate(date); // takes the list from the function g		
-		if (eventsByDate.isEmpty() || eventsByDate.get(0).getDate().getYear() != date.getYear() || eventsByDate.get(0).getDate().getMonth() != date.getMonth() || eventsByDate.get(0).getDate().getDay() != date.getDay()) { // if the date has no events / meetings
+		List<Event> eventsByDate = getEventsByDate(date); // takes the list from the function g
+		if (eventsByDate.isEmpty() || eventsByDate.get(0).getDate().getYear() != date.getYear()
+				|| eventsByDate.get(0).getDate().getMonth() != date.getMonth()
+				|| eventsByDate.get(0).getDate().getDay() != date.getDay()) { // if the date has no events / meetings
 			System.out.println("No events scheduled for the specified date.");
 			return;
 		}
@@ -472,6 +474,12 @@ public class CalendarApp implements App {
 					}
 
 					printSameContactEvent(name);
+					break;
+				case 5:
+
+				case 6:
+					System.out.println("All evens: ");
+					printAllEvents();
 					break;
 				case 7:
 					System.out.print("Goobye!\n");
