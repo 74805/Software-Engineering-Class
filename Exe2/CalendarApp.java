@@ -518,6 +518,7 @@ public class CalendarApp implements App {
 					printSameContactEvent(name);
 					break;
 				case 5:
+					
 					System.out.println("delet The overlapping Events: ");
 				case 6:
 					System.out.println("All evens: ");
@@ -525,7 +526,7 @@ public class CalendarApp implements App {
 					break;
 				case 7:
 					System.out.print("Goobye!\n");
-					exit();
+					exit(In);
 					exit = true;
 					break;
 				default:
