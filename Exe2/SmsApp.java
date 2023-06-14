@@ -9,29 +9,18 @@ public class SmsApp implements App {
     private static Phonebook myPhonebook;
 
     public static void setPhoneBook(Phonebook phonebook) {
-        if (phonebook == null) {
-            return;
-        }
+        myPhonebook = phonebook;
+    }
 
-        Iterator<Contact> iterator = phonebook.contacts.iterator();
-        while (iterator.hasNext()) {
-            Contact contact = iterator.next();
-            if (myPhonebook.inPhoneBook(contact.getName())) {
-                try {
-                    myPhonebook.add(contact);
-                } catch (Exception e) {
-                    // Never going to enter here because contact is of type Contact
-                }
+    public void removeChats() {
+        for (Chat chat : myChat) {
+            if (myPhonebook.searchContact(chat.getContact().getName()) == null) {
+                myChat.remove(chat);
             }
         }
     }
 
     public SmsApp() {
-        try {
-            setPhoneBook(myPhonebook);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
         myChat = new ArrayList<>();
     }
 
@@ -49,7 +38,7 @@ public class SmsApp implements App {
     // 2
     public void deleteConv(String name) throws Exception {
         try {
-            searchChat(name).deleteChat();
+            myChat.remove(searchChat(name));
         } catch (Exception e) {
             throw new Exception("couldn't delete chat");
         }
@@ -58,7 +47,7 @@ public class SmsApp implements App {
     // 3
     public void printSpecific(String name) {
         try {
-            System.out.println(searchChat(name).allText());
+            System.out.println(searchChat(name).toString());
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -80,6 +69,11 @@ public class SmsApp implements App {
     // 5
     @Override
     public void printAll() {
+        System.out.println("All chats:");
+        if (myChat.isEmpty()) {
+            System.out.println("No chats");
+        }
+
         Iterator<Chat> iterator = myChat.iterator();
         while (iterator.hasNext()) {
             Chat element = iterator.next();
@@ -87,9 +81,9 @@ public class SmsApp implements App {
         }
     }
 
-    // run and haspaa
-    @Override
     public void run() {
+        removeChats();
+
         boolean exit = false;
         Scanner scanner = new Scanner(System.in);
         while (!exit) {
@@ -116,17 +110,37 @@ public class SmsApp implements App {
                 case 1:
                     System.out.println("Choose a contact");
                     String name = scanner.nextLine();
-                    try {
-                        add(new Chat(myPhonebook.searchContact(name), ""));
-                    } catch (Exception e) {
-                        System.out.println(e.getMessage());
+                    if (myPhonebook.searchContact(name) == null) {
+                        System.out.println("Contact not found");
+                        break;
                     }
+
+                    Contact c = myPhonebook.searchContact(name);
+
+                    System.out.println("What would you like to add to the chat?");
+                    String text = scanner.nextLine();
+
+                    Chat chat = searchChat(name);
+                    if (chat == null) {
+                        try {
+                            chat = new Chat(c, text);
+                            add(chat);
+                            System.out.println("Chat added");
+                        } catch (Exception e) {
+                            System.out.println(e.getMessage());
+                        }
+                        break;
+                    } else {
+                        chat.addText(text);
+                    }
+
                     break;
                 case 2:
-                    System.out.print("Which chat would you like to delete? (input contact name)");
+                    System.out.print("Which chat would you like to delete? (input contact name)\n");
                     String name2 = scanner.nextLine();
                     try {
                         deleteConv(name2);
+                        System.out.println("Chat deleted");
                     } catch (Exception e) {
                         System.out.println(e.getMessage());
                     }
@@ -151,11 +165,12 @@ public class SmsApp implements App {
                     break;
                 default:
                     System.out.println("Invalid choice. Please try again.");
+                    break;
             }
         }
     }
 
-    public Chat searchChat(String name) throws Exception {
+    public Chat searchChat(String name) {
         Iterator<Chat> iterator = myChat.iterator();
         while (iterator.hasNext()) {
             Chat element = iterator.next();
@@ -163,15 +178,27 @@ public class SmsApp implements App {
                 return element;
             }
         }
-        throw new Exception("Contact not found");
+
+        return null;
     }
 
     public class Chat {
         private Contact myContact;
         private ArrayList<String> myText;
 
+        public Chat(Contact c) {
+            myContact = c;
+            myText = new ArrayList<>();
+        }
+
         public Chat(Contact c, String text) {
             myContact = c;
+
+            myText = new ArrayList<>();
+            myText.add(text);
+        }
+
+        public void addText(String text) {
             myText.add(text);
         }
 
@@ -185,7 +212,7 @@ public class SmsApp implements App {
             Iterator<String> iterator = this.myText.iterator();
             while (iterator.hasNext()) {
                 String element = iterator.next();
-                allChat.concat(element + "\n");
+                allChat += element + "\n";
             }
             return allChat;
         }

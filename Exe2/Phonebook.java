@@ -14,6 +14,18 @@ public class Phonebook implements App {
 
     public Phonebook() {
         this.contacts = new ArrayList<Contact>();
+
+        // Add some example contacts
+        try {
+            addContact(new Contact("Amos", 583696427));
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        try {
+            addContact(new Contact("Yossi", 529723081));
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     public void addContact(Contact c) throws Exception {
@@ -55,13 +67,16 @@ public class Phonebook implements App {
         return res;
     }
 
-    public Contact searchContact(String name) throws Exception {
+    public Contact searchContact(String name) {
         Iterator<Contact> iterator = contacts.iterator();
         while (iterator.hasNext()) {
             Contact currentContact = iterator.next();
-            return currentContact;
+            if (currentContact.getName().equals(name)) {
+                return currentContact;
+            }
         }
-        throw new Exception("Name not found");
+
+        return null;
 
     }
 
@@ -151,18 +166,7 @@ public class Phonebook implements App {
     public void run() {
         Scanner In = new Scanner(System.in);
 
-        Phonebook phonebook = new Phonebook();
         System.out.println("[+] Phone Book\n------------");
-        try {
-            phonebook.addContact(new Contact("Amos", 583696427));
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-        try {
-            phonebook.addContact(new Contact("Yossi", 529723081));
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
 
         boolean flag = true;
         while (flag) {
@@ -203,7 +207,7 @@ public class Phonebook implements App {
                     if (Integer.toString((p)).matches(regEx)) {
                         Contact temp = new Contact(n, p);
                         try {
-                            phonebook.addContact(temp);
+                            addContact(temp);
                             System.out.println("You added: ");
                             System.out.println(temp);
                         } catch (Exception e) {
@@ -211,12 +215,11 @@ public class Phonebook implements App {
                         }
                     } else {
                         System.out.println("Illegal Phone number!");
-                        ;
                     }
                     break;
                 case 2:
                     // Delete a contact
-                    if (phonebook.getSize() == 0) {
+                    if (getSize() == 0) {
                         System.out.println("Your Phonebook is empty.");
                         continue;
                     }
@@ -224,20 +227,20 @@ public class Phonebook implements App {
                     System.out.println("Enter The Name of the contact you'd like to delete:");
                     String remName = In.nextLine();
 
-                    phonebook.removeContact(remName);
+                    removeContact(remName);
                     break;
                 case 3:
                     // Print all contacts
-                    if (phonebook.getSize() == 0) {
+                    if (getSize() == 0) {
                         System.out.println("Your Phonebook is empty.");
                         continue;
                     }
 
-                    System.out.println(phonebook);
+                    printAll();
                     break;
                 case 4:
                     // Search for a contact
-                    if (phonebook.getSize() == 0) {
+                    if (getSize() == 0) {
                         System.out.println("Your Phonebook is empty.");
                         continue;
                     }
@@ -245,7 +248,7 @@ public class Phonebook implements App {
                     System.out.println("Enter The Name of the contact you'd like to find:");
                     String findName = In.nextLine();
                     try {
-                        phonebook.searchContact(findName);
+                        searchContact(findName);
                     } catch (Exception e) {
                         System.out.println(e.getMessage());
                     }
@@ -253,53 +256,53 @@ public class Phonebook implements App {
                     break;
                 case 5:
                     // Sort all contacts alphabetically
-                    if (phonebook.getSize() == 0) {
+                    if (getSize() == 0) {
                         System.out.println("Your Phonebook is empty.");
                         continue;
                     }
 
-                    phonebook.sortByName();
+                    sortByName();
 
                     System.out.println("Here's Your Phonebook after sorting it alphabetically (A-Z):");
-                    for (int i = 0; i < phonebook.getSize(); i++) {
-                        System.out.print(phonebook.getContact(i));
+                    for (int i = 0; i < getSize(); i++) {
+                        System.out.print(getContact(i));
                     }
                     break;
                 case 6:
                     // Sort all contacts by number
-                    if (phonebook.getSize() == 0) {
+                    if (getSize() == 0) {
                         System.out.println("Your Phonebook is empty.");
                         continue;
                     }
 
-                    phonebook.sortByNumber();
+                    sortByNumber();
 
                     System.out.println("Here's Your Phonebook after sorting it by number:");
-                    System.out.println(phonebook);
+                    toString();
                     break;
                 case 7:
                     // Remove duplicates
-                    if (phonebook.getSize() == 0) {
+                    if (getSize() == 0) {
                         System.out.println("Your Phonebook is empty.");
                         continue;
                     }
 
-                    phonebook.removeDuplicates();
+                    removeDuplicates();
 
                     System.out.println("Here's Your Phonebook after removing duplicates:");
-                    System.out.println(phonebook);
+                    toString();
 
                     break;
                 case 8:
                     // reverse order
-                    if (phonebook.getSize() == 0) {
+                    if (getSize() == 0) {
                         System.out.println("Your Phonebook is empty.");
                         continue;
                     }
 
-                    phonebook.reverseOrder();
+                    reverseOrder();
                     System.out.println("Here's Your Phonebook after reversing its order:");
-                    System.out.println(phonebook);
+                    toString();
                     break;
                 case 9:
                     // save in text file
@@ -307,7 +310,7 @@ public class Phonebook implements App {
                     String fileName = In.nextLine();
 
                     try {
-                        phonebook.savingPhonebook(fileName);
+                        savingPhonebook(fileName);
                         System.out.println("Your Phonebook has been saved successfully.");
                     } catch (IOException e) {
                         System.out.println("Error saving to file: " + e);
@@ -319,7 +322,7 @@ public class Phonebook implements App {
                     String file = In.nextLine();
 
                     try {
-                        phonebook.loadingPhonebook(file);
+                        loadingPhonebook(file);
                         System.out.println("Your Phonebook has been loaded successfully.");
                     } catch (IOException e) {
                         System.out.println("Error loading from file: " + e);
@@ -346,10 +349,16 @@ public class Phonebook implements App {
 
     @Override
     public void printAll() {
+        System.out.println("Here's Your Phonebook:");
+        if (this.contacts.isEmpty()) {
+            System.out.println("Your Phonebook is empty.");
+            return;
+        }
+
         Iterator<Contact> iterator = this.contacts.iterator();
         while (iterator.hasNext()) {
             Contact element = iterator.next();
-            System.out.println(element); // overrides tostring
+            System.out.println(element);
         }
     }
 }

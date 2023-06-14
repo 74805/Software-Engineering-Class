@@ -135,6 +135,7 @@ public class MediaApp implements App {
     // printAll plays all media (practicly prints all media)
     @Override
     public void printAll() {
+        System.out.println("All media:");
         if (media.size() == 0) {
             System.out.println("No media found");
             return;

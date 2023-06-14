@@ -13,8 +13,8 @@ public class Phone {
         // Add the four apps
         apps.add(new Phonebook());
 
-        SmsApp.setPhoneBook((Phonebook) apps.get(0));
         apps.add(new SmsApp());
+        SmsApp.setPhoneBook((Phonebook) apps.get(0));
 
         // CalenderApp.setPhoneBook((Phonebook) apps.get(0));
         // apps.add(new CalenderApp());
