@@ -46,6 +46,29 @@ public class CalendarApp implements App {
 		}
 	}
 
+	// public void deletTheoverlappingEvents() {
+	// for (int i = 0; i < calendar.size(); i++) {
+	// for (int j = 0; j < calendar.get(i).size(); j++)
+
+	// for (int a = j + 1; a < calendar.get(i).size(); a++) {
+	// Date date_event1 = calendar.get(i).get(j).getDate();
+	// Date date_event2 = calendar.get(i).get(a).getDate();
+	// if (date_event1.getYear() == date_event2.getYear()
+	// && date_event1.getMonth() == date_event2.getMonth()
+	// && date_event1.getDay() == date_event2.getDay()) {
+
+	// }
+	// }
+	// }
+	// }
+	public void printAllEvents() {// print all event
+		for (int i = 0; i < calendar.size(); i++) {
+			for (int j = 0; j < calendar.get(i).size(); j++) {
+				calendar.get(i).get(j).toString();
+			}
+		}
+	}
+
 	@Override
 	public void add(Object obj) throws Exception {
 		try {
