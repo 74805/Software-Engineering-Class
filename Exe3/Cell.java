@@ -1,19 +1,21 @@
 package Exe3;
 
+import javax.swing.JFrame;
+
 public abstract class Cell {
     private int x;
     private int y;
     private boolean alive;
 
-    public Cell(int x, int y, boolean alive) {
+    public Cell(int x, int y) {
         this.x = x;
         this.y = y;
-        this.alive = alive;
+        this.alive = true;
     }
 
-    public abstract void display();
+    public abstract void operate();
 
-    public abstract void update();
+    public abstract void display(JFrame frame);
 
     public int getX() {
         return x;
