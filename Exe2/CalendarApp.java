@@ -56,58 +56,33 @@ public class CalendarApp implements App {
 
 	public void deletTheoverlappingEvents(List<List<Event>> calendar) {
 		for (int i = 0; i < calendar.size(); i++) {
-			for (int j = 0; j < calendar.get(i).size(); j++)
-				for (int a = j + 1; a < calendar.get(i).size(); a++) {
-					Event event1 = calendar.get(i).get(j);
-					Event event2 = calendar.get(i).get(a);
-					Date date_event1 = calendar.get(i).get(j).getDate();
-					Date date_event2 = calendar.get(i).get(a).getDate();
-					if (date_event1.getYear() == date_event2.getYear()
-							&& date_event1.getMonth() == date_event2.getMonth()
-							&& date_event1.getDay() == date_event2.getDay()) {
-						if (date_event1.getHours() == date_event2.getHours()) {
-							if (date_event1.getMinutes() == date_event2.getMinutes()) {
-								try {
-									remove(event2);
-								} catch (Exception e) {
-									System.out.println(e.getMessage());
-								}
-							}
-							if (date_event1.getMinutes() + event1.durationMinutes > date_event2.getMinutes()) {
-								try {
-									remove(event2);
-								} catch (Exception e) {
-									System.out.println(e.getMessage());
-								}
-							}
-							if (date_event2.getMinutes() + event2.durationMinutes > date_event1.getMinutes()) {
-								try {
-									remove(event1);
-								} catch (Exception e) {
-									System.out.println(e.getMessage());
-								}
-							}
-						}
-						if (date_event1.getHours() == date_event2.getHours() + 1) {
-							if (date_event1.getMinutes() + event1.durationMinutes - 60 > date_event2.getMinutes()) {
-								try {
-									remove(event2);
-								} catch (Exception e) {
-									System.out.println(e.getMessage());
-								}
-							}
-						}
-						if (date_event1.getHours() + 1 == date_event2.getHours()) {
-							if (date_event2.getMinutes() + event2.durationMinutes - 60 > date_event1.getMinutes()) {
-								try {
-									remove(event1);
-								} catch (Exception e) {
-									System.out.println(e.getMessage());
+			for (int j = 0; j < calendar.get(i).size(); j++) {
+				Event event = calendar.get(i).get(j);
+				for (int k = 0; k < calendar.size(); k++) {
+					for (int l = 0; l < calendar.get(k).size(); l++) {
+						Event event2 = calendar.get(k).get(l);
+						if (event != event2) {
+							if (event.getDate().getYear() == event2.getDate().getYear()
+									&& event.getDate().getMonth() == event2.getDate().getMonth()
+									&& event.getDate().getDay() == event2.getDate().getDay()
+									&& event.getDate().getHours() == event2.getDate().getHours()) {
+								if (event.getDate().getMinutes() >= event2.getDate().getMinutes() && event.getDate()
+										.getMinutes() <= event2.getDate().getMinutes() + event2.getDurationMinutes()) {
+									System.out.println("Overlapping events: " + event + " and " + event2);
+									System.out.println("Deleting: " + event);
+									calendar.get(k).remove(event);
+								} else if (event2.getDate().getMinutes() >= event.getDate().getMinutes() && event2
+										.getDate()
+										.getMinutes() <= event.getDate().getMinutes() + event.getDurationMinutes()) {
+									System.out.println("Overlapping events: " + event + " and " + event2);
+									System.out.println("Deleting: " + event);
+									calendar.get(k).remove(event2);
 								}
 							}
 						}
 					}
 				}
+			}
 		}
 	}
 
@@ -535,7 +510,6 @@ public class CalendarApp implements App {
 					break;
 				case 5:
 					deletTheoverlappingEvents(calendar);
-					System.out.println("delet The overlapping Events: ");
 					break;
 				case 6:
 					System.out.println("All evens: ");
