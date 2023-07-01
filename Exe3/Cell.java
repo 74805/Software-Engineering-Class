@@ -8,6 +8,8 @@ import javax.swing.JPanel;
 
 public abstract class Cell {
     private boolean alive;
+    private int x;
+    private int y;
 
     protected JButton button;
 
@@ -18,14 +20,29 @@ public abstract class Cell {
         button.setPreferredSize(new Dimension(20, 20));
     }
 
-    public Cell(Consumer<Cell> clickHandler) {
+    public Cell(int x, int y, Consumer<Cell> clickHandler) {
         this.alive = true;
+        this.x = x;
+        this.y = y;
 
         button = new JButton();
         button.setPreferredSize(new Dimension(20, 20));
         button.addActionListener(e -> {
             clickHandler.accept(this);
         });
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public void setPosition(int x, int y) {
+        this.x = x;
+        this.y = y;
     }
 
     public void setClickHandler(Consumer<Cell> clickHandler) {

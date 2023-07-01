@@ -36,30 +36,25 @@ public class Game {
 
     // Start/Resume the game
     private void play() {
-        if (guiThread != null && guiThread.isAlive()) {
-            // stop the thread
-            guiThread.interrupt();
+        // disable the board buttons
+        board.disable();
 
-            // wait for the thread to die
-            try {
-                guiThread.join();
-            } catch (InterruptedException e) {
-            }
+        stopButton.setEnabled(true);
+        resetButton.setEnabled(false);
+        startButton.setEnabled(false);
+
+        // disable the edit buttons
+        for (JButton button : editButtons) {
+            button.setEnabled(false);
+        }
+
+        // Clear the cellType
+        cellType = null;
+        for (JButton button : editButtons) {
+            button.getModel().setPressed(false);
         }
 
         guiThread = new Thread(() -> {
-            // disable the board buttons
-            board.disable();
-
-            stopButton.setEnabled(true);
-            resetButton.setEnabled(false);
-            startButton.setEnabled(false);
-
-            // disable the edit buttons
-            for (JButton button : editButtons) {
-                button.setEnabled(false);
-            }
-
             while (!guiThread.isInterrupted()) {
                 board.update();
                 try {
@@ -76,54 +71,48 @@ public class Game {
 
     // Pause the game
     private void stop() {
-        if (guiThread.isAlive()) {
-            // stop the thread
-            guiThread.interrupt();
+        // stop the thread
+        guiThread.interrupt();
 
-            // wait for the thread to die
-            try {
-                guiThread.join();
-            } catch (InterruptedException e) {
-            }
+        // wait for the thread to die
+        try {
+            guiThread.join();
+        } catch (InterruptedException e) {
         }
 
-        guiThread = new Thread(() -> {
-            // enable the board buttons
-            board.enable();
+        // enable the board buttons
+        board.enable();
 
-            // enable the edit buttons
-            for (JButton button : editButtons) {
-                button.setEnabled(true);
-            }
+        // enable the edit buttons
+        for (JButton button : editButtons) {
+            button.setEnabled(true);
+        }
 
-            // enable the start button
-            startButton.setEnabled(true);
-            stopButton.setEnabled(false);
-            resetButton.setEnabled(true);
-        });
-
-        guiThread.start();
+        // enable the start button
+        startButton.setEnabled(true);
+        stopButton.setEnabled(false);
+        resetButton.setEnabled(true);
     }
 
     // Reset the game
     private void reset() {
+        // enable the board buttons
+        board.reset(boardPanel, this::clickCell);
 
-        guiThread = new Thread(() -> {
-            // enable the board buttons
-            board.reset();
+        // enable the edit buttons
+        for (JButton button : editButtons) {
+            button.setEnabled(true);
+        }
 
-            // enable the edit buttons
-            for (JButton button : editButtons) {
-                button.setEnabled(true);
-            }
+        // enable the start button
+        startButton.setEnabled(true);
+        stopButton.setEnabled(false);
+        resetButton.setEnabled(false);
 
-            // enable the start button
-            startButton.setEnabled(true);
-            stopButton.setEnabled(false);
-            resetButton.setEnabled(false);
-        });
+        // Repaint the boardPanel to update the changes
+        boardPanel.revalidate();
+        boardPanel.repaint();
 
-        guiThread.start();
     }
 
     public void display() {
@@ -133,7 +122,7 @@ public class Game {
         boardPanel = new JPanel(new GridLayout(rows, cols));
         frame.add(boardPanel, BorderLayout.NORTH);
 
-        setBoard(boardPanel);
+        board.display(boardPanel);
 
         JPanel buttonPanel = new JPanel();
         startButton = new JButton("Start");
@@ -162,21 +151,6 @@ public class Game {
         frame.setResizable(false);
         frame.pack();
         frame.setVisible(true);
-    }
-
-    private void setBoard(JPanel panel) {
-        board.display(panel);
-
-        // Cell[][] cells = board.getCells();
-        // for (int i = 0; i < cells.length; i++) {
-        // for (int j = 0; j < cells[0].length; j++) {
-        // final Cell current = cells[i][j];
-
-        // // add actions to the buttons
-        // current.button.addActionListener(e -> clickCell(current));
-        // }
-        // }
-
     }
 
     private void setEditButtons(JPanel panel) {
@@ -225,10 +199,15 @@ public class Game {
         if (cellType != null && cell.getClass() != cellType) {
             try {
                 int index = boardPanel.getComponentZOrder(cell.button);
+                int x = cell.getX();
+                int y = cell.getY();
+
                 boardPanel.remove(cell.getButton());
 
                 cell = cellType.newInstance();
                 cell.setClickHandler(this::clickCell);
+                cell.setPosition(x, y);
+                board.replaceCell(cell, x, y);
                 boardPanel.add(cell.getButton(), index);
 
                 // Repaint the boardPanel to update the changes

@@ -14,8 +14,8 @@ public class KillerCell extends Cell {
         button.setBackground(Color.PINK);
     }
 
-    public KillerCell(Consumer<Cell> clickHandler) {
-        super(clickHandler);
+    public KillerCell(int x, int y, Consumer<Cell> clickHandler) {
+        super(x, y, clickHandler);
 
         // Create a new gray buttone
         button.setBackground(Color.PINK);
@@ -23,7 +23,7 @@ public class KillerCell extends Cell {
 
     @Override
     public void operate() {
-        // Empty cell does nothing
+        // TODO
     }
 
 }

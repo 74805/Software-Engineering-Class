@@ -13,7 +13,7 @@ public class Board {
         cells = new Cell[rows][cols];
         for (int i = 0; i < cells.length; i++) {
             for (int j = 0; j < cells[i].length; j++) {
-                cells[i][j] = new EmptyCell(clickHandler);
+                cells[i][j] = new EmptyCell(i, j, clickHandler);
             }
         }
     }
@@ -23,6 +23,10 @@ public class Board {
     }
 
     public void addCell(Cell cell, int x, int y) {
+        cells[x][y] = cell;
+    }
+
+    public void replaceCell(Cell cell, int x, int y) {
         cells[x][y] = cell;
     }
 
@@ -58,11 +62,16 @@ public class Board {
         }
     }
 
-    public void reset() {
+    public void reset(JPanel panel, Consumer<Cell> clickHandler) {
         for (int i = 0; i < cells.length; i++) {
             for (int j = 0; j < cells[i].length; j++) {
-                cells[i][j] = new EmptyCell();
-                cells[i][j].enable();
+                if (!(cells[i][j] instanceof EmptyCell)) {
+                    int index = panel.getComponentZOrder(cells[i][j].button);
+                    panel.remove(cells[i][j].getButton());
+
+                    cells[i][j] = new EmptyCell(i, j, clickHandler);
+                    panel.add(cells[i][j].getButton(), index);
+                }
             }
         }
     }
