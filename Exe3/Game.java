@@ -25,27 +25,30 @@ public class Game {
 
     public Game() {
         board = new Board(rows, cols);
-
-        display();
-
-        frame.setResizable(false);
-        frame.pack();
-        frame.setVisible(true);
     }
 
-    public void play() {
-        // Disable the board buttons
-        board.disable();
+    // Start/Resume the game
+    private void play() {
+        Thread thread = new Thread(() -> {
+            // Disable the board buttons
+            board.disable();
 
-        // Start the game
-        // while (true) {
-        // board.update();
-        // try {
-        // Thread.sleep(100);
-        // } catch (InterruptedException e) {
-        // e.printStackTrace();
-        // }
-        // }
+            // Disable the start button
+            startButton.setEnabled(false);
+
+            while (true) {
+                board.update();
+                board.updateUI();
+                try {
+                    Thread.sleep(10000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        thread.start();
+
     }
 
     // Pause the game
@@ -84,7 +87,7 @@ public class Game {
         frame.add(buttonPanel, BorderLayout.CENTER);
 
         JPanel editButtonPanel = new JPanel();
-        editButtons = new ArrayList<JButton>();
+        editButtons = new ArrayList<>();
         editButtons.add(new JButton("Empty"));
         editButtons.add(new JButton("Food"));
         editButtons.add(new JButton("Killer"));
@@ -104,6 +107,10 @@ public class Game {
         }
 
         frame.add(editButtonPanel, BorderLayout.SOUTH);
+
+        frame.setResizable(false);
+        frame.pack();
+        frame.setVisible(true);
     }
 
 }

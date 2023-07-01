@@ -3,13 +3,9 @@ package Exe3;
 import javax.swing.JPanel;
 
 import Exe3.Cells.EmptyCell;
-import java.util.concurrent.locks.ReentrantLock;
 
 public class Board {
     private Cell[][] cells;
-
-    private Thread uiThread;
-    private final ReentrantLock lock = new ReentrantLock();
 
     public Board(int rows, int cols) {
         cells = new Cell[rows][cols];
@@ -30,26 +26,6 @@ public class Board {
                 cells[i][j].display(panel);
             }
         }
-
-        // this.uiThread = new Thread(() -> {
-        // while (true) {
-        // // updateUI and update cannot run at the same time
-        // lock.lock();
-        // try {
-        // updateUI();
-        // } finally {
-        // lock.unlock();
-        // }
-
-        // try {
-        // Thread.sleep(100);
-        // } catch (InterruptedException e) {
-        // e.printStackTrace();
-        // }
-        // }
-        // });
-
-        // this.uiThread.start();
     }
 
     public void update() {

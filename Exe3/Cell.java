@@ -17,7 +17,6 @@ public abstract class Cell {
 
     public void disable() {
         button.setEnabled(false);
-        button.updateUI();
     }
 
     public void enable() {
