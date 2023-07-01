@@ -1,13 +1,28 @@
 package Exe3.Cells.OrganismCells;
 
+import java.util.function.Consumer;
+
 import Exe3.Organism;
+import Exe3.Cells.Cell;
 
-public interface OrganismCell {
-    public void operate();
+public abstract class OrganismCell extends Cell {
+    private Organism organism;
 
-    public void setOrganism(Organism organism);
+    public OrganismCell() {
+        super();
+    }
 
-    public default void die() {
+    public OrganismCell(int x, int y, Consumer<Cell> clickHandler) {
+        super(x, y, clickHandler);
+    }
+
+    public abstract void operate();
+
+    public void setOrganism(Organism organism) {
+        this.organism = organism;
+    }
+
+    public void die() {
         // TODO: turn into food cell
     }
 }

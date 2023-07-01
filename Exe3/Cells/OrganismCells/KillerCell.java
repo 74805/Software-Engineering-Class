@@ -5,7 +5,7 @@ import java.util.function.Consumer;
 
 import Exe3.Cells.Cell;
 
-public class KillerCell extends Cell implements OrganismCell {
+public class KillerCell extends OrganismCell {
 
     public KillerCell() {
         super();
@@ -26,8 +26,4 @@ public class KillerCell extends Cell implements OrganismCell {
         // TODO
     }
 
-    @Override
-    public void setOrganism() {
-        // TODO
-    }
-
+}

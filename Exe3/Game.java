@@ -200,6 +200,9 @@ public class Game {
     private void clickCell(Cell cell) {
         if (cellType != null && cell.getClass() != cellType) {
             try {
+                // enable reset button
+                resetButton.setEnabled(true);
+
                 int index = boardPanel.getComponentZOrder(cell.getButton());
                 int x = cell.getX();
                 int y = cell.getY();
