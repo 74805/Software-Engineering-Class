@@ -4,6 +4,7 @@ import java.util.function.Consumer;
 
 import javax.swing.JPanel;
 
+import Exe3.Cells.Cell;
 import Exe3.Cells.EmptyCell;
 
 public class Board {

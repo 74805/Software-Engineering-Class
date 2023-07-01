@@ -1,9 +1,7 @@
-package Exe3.Cells;
+package Exe3.Cells.OrganismCells;
 
 import java.awt.Color;
 import java.util.function.Consumer;
-
-import Exe3.Cell;
 
 public class KillerCell extends Cell {
 

@@ -4,8 +4,9 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import Exe3.Cells.Cell;
 import Exe3.Cells.EmptyCell;
-import Exe3.Cells.KillerCell;
+import Exe3.Cells.OrganismCells.KillerCell;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
