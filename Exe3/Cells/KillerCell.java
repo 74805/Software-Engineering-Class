@@ -4,13 +4,13 @@ import java.awt.Color;
 
 import Exe3.Cell;
 
-public class EmptyCell extends Cell {
+public class KillerCell extends Cell {
 
-    public EmptyCell() {
+    public KillerCell() {
         super();
 
         // Create a new gray buttone
-        button.setBackground(Color.GRAY);
+        button.setBackground(Color.PINK);
     }
 
     @Override
