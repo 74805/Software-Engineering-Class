@@ -23,10 +23,9 @@ public class EmptyCell extends Cell {
     public void display(JPanel panel) {
         // Create a new gray button
         button = new JButton();
-        button.setPreferredSize(new Dimension(15, 15));
+        button.setPreferredSize(new Dimension(20, 20)); // Set button size to be square
         button.setBackground(Color.GRAY);
         panel.add(button);
-
     }
 
 }

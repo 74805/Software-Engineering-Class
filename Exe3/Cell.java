@@ -17,6 +17,7 @@ public abstract class Cell {
 
     public void disable() {
         button.setEnabled(false);
+        button.updateUI();
     }
 
     public void enable() {
@@ -25,5 +26,9 @@ public abstract class Cell {
 
     public boolean isAlive() {
         return alive;
+    }
+
+    public void updateUI() {
+        button.updateUI();
     }
 }

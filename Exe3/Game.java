@@ -1,28 +1,36 @@
 package Exe3;
 
-import javax.swing.AbstractButton;
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
-import java.awt.Component;
+import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
+import java.awt.GridLayout;
+import java.util.ArrayList;
 
 public class Game {
     private JFrame frame;
     private Board board;
+    private JPanel boardPanel;
+
+    private JButton startButton;
+    private JButton stopButton;
+    private JButton resetButton;
+
+    private ArrayList<JButton> editButtons;
+
+    private final int rows = 30;
+    private final int cols = 40;
 
     public Game() {
-        board = new Board();
-        this.frame = new JFrame("Life Engine");
+        board = new Board(rows, cols);
 
         display();
+
+        frame.setResizable(false);
+        frame.pack();
+        frame.setVisible(true);
     }
 
     public void play() {
@@ -40,68 +48,62 @@ public class Game {
         // }
     }
 
+    // Pause the game
+    public void stop() {
+
+    }
+
+    // Reset the game
+    public void reset() {
+
+    }
+
     public void display() {
+        frame = new JFrame("the Life engine");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(800, 800);
 
-        JPanel mainPanel = new JPanel(new GridBagLayout());
-        frame.getContentPane().add(mainPanel);
+        boardPanel = new JPanel(new GridLayout(rows, cols));
+        frame.add(boardPanel, BorderLayout.NORTH);
 
-        GridBagConstraints constraints = new GridBagConstraints();
-        constraints.fill = GridBagConstraints.BOTH; // Fill both horizontally and vertically
-        constraints.weightx = 1.0; // Take up available horizontal space
-        constraints.weighty = 1.0; // Take up available vertical space
+        board.display(boardPanel);
 
-        // cellPanel
-        JPanel cellPanel = new JPanel();
-        constraints.gridy = 0;
-        constraints.weighty = 0.6;
-        mainPanel.add(cellPanel, constraints);
-
-        // buttonPanel
         JPanel buttonPanel = new JPanel();
-        constraints.gridy = 1;
-        constraints.weighty = 0.035;
-        mainPanel.add(buttonPanel, constraints);
+        startButton = new JButton("Start");
+        stopButton = new JButton("Stop");
+        resetButton = new JButton("Reset");
 
-        // cellOptions
-        JPanel cellOptions = new JPanel();
-        constraints.gridy = 2; // Position below cellPanel
-        constraints.weighty = 0.08; // Occupy no additional vertical space
-        mainPanel.add(cellOptions, constraints);
-
-        // mainPanel.setPreferredSize(new Dimension(800, 800));
-        // buttonPanel.setPreferredSize(new Dimension(800, 800));
-        // cellPanel.setPreferredSize(new Dimension(800, 500));
-        // cellOptions.setPreferredSize(new Dimension(800, 800));
-
-        // Create button panel buttons
-        JButton startButton = new JButton("Start");
-        JButton stopButton = new JButton("Stop");
-        JButton resetButton = new JButton("Reset");
+        // add actions to the buttons
+        startButton.addActionListener(e -> play());
+        stopButton.addActionListener(e -> stop());
+        resetButton.addActionListener(e -> reset());
 
         buttonPanel.add(startButton);
         buttonPanel.add(stopButton);
         buttonPanel.add(resetButton);
 
-        // Create cell options buttons
-        Dimension buttonSize = new Dimension(70, 70);
-        Font buttonFont = new Font("Arial", Font.PLAIN, 12);
+        frame.add(buttonPanel, BorderLayout.CENTER);
 
-        JButton emptyButton = new JButton("Empty");
-        JButton foodButton = new JButton("Food");
-        emptyButton.setFont(buttonFont);
-        foodButton.setFont(buttonFont);
-        emptyButton.setPreferredSize(buttonSize);
-        foodButton.setPreferredSize(buttonSize);
+        JPanel editButtonPanel = new JPanel();
+        editButtons = new ArrayList<JButton>();
+        editButtons.add(new JButton("Empty"));
+        editButtons.add(new JButton("Food"));
+        editButtons.add(new JButton("Killer"));
 
-        cellOptions.add(emptyButton);
-        cellOptions.add(foodButton);
+        editButtons.get(0).setBackground(Color.GRAY);
+        editButtons.get(1).setBackground(Color.GREEN);
+        editButtons.get(2).setBackground(Color.PINK);
 
-        frame.setResizable(false);
+        for (JButton button : editButtons) {
+            // make the buttons square
+            button.setPreferredSize(new Dimension(60, 60));
 
-        board.display(cellPanel);
-        frame.setVisible(true);
+            // make the text smaller
+            button.setFont(button.getFont().deriveFont(8f));
+
+            editButtonPanel.add(button);
+        }
+
+        frame.add(editButtonPanel, BorderLayout.SOUTH);
     }
 
 }
