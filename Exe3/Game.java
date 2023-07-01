@@ -20,6 +20,8 @@ public class Game {
 
     private ArrayList<JButton> editButtons;
 
+    private Thread guiThread;
+
     private final int rows = 30;
     private final int cols = 40;
 
@@ -29,31 +31,74 @@ public class Game {
 
     // Start/Resume the game
     private void play() {
-        Thread thread = new Thread(() -> {
-            // Disable the board buttons
+        if (guiThread != null && guiThread.isAlive()) {
+            // stop the thread
+            guiThread.interrupt();
+
+            // wait for the thread to die
+            try {
+                guiThread.join();
+            } catch (InterruptedException e) {
+            }
+        }
+
+        guiThread = new Thread(() -> {
+            // disable the board buttons
             board.disable();
 
-            // Disable the start button
+            stopButton.setEnabled(true);
+            resetButton.setEnabled(false);
             startButton.setEnabled(false);
 
-            while (true) {
+            // disable the edit buttons
+            for (JButton button : editButtons) {
+                button.setEnabled(false);
+            }
+
+            while (!guiThread.isInterrupted()) {
                 board.update();
                 board.updateUI();
                 try {
-                    Thread.sleep(10000);
+                    Thread.sleep(100);
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    break;
                 }
             }
         });
 
-        thread.start();
+        guiThread.start();
 
     }
 
     // Pause the game
     public void stop() {
+        if (guiThread != null && guiThread.isAlive()) {
+            // stop the thread
+            guiThread.interrupt();
 
+            // wait for the thread to die
+            try {
+                guiThread.join();
+            } catch (InterruptedException e) {
+            }
+        }
+
+        guiThread = new Thread(() -> {
+            // enable the board buttons
+            board.enable();
+
+            // enable the edit buttons
+            for (JButton button : editButtons) {
+                button.setEnabled(true);
+            }
+
+            // enable the start button
+            startButton.setEnabled(true);
+            stopButton.setEnabled(false);
+            resetButton.setEnabled(true);
+        });
+
+        guiThread.start();
     }
 
     // Reset the game
@@ -74,6 +119,9 @@ public class Game {
         startButton = new JButton("Start");
         stopButton = new JButton("Stop");
         resetButton = new JButton("Reset");
+
+        stopButton.setEnabled(false);
+        resetButton.setEnabled(false);
 
         // add actions to the buttons
         startButton.addActionListener(e -> play());
