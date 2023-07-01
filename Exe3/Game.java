@@ -199,7 +199,7 @@ public class Game {
     private void clickCell(Cell cell) {
         if (cellType != null && cell.getClass() != cellType) {
             try {
-                int index = boardPanel.getComponentZOrder(cell.button);
+                int index = boardPanel.getComponentZOrder(cell.getButton());
                 int x = cell.getX();
                 int y = cell.getY();
 
