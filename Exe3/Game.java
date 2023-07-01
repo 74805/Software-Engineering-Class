@@ -3,6 +3,10 @@ package Exe3;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+
+import Exe3.Cells.EmptyCell;
+import Exe3.Cells.KillerCell;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -19,6 +23,7 @@ public class Game {
     private JButton resetButton;
 
     private ArrayList<JButton> editButtons;
+    private Class<? extends Cell> cellType;
 
     private Thread guiThread;
 
@@ -26,35 +31,30 @@ public class Game {
     private final int cols = 40;
 
     public Game() {
-        board = new Board(rows, cols);
+        board = new Board(rows, cols, this::clickCell);
     }
 
     // Start/Resume the game
     private void play() {
-        if (guiThread != null && guiThread.isAlive()) {
-            // stop the thread
-            guiThread.interrupt();
+        // disable the board buttons
+        board.disable();
 
-            // wait for the thread to die
-            try {
-                guiThread.join();
-            } catch (InterruptedException e) {
-            }
+        stopButton.setEnabled(true);
+        resetButton.setEnabled(false);
+        startButton.setEnabled(false);
+
+        // disable the edit buttons
+        for (JButton button : editButtons) {
+            button.setEnabled(false);
+        }
+
+        // Clear the cellType
+        cellType = null;
+        for (JButton button : editButtons) {
+            button.getModel().setPressed(false);
         }
 
         guiThread = new Thread(() -> {
-            // disable the board buttons
-            board.disable();
-
-            stopButton.setEnabled(true);
-            resetButton.setEnabled(false);
-            startButton.setEnabled(false);
-
-            // disable the edit buttons
-            for (JButton button : editButtons) {
-                button.setEnabled(false);
-            }
-
             while (!guiThread.isInterrupted()) {
                 board.update();
                 try {
@@ -70,55 +70,49 @@ public class Game {
     }
 
     // Pause the game
-    public void stop() {
-        if (guiThread.isAlive()) {
-            // stop the thread
-            guiThread.interrupt();
+    private void stop() {
+        // stop the thread
+        guiThread.interrupt();
 
-            // wait for the thread to die
-            try {
-                guiThread.join();
-            } catch (InterruptedException e) {
-            }
+        // wait for the thread to die
+        try {
+            guiThread.join();
+        } catch (InterruptedException e) {
         }
 
-        guiThread = new Thread(() -> {
-            // enable the board buttons
-            board.enable();
+        // enable the board buttons
+        board.enable();
 
-            // enable the edit buttons
-            for (JButton button : editButtons) {
-                button.setEnabled(true);
-            }
+        // enable the edit buttons
+        for (JButton button : editButtons) {
+            button.setEnabled(true);
+        }
 
-            // enable the start button
-            startButton.setEnabled(true);
-            stopButton.setEnabled(false);
-            resetButton.setEnabled(true);
-        });
-
-        guiThread.start();
+        // enable the start button
+        startButton.setEnabled(true);
+        stopButton.setEnabled(false);
+        resetButton.setEnabled(true);
     }
 
     // Reset the game
-    public void reset() {
+    private void reset() {
+        // enable the board buttons
+        board.reset(boardPanel, this::clickCell);
 
-        guiThread = new Thread(() -> {
-            // enable the board buttons
-            board.reset();
+        // enable the edit buttons
+        for (JButton button : editButtons) {
+            button.setEnabled(true);
+        }
 
-            // enable the edit buttons
-            for (JButton button : editButtons) {
-                button.setEnabled(true);
-            }
+        // enable the start button
+        startButton.setEnabled(true);
+        stopButton.setEnabled(false);
+        resetButton.setEnabled(false);
 
-            // enable the start button
-            startButton.setEnabled(true);
-            stopButton.setEnabled(false);
-            resetButton.setEnabled(false);
-        });
+        // Repaint the boardPanel to update the changes
+        boardPanel.revalidate();
+        boardPanel.repaint();
 
-        guiThread.start();
     }
 
     public void display() {
@@ -150,6 +144,16 @@ public class Game {
         frame.add(buttonPanel, BorderLayout.CENTER);
 
         JPanel editButtonPanel = new JPanel();
+        setEditButtons(editButtonPanel);
+
+        frame.add(editButtonPanel, BorderLayout.SOUTH);
+
+        frame.setResizable(false);
+        frame.pack();
+        frame.setVisible(true);
+    }
+
+    private void setEditButtons(JPanel panel) {
         editButtons = new ArrayList<>();
         editButtons.add(new JButton("Empty"));
         editButtons.add(new JButton("Food"));
@@ -166,14 +170,53 @@ public class Game {
             // make the text smaller
             button.setFont(button.getFont().deriveFont(8f));
 
-            editButtonPanel.add(button);
+            panel.add(button);
         }
 
-        frame.add(editButtonPanel, BorderLayout.SOUTH);
+        // add actions to the buttons
+        editButtons.get(0).addActionListener(e -> setCellType(EmptyCell.class, 0));
+        editButtons.get(1).addActionListener(e -> setCellType(EmptyCell.class, 1)); // TODO: change to FoodCell
+        editButtons.get(2).addActionListener(e -> setCellType(KillerCell.class, 2));
+    }
 
-        frame.setResizable(false);
-        frame.pack();
-        frame.setVisible(true);
+    private void setCellType(Class<? extends Cell> cellType, int index) {
+        if (this.cellType == cellType) {
+            this.cellType = null;
+            editButtons.get(index).getModel().setPressed(false);
+        } else {
+            this.cellType = cellType;
+            editButtons.get(index).getModel().setPressed(true);
+
+            for (int i = 0; i < editButtons.size(); i++) {
+                if (i != index) {
+                    editButtons.get(i).getModel().setPressed(false);
+                }
+            }
+        }
+    }
+
+    private void clickCell(Cell cell) {
+        if (cellType != null && cell.getClass() != cellType) {
+            try {
+                int index = boardPanel.getComponentZOrder(cell.button);
+                int x = cell.getX();
+                int y = cell.getY();
+
+                boardPanel.remove(cell.getButton());
+
+                cell = cellType.newInstance();
+                cell.setClickHandler(this::clickCell);
+                cell.setPosition(x, y);
+                board.replaceCell(cell, x, y);
+                boardPanel.add(cell.getButton(), index);
+
+                // Repaint the boardPanel to update the changes
+                boardPanel.revalidate();
+                boardPanel.repaint();
+
+            } catch (InstantiationException | IllegalAccessException e) {
+            }
+        }
     }
 
 }
