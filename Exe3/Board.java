@@ -1,5 +1,7 @@
 package Exe3;
 
+import java.util.function.Consumer;
+
 import javax.swing.JPanel;
 
 import Exe3.Cells.EmptyCell;
@@ -7,11 +9,11 @@ import Exe3.Cells.EmptyCell;
 public class Board {
     private Cell[][] cells;
 
-    public Board(int rows, int cols) {
+    public Board(int rows, int cols, Consumer<Cell> clickHandler) {
         cells = new Cell[rows][cols];
         for (int i = 0; i < cells.length; i++) {
             for (int j = 0; j < cells[i].length; j++) {
-                cells[i][j] = new EmptyCell();
+                cells[i][j] = new EmptyCell(clickHandler);
             }
         }
     }

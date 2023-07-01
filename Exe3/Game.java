@@ -5,6 +5,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import Exe3.Cells.EmptyCell;
+import Exe3.Cells.KillerCell;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -30,7 +31,7 @@ public class Game {
     private final int cols = 40;
 
     public Game() {
-        board = new Board(rows, cols);
+        board = new Board(rows, cols, this::clickCell);
     }
 
     // Start/Resume the game
@@ -166,15 +167,15 @@ public class Game {
     private void setBoard(JPanel panel) {
         board.display(panel);
 
-        Cell[][] cells = board.getCells();
-        for (int i = 0; i < cells.length; i++) {
-            for (int j = 0; j < cells[0].length; j++) {
-                final Cell current = cells[i][j];
+        // Cell[][] cells = board.getCells();
+        // for (int i = 0; i < cells.length; i++) {
+        // for (int j = 0; j < cells[0].length; j++) {
+        // final Cell current = cells[i][j];
 
-                // add actions to the buttons
-                current.button.addActionListener(e -> clickCell(current));
-            }
-        }
+        // // add actions to the buttons
+        // current.button.addActionListener(e -> clickCell(current));
+        // }
+        // }
 
     }
 
@@ -201,7 +202,7 @@ public class Game {
         // add actions to the buttons
         editButtons.get(0).addActionListener(e -> setCellType(EmptyCell.class, 0));
         editButtons.get(1).addActionListener(e -> setCellType(EmptyCell.class, 1)); // TODO: change to FoodCell
-        editButtons.get(2).addActionListener(e -> setCellType(EmptyCell.class, 2)); // TODO: change to KillerCell
+        editButtons.get(2).addActionListener(e -> setCellType(KillerCell.class, 2));
     }
 
     private void setCellType(Class<? extends Cell> cellType, int index) {
@@ -223,7 +224,17 @@ public class Game {
     private void clickCell(Cell cell) {
         if (cellType != null && cell.getClass() != cellType) {
             try {
+                int index = boardPanel.getComponentZOrder(cell.button);
+                boardPanel.remove(cell.getButton());
+
                 cell = cellType.newInstance();
+                cell.setClickHandler(this::clickCell);
+                boardPanel.add(cell.getButton(), index);
+
+                // Repaint the boardPanel to update the changes
+                boardPanel.revalidate();
+                boardPanel.repaint();
+
             } catch (InstantiationException | IllegalAccessException e) {
             }
         }
