@@ -13,7 +13,7 @@ public abstract class Cell {
         this.alive = true;
 
         button = new JButton();
-        button.setPreferredSize(new Dimension(20, 20)); // Set button size to be squar
+        button.setPreferredSize(new Dimension(20, 20));
     }
 
     public abstract void operate();

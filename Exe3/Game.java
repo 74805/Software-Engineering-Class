@@ -3,6 +3,9 @@ package Exe3;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+
+import Exe3.Cells.EmptyCell;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -19,6 +22,7 @@ public class Game {
     private JButton resetButton;
 
     private ArrayList<JButton> editButtons;
+    private Class<? extends Cell> cellType;
 
     private Thread guiThread;
 
@@ -150,6 +154,16 @@ public class Game {
         frame.add(buttonPanel, BorderLayout.CENTER);
 
         JPanel editButtonPanel = new JPanel();
+        setEditButtons(editButtonPanel);
+
+        frame.add(editButtonPanel, BorderLayout.SOUTH);
+
+        frame.setResizable(false);
+        frame.pack();
+        frame.setVisible(true);
+    }
+
+    public void setEditButtons(JPanel panel) {
         editButtons = new ArrayList<>();
         editButtons.add(new JButton("Empty"));
         editButtons.add(new JButton("Food"));
@@ -166,14 +180,38 @@ public class Game {
             // make the text smaller
             button.setFont(button.getFont().deriveFont(8f));
 
-            editButtonPanel.add(button);
+            panel.add(button);
         }
 
-        frame.add(editButtonPanel, BorderLayout.SOUTH);
+        // add actions to the buttons
+        editButtons.get(0).addActionListener(e -> setCellType(EmptyCell.class, 0));
+        editButtons.get(1).addActionListener(e -> setCellType(EmptyCell.class, 1)); // TODO: change to FoodCell
+        editButtons.get(2).addActionListener(e -> setCellType(EmptyCell.class, 2)); // TODO: change to KillerCell
+    }
 
-        frame.setResizable(false);
-        frame.pack();
-        frame.setVisible(true);
+    public void setCellType(Class<? extends Cell> cellType, int index) {
+        if (this.cellType == cellType) {
+            this.cellType = null;
+            editButtons.get(index).getModel().setPressed(false);
+        } else {
+            this.cellType = cellType;
+            editButtons.get(index).getModel().setPressed(true);
+
+            for (int i = 0; i < editButtons.size(); i++) {
+                if (i != index) {
+                    editButtons.get(i).getModel().setPressed(false);
+                }
+            }
+        }
+    }
+
+    public void clickCell(Cell cell) {
+        if (cellType != null && cell.getClass() != cellType) {
+            try {
+                cell = cellType.newInstance();
+            } catch (InstantiationException | IllegalAccessException e) {
+            }
+        }
     }
 
 }
