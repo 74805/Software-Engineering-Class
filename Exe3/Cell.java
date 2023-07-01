@@ -1,28 +1,26 @@
 package Exe3;
 
-import javax.swing.JFrame;
+import javax.swing.JButton;
+import javax.swing.JPanel;
 
 public abstract class Cell {
-    private int x;
-    private int y;
     private boolean alive;
+    protected JButton button;
 
-    public Cell(int x, int y) {
-        this.x = x;
-        this.y = y;
+    public Cell() {
         this.alive = true;
     }
 
     public abstract void operate();
 
-    public abstract void display(JFrame frame);
+    public abstract void display(JPanel panel);
 
-    public int getX() {
-        return x;
+    public void disable() {
+        button.setEnabled(false);
     }
 
-    public int getY() {
-        return y;
+    public void enable() {
+        button.setEnabled(true);
     }
 
     public boolean isAlive() {

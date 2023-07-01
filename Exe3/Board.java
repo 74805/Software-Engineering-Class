@@ -1,6 +1,8 @@
 package Exe3;
 
-import javax.swing.JFrame;
+import javax.swing.JPanel;
+
+import Exe3.Cells.EmptyCell;
 
 public class Board {
     private Cell[][] cells;
@@ -10,7 +12,7 @@ public class Board {
         cells = new Cell[size][size];
         for (int i = 0; i < cells.length; i++) {
             for (int j = 0; j < cells[i].length; j++) {
-                // row[j] = new EmptyCell(i, j);
+                cells[j][i] = new EmptyCell(j * 15, i * 15);
             }
         }
     }
@@ -19,10 +21,10 @@ public class Board {
         cells[x][y] = cell;
     }
 
-    public void display(JFrame frame) {
+    public void display(JPanel panel) {
         for (int i = 0; i < cells.length; i++) {
             for (int j = 0; j < cells[i].length; j++) {
-                cells[i][j].display(frame);
+                cells[i][j].display(panel);
             }
         }
     }
@@ -31,6 +33,14 @@ public class Board {
         for (int i = 0; i < cells.length; i++) {
             for (int j = 0; j < cells[i].length; j++) {
                 cells[i][j].operate();
+            }
+        }
+    }
+
+    public void disable() {
+        for (int i = 0; i < cells.length; i++) {
+            for (int j = 0; j < cells[i].length; j++) {
+                cells[i][j].disable();
             }
         }
     }
