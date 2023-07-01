@@ -74,7 +74,7 @@ public class Game {
     }
 
     // Pause the game
-    public void stop() {
+    private void stop() {
         if (guiThread.isAlive()) {
             // stop the thread
             guiThread.interrupt();
@@ -105,7 +105,7 @@ public class Game {
     }
 
     // Reset the game
-    public void reset() {
+    private void reset() {
 
         guiThread = new Thread(() -> {
             // enable the board buttons
@@ -132,7 +132,7 @@ public class Game {
         boardPanel = new JPanel(new GridLayout(rows, cols));
         frame.add(boardPanel, BorderLayout.NORTH);
 
-        board.display(boardPanel);
+        setBoard(boardPanel);
 
         JPanel buttonPanel = new JPanel();
         startButton = new JButton("Start");
@@ -163,7 +163,21 @@ public class Game {
         frame.setVisible(true);
     }
 
-    public void setEditButtons(JPanel panel) {
+    private void setBoard(JPanel panel) {
+        board.display(panel);
+
+        Cell[][] cells = board.getCells();
+        for (int i = 0; i < cells.length; i++) {
+            for (int j = 0; j < cells[0].length; j++) {
+
+                // add actions to the buttons
+                cells[i][j].button.addActionListener(e -> clickCell(e.getSource()));
+            }
+        }
+
+    }
+
+    private void setEditButtons(JPanel panel) {
         editButtons = new ArrayList<>();
         editButtons.add(new JButton("Empty"));
         editButtons.add(new JButton("Food"));
@@ -189,7 +203,7 @@ public class Game {
         editButtons.get(2).addActionListener(e -> setCellType(EmptyCell.class, 2)); // TODO: change to KillerCell
     }
 
-    public void setCellType(Class<? extends Cell> cellType, int index) {
+    private void setCellType(Class<? extends Cell> cellType, int index) {
         if (this.cellType == cellType) {
             this.cellType = null;
             editButtons.get(index).getModel().setPressed(false);
@@ -205,7 +219,7 @@ public class Game {
         }
     }
 
-    public void clickCell(Cell cell) {
+    private void clickCell(Object cell) {
         if (cellType != null && cell.getClass() != cellType) {
             try {
                 cell = cellType.newInstance();

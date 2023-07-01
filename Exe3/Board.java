@@ -16,6 +16,10 @@ public class Board {
         }
     }
 
+    public Cell[][] getCells() {
+        return cells;
+    }
+
     public void addCell(Cell cell, int x, int y) {
         cells[x][y] = cell;
     }
