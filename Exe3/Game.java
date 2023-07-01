@@ -57,7 +57,6 @@ public class Game {
 
             while (!guiThread.isInterrupted()) {
                 board.update();
-                board.updateUI();
                 try {
                     Thread.sleep(100);
                 } catch (InterruptedException e) {
@@ -72,7 +71,7 @@ public class Game {
 
     // Pause the game
     public void stop() {
-        if (guiThread != null && guiThread.isAlive()) {
+        if (guiThread.isAlive()) {
             // stop the thread
             guiThread.interrupt();
 
@@ -104,6 +103,22 @@ public class Game {
     // Reset the game
     public void reset() {
 
+        guiThread = new Thread(() -> {
+            // enable the board buttons
+            board.reset();
+
+            // enable the edit buttons
+            for (JButton button : editButtons) {
+                button.setEnabled(true);
+            }
+
+            // enable the start button
+            startButton.setEnabled(true);
+            stopButton.setEnabled(false);
+            resetButton.setEnabled(false);
+        });
+
+        guiThread.start();
     }
 
     public void display() {

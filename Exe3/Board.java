@@ -11,7 +11,7 @@ public class Board {
         cells = new Cell[rows][cols];
         for (int i = 0; i < cells.length; i++) {
             for (int j = 0; j < cells[i].length; j++) {
-                cells[i][j] = new EmptyCell(j * 15, i * 15);
+                cells[i][j] = new EmptyCell();
             }
         }
     }
@@ -36,14 +36,6 @@ public class Board {
         }
     }
 
-    public void updateUI() {
-        for (int i = 0; i < cells.length; i++) {
-            for (int j = 0; j < cells[i].length; j++) {
-                cells[i][j].updateUI();
-            }
-        }
-    }
-
     public void disable() {
         for (int i = 0; i < cells.length; i++) {
             for (int j = 0; j < cells[i].length; j++) {
@@ -55,6 +47,15 @@ public class Board {
     public void enable() {
         for (int i = 0; i < cells.length; i++) {
             for (int j = 0; j < cells[i].length; j++) {
+                cells[i][j].enable();
+            }
+        }
+    }
+
+    public void reset() {
+        for (int i = 0; i < cells.length; i++) {
+            for (int j = 0; j < cells[i].length; j++) {
+                cells[i][j] = new EmptyCell();
                 cells[i][j].enable();
             }
         }
