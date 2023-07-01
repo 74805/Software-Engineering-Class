@@ -13,6 +13,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Game {
     private JFrame frame;
@@ -23,7 +24,7 @@ public class Game {
     private JButton stopButton;
     private JButton resetButton;
 
-    private ArrayList<JButton> editButtons;
+    private List<JButton> editButtons;
     private Class<? extends Cell> cellType;
 
     private Thread guiThread;
@@ -199,6 +200,9 @@ public class Game {
     private void clickCell(Cell cell) {
         if (cellType != null && cell.getClass() != cellType) {
             try {
+                // enable reset button
+                resetButton.setEnabled(true);
+
                 int index = boardPanel.getComponentZOrder(cell.getButton());
                 int x = cell.getX();
                 int y = cell.getY();
