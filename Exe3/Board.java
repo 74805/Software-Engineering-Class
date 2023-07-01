@@ -4,6 +4,7 @@ import java.util.function.Consumer;
 
 import javax.swing.JPanel;
 
+import Exe3.Cells.Cell;
 import Exe3.Cells.EmptyCell;
 
 public class Board {
@@ -62,7 +63,7 @@ public class Board {
         for (int i = 0; i < cells.length; i++) {
             for (int j = 0; j < cells[i].length; j++) {
                 if (!(cells[i][j] instanceof EmptyCell)) {
-                    int index = panel.getComponentZOrder(cells[i][j].button);
+                    int index = panel.getComponentZOrder(cells[i][j].getButton());
                     panel.remove(cells[i][j].getButton());
 
                     cells[i][j] = new EmptyCell(i, j, clickHandler);

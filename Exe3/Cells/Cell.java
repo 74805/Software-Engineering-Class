@@ -1,4 +1,4 @@
-package Exe3;
+package Exe3.Cells;
 
 import java.awt.Dimension;
 import java.util.function.Consumer;

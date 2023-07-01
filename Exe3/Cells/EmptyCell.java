@@ -3,8 +3,6 @@ package Exe3.Cells;
 import java.awt.Color;
 import java.util.function.Consumer;
 
-import Exe3.Cell;
-
 public class EmptyCell extends Cell {
 
     public EmptyCell() {
