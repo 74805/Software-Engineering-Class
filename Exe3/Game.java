@@ -169,9 +169,10 @@ public class Game {
         Cell[][] cells = board.getCells();
         for (int i = 0; i < cells.length; i++) {
             for (int j = 0; j < cells[0].length; j++) {
+                final Cell current = cells[i][j];
 
                 // add actions to the buttons
-                cells[i][j].button.addActionListener(e -> clickCell(e.getSource()));
+                current.button.addActionListener(e -> clickCell(current));
             }
         }
 
@@ -219,7 +220,7 @@ public class Game {
         }
     }
 
-    private void clickCell(Object cell) {
+    private void clickCell(Cell cell) {
         if (cellType != null && cell.getClass() != cellType) {
             try {
                 cell = cellType.newInstance();
