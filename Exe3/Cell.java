@@ -18,7 +18,9 @@ public abstract class Cell {
 
     public abstract void operate();
 
-    public abstract void display(JPanel panel);
+    public void display(JPanel panel) {
+        panel.add(button);
+    }
 
     public void disable() {
         button.setEnabled(false);
