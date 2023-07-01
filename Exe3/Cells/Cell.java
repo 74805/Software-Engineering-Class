@@ -55,8 +55,6 @@ public abstract class Cell {
         return button;
     }
 
-    public abstract void operate();
-
     public void display(JPanel panel) {
         panel.add(button);
     }
