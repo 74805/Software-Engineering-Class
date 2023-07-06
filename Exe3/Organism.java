@@ -1,11 +1,13 @@
 package Exe3;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import Exe3.Cells.OrganismCells.OrganismCell;
 
 public class Organism {
     private List<OrganismCell> cells;
+    private List<Organism> neighbors;
     private int damage;
 
     // lifespan is calculated by multiplying the number of cells by the
@@ -15,10 +17,16 @@ public class Organism {
     // age is the amout of ticks that have passed since the organism was created
     private int age;
 
-    public Organism(List<OrganismCell> cells) {
-        this.cells = cells;
+    public Organism(OrganismCell cell) {
+        this.cells = new ArrayList<OrganismCell>();
+        this.cells.add(cell);
+        this.neighbors = new ArrayList<Organism>();
         this.damage = 0;
         this.age = 0;
+    }
+
+    public void addCell(OrganismCell cell) {
+        cells.add(cell);
     }
 
     // When touched by a killer cell, an organism will take damage. Once it has
@@ -46,4 +54,3 @@ public class Organism {
         }
     }
 }
-
