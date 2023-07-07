@@ -25,4 +25,8 @@ public abstract class OrganismCell extends Cell {
     public void die() {
         // TODO: turn into food cell
     }
+
+    public boolean isAdjacent(Cell cell) {
+        return Math.abs(cell.getX() - getX()) <= 1 && Math.abs(cell.getY() - getY()) <= 1;
+    }
 }

@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 import Exe3.Cells.Cell;
 import Exe3.Cells.EmptyCell;
 import Exe3.Cells.OrganismCells.KillerCell;
+import Exe3.Cells.OrganismCells.OrganismCell;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -200,7 +201,7 @@ public class Game {
     private void clickCell(Cell cell) {
         if (cellType != null && cell.getClass() != cellType) {
             try {
-                // enable reset button
+                // Enable reset button
                 resetButton.setEnabled(true);
 
                 int index = boardPanel.getComponentZOrder(cell.getButton());
@@ -218,6 +219,11 @@ public class Game {
                 // Repaint the boardPanel to update the changes
                 boardPanel.revalidate();
                 boardPanel.repaint();
+
+                // Add the cell to an organism if its an organism cell
+                if (cell instanceof OrganismCell) {
+                    board.addToOrganism((OrganismCell) cell);
+                }
 
             } catch (InstantiationException | IllegalAccessException e) {
             }
