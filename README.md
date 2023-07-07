@@ -50,4 +50,5 @@ Organims can also rotate around a central pivot cell. This cell can never be rem
 
 ## How our game works
 Before starting the game the user must choose the starting state of the board by placing cells on it.
-When clicking the 'Start' button, each group of cells which are adjacent will be initialized as an organism. After that, every 100 milliseconds the board will update with the operations and reproduction of the organisms.
+Each group of cells which are adjacent will be initialized as an organism. 
+When clicking the 'Start' button every 100 milliseconds the board will update with the operations and reproduction of the organisms.
