@@ -2,6 +2,7 @@
 The life engine game implementation 
 
 Most of this readme.md file is taken from https://github.com/MaxRobinsonTheGreat/LifeEngine
+We can change this file if we decide on a different approach.
 
 # The Life Engine
 
