@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 import Exe3.Cells.Cell;
 import Exe3.Cells.EmptyCell;
 import Exe3.Cells.OrganismCells.KillerCell;
+import Exe3.Cells.OrganismCells.OrganismCell;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -36,7 +37,7 @@ public class Game {
         board = new Board(rows, cols, this::clickCell);
     }
 
-    // Start/Resume the game
+    // start/resume the game
     private void play() {
         // disable the board buttons
         board.disable();
@@ -50,7 +51,7 @@ public class Game {
             button.setEnabled(false);
         }
 
-        // Clear the cellType
+        // clear the cellType
         cellType = null;
         for (JButton button : editButtons) {
             button.getModel().setPressed(false);
@@ -71,7 +72,7 @@ public class Game {
 
     }
 
-    // Pause the game
+    // pause the game
     private void stop() {
         // stop the thread
         guiThread.interrupt();
@@ -96,7 +97,7 @@ public class Game {
         resetButton.setEnabled(true);
     }
 
-    // Reset the game
+    // reset the game
     private void reset() {
         // enable the board buttons
         board.reset(boardPanel, this::clickCell);
@@ -111,7 +112,7 @@ public class Game {
         stopButton.setEnabled(false);
         resetButton.setEnabled(false);
 
-        // Repaint the boardPanel to update the changes
+        // repaint the boardPanel to update the changes
         boardPanel.revalidate();
         boardPanel.repaint();
 
@@ -215,9 +216,14 @@ public class Game {
                 board.replaceCell(cell, x, y);
                 boardPanel.add(cell.getButton(), index);
 
-                // Repaint the boardPanel to update the changes
+                // repaint the boardPanel to update the changes
                 boardPanel.revalidate();
                 boardPanel.repaint();
+
+                // add the cell to an organism if its an organism cell
+                if (cell instanceof OrganismCell) {
+                    board.addToOrganism((OrganismCell) cell);
+                }
 
             } catch (InstantiationException | IllegalAccessException e) {
             }

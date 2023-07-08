@@ -10,14 +10,14 @@ public class KillerCell extends OrganismCell {
     public KillerCell() {
         super();
 
-        // Create a new gray buttone
+        // create a new gray buttone
         button.setBackground(Color.PINK);
     }
 
     public KillerCell(int x, int y, Consumer<Cell> clickHandler) {
         super(x, y, clickHandler);
 
-        // Create a new gray buttone
+        // create a new gray buttone
         button.setBackground(Color.PINK);
     }
 

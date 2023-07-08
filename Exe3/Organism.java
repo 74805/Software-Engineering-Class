@@ -1,7 +1,9 @@
 package Exe3;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import Exe3.Cells.Cell;
 import Exe3.Cells.OrganismCells.OrganismCell;
 
 public class Organism {
@@ -15,13 +17,27 @@ public class Organism {
     // age is the amout of ticks that have passed since the organism was created
     private int age;
 
-    public Organism(List<OrganismCell> cells) {
-        this.cells = cells;
+    public Organism() {
+        this.cells = new ArrayList<OrganismCell>();
         this.damage = 0;
         this.age = 0;
     }
 
-    // When touched by a killer cell, an organism will take damage. Once it has
+    public List<OrganismCell> getCells() {
+        return cells;
+    }
+
+    public void addCell(OrganismCell cell) {
+        cells.add(cell);
+    }
+
+    public void merge(Organism other) {
+        for (OrganismCell cell : other.getCells()) {
+            cells.add(cell);
+        }
+    }
+
+    // when touched by a killer cell, an organism will take damage. Once it has
     // taken as much damage as it has cells in its body, it will die
     public void takeDamage() {
         damage += 1;
@@ -45,5 +61,14 @@ public class Organism {
             cell.die();
         }
     }
-}
 
+    public boolean isAdjacent(Cell cell) {
+        for (OrganismCell organismCell : cells) {
+            if (organismCell.isAdjacent(cell)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+}
