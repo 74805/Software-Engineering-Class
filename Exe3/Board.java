@@ -107,4 +107,8 @@ public class Board {
         organisms.add(organism);
     }
 
+    public void moveCell(OrganismCell cell, int x, int y) {
+        // TODO
+    }
+
 }

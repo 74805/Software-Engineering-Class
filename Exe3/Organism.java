@@ -7,8 +7,13 @@ import Exe3.Cells.Cell;
 import Exe3.Cells.OrganismCells.OrganismCell;
 
 public class Organism {
+    private Board board;
     private List<OrganismCell> cells;
     private int damage;
+
+    // direction is the direction the organism is currently moving in
+    // 0 = up, 1 = right, 2 = down, 3 = left
+    protected int direction;
 
     // lifespan is calculated by multiplying the number of cells by the
     // hyperparameter Lifespan Multiplier
@@ -20,6 +25,7 @@ public class Organism {
     public Organism() {
         this.cells = new ArrayList<OrganismCell>();
         this.damage = 0;
+        this.direction = (int) (Math.random() * 4);
         this.age = 0;
     }
 
@@ -70,5 +76,39 @@ public class Organism {
         }
 
         return false;
+    }
+
+    public void move() {
+        int dx = 0, dy = 0;
+        if (Math.random() < 0.2) {
+            direction = (int) Math.random() * 4;
+
+            switch (direction) {
+                case 0:
+                    dy = -1;
+                    break;
+                case 1:
+                    dx = 1;
+                    break;
+                case 2:
+                    dy = 1;
+                    break;
+                case 3:
+                    dx = -1;
+                    break;
+            }
+        }
+
+        for (OrganismCell cell : cells) {
+            board.moveCell((OrganismCell) cell, cell.getX() + dx, cell.getY() + dy);
+        }
+    }
+
+    public void rotateRight() {
+        // TODO
+    }
+
+    public void rotateLeft() {
+        // TODO
     }
 }

@@ -28,6 +28,6 @@ public abstract class OrganismCell extends Cell {
     }
 
     public boolean isAdjacent(Cell cell) {
-        return Math.abs(cell.getX() - getX()) <= 1 && Math.abs(cell.getY() - getY()) <= 1;
+        return Math.abs(cell.getX() - x) <= 1 && Math.abs(cell.getY() - y) <= 1;
     }
 }

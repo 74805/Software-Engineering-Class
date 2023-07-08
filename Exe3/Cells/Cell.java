@@ -8,8 +8,8 @@ import javax.swing.JPanel;
 
 public abstract class Cell {
     private boolean alive;
-    private int x;
-    private int y;
+    protected int x;
+    protected int y;
 
     protected JButton button;
 
