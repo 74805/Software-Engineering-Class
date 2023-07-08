@@ -78,13 +78,14 @@ public class Board {
         }
     }
 
-    // If the cell is adjacent to an organism, add it to the organism, Otherwise,
+    // if the cell is adjacent to an organism, add it to the organism, Otherwise,
     // create a new organism
     public void addToOrganism(OrganismCell cell) {
         Organism adjacentOrganism = null;
         for (int i = 0; i < organisms.size(); i++) {
             Organism organism = organisms.get(i);
             if (organism.isAdjacent(cell)) {
+                // if the cell is adjacent to more than one organism, merge them
                 if (adjacentOrganism == null) {
                     organism.addCell((OrganismCell) cell);
                     adjacentOrganism = organism;
@@ -96,6 +97,7 @@ public class Board {
             }
         }
 
+        // if the cell is adjacent to an organism, add it to the organism
         if (adjacentOrganism != null) {
             return;
         }

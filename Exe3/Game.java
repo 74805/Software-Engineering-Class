@@ -37,7 +37,7 @@ public class Game {
         board = new Board(rows, cols, this::clickCell);
     }
 
-    // Start/Resume the game
+    // start/resume the game
     private void play() {
         // disable the board buttons
         board.disable();
@@ -51,7 +51,7 @@ public class Game {
             button.setEnabled(false);
         }
 
-        // Clear the cellType
+        // clear the cellType
         cellType = null;
         for (JButton button : editButtons) {
             button.getModel().setPressed(false);
@@ -72,7 +72,7 @@ public class Game {
 
     }
 
-    // Pause the game
+    // pause the game
     private void stop() {
         // stop the thread
         guiThread.interrupt();
@@ -97,7 +97,7 @@ public class Game {
         resetButton.setEnabled(true);
     }
 
-    // Reset the game
+    // reset the game
     private void reset() {
         // enable the board buttons
         board.reset(boardPanel, this::clickCell);
@@ -112,7 +112,7 @@ public class Game {
         stopButton.setEnabled(false);
         resetButton.setEnabled(false);
 
-        // Repaint the boardPanel to update the changes
+        // repaint the boardPanel to update the changes
         boardPanel.revalidate();
         boardPanel.repaint();
 
@@ -201,7 +201,7 @@ public class Game {
     private void clickCell(Cell cell) {
         if (cellType != null && cell.getClass() != cellType) {
             try {
-                // Enable reset button
+                // enable reset button
                 resetButton.setEnabled(true);
 
                 int index = boardPanel.getComponentZOrder(cell.getButton());
@@ -216,11 +216,11 @@ public class Game {
                 board.replaceCell(cell, x, y);
                 boardPanel.add(cell.getButton(), index);
 
-                // Repaint the boardPanel to update the changes
+                // repaint the boardPanel to update the changes
                 boardPanel.revalidate();
                 boardPanel.repaint();
 
-                // Add the cell to an organism if its an organism cell
+                // add the cell to an organism if its an organism cell
                 if (cell instanceof OrganismCell) {
                     board.addToOrganism((OrganismCell) cell);
                 }

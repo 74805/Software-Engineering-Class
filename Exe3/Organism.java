@@ -37,7 +37,7 @@ public class Organism {
         }
     }
 
-    // When touched by a killer cell, an organism will take damage. Once it has
+    // when touched by a killer cell, an organism will take damage. Once it has
     // taken as much damage as it has cells in its body, it will die
     public void takeDamage() {
         damage += 1;
