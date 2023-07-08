@@ -23,8 +23,18 @@ public class Organism {
         this.age = 0;
     }
 
+    public List<OrganismCell> getCells() {
+        return cells;
+    }
+
     public void addCell(OrganismCell cell) {
         cells.add(cell);
+    }
+
+    public void merge(Organism other) {
+        for (OrganismCell cell : other.getCells()) {
+            cells.add(cell);
+        }
     }
 
     // When touched by a killer cell, an organism will take damage. Once it has

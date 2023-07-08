@@ -46,7 +46,6 @@ public class Board {
 
     public void update() {
         // TODO
-        int a = 1;
     }
 
     public void disable() {
@@ -82,11 +81,23 @@ public class Board {
     // If the cell is adjacent to an organism, add it to the organism, Otherwise,
     // create a new organism
     public void addToOrganism(OrganismCell cell) {
-        for (Organism organism : organisms) {
+        Organism adjacentOrganism = null;
+        for (int i = 0; i < organisms.size(); i++) {
+            Organism organism = organisms.get(i);
             if (organism.isAdjacent(cell)) {
-                organism.addCell((OrganismCell) cell);
-                return;
+                if (adjacentOrganism == null) {
+                    organism.addCell((OrganismCell) cell);
+                    adjacentOrganism = organism;
+                } else {
+                    adjacentOrganism.merge(organism);
+                    organisms.remove(organism);
+                    i--;
+                }
             }
+        }
+
+        if (adjacentOrganism != null) {
+            return;
         }
 
         Organism organism = new Organism();
