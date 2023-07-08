@@ -21,9 +21,17 @@ public class KillerCell extends OrganismCell {
         button.setBackground(Color.PINK);
     }
 
+    // damage all adjacent organisms
     @Override
-    public void operate() {
-        // TODO
+    public void operate(Cell[][] adjacentCells) {
+        for (Cell[] row : adjacentCells) {
+            for (Cell cell : row) {
+                if (cell != this && cell instanceof OrganismCell && ((OrganismCell) cell).organism != organism) {
+                    ((OrganismCell) cell).organism.takeDamage();
+                }
+            }
+        }
+
     }
 
 }

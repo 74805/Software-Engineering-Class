@@ -6,7 +6,7 @@ import Exe3.Organism;
 import Exe3.Cells.Cell;
 
 public abstract class OrganismCell extends Cell {
-    private Organism organism;
+    protected Organism organism;
 
     public OrganismCell() {
         super();
@@ -16,7 +16,8 @@ public abstract class OrganismCell extends Cell {
         super(x, y, clickHandler);
     }
 
-    public abstract void operate();
+    // adjacentCells is a 3x3 matrix of cells, where the middle cell is the current
+    public abstract void operate(Cell[][] adjacentCells);
 
     public void setOrganism(Organism organism) {
         this.organism = organism;
