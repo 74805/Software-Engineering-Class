@@ -178,7 +178,7 @@ public class Game {
 
         // add actions to the buttons
         editButtons.get(0).addActionListener(e -> setCellType(EmptyCell.class, 0));
-        editButtons.get(1).addActionListener(e -> setCellType(EmptyCell.class, 1)); // TODO: change to FoodCell
+        editButtons.get(1).addActionListener(e -> setCellType(FoodCell.class, 1)); // TODO: change to FoodCell
         editButtons.get(2).addActionListener(e -> setCellType(KillerCell.class, 2));
     }
 
