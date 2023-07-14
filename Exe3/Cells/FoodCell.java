@@ -1,9 +1,9 @@
 package Exe3.Cells;
-
+import Exe3.State;
 import java.awt.Color;
 import java.util.function.Consumer;
 
-public class FoodCell extends Cell { //same as empty cell, but green
+public class FoodCell extends Cell { 
 
     public FoodCell() {
         super();
