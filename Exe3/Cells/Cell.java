@@ -1,16 +1,11 @@
 package Exe3.Cells;
-
+import Exe3.State;
 import java.awt.Dimension;
 import java.util.function.Consumer;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-enum State{
-    SAME,
-    EMPTY,
-    FOOD
-}
 
 public abstract class Cell {
     //private boolean alive;

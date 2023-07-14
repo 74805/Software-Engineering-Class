@@ -3,7 +3,9 @@ package Exe3.Cells.OrganismCells;
 import java.util.function.Consumer;
 
 import Exe3.Organism;
+import Exe3.State;
 import Exe3.Cells.Cell;
+
 
 public abstract class OrganismCell extends Cell {
     protected Organism organism;
@@ -23,8 +25,8 @@ public abstract class OrganismCell extends Cell {
         this.organism = organism;
     }
 
-    public void die() {
-        // TODO: turn into food cell
+    public void die() { //this cell would become a food cell
+        this.setNextState(State.FOOD);
     }
 
     public boolean isAdjacent(Cell cell) {
