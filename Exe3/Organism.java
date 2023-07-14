@@ -9,10 +9,16 @@ import Exe3.Cells.OrganismCells.OrganismCell;
 public class Organism {
     private List<OrganismCell> cells;
     private int damage;
+    private int energy; // how much food the organism ate
+
 
     // lifespan is calculated by multiplying the number of cells by the
     // hyperparameter Lifespan Multiplier
     private static final int lifespanMultiplier = 100;
+
+    //How much does an organism have to eat untill produce
+    private static final int ProduceThreshold = 2;
+    
 
     // age is the amout of ticks that have passed since the organism was created
     private int age;
@@ -21,6 +27,7 @@ public class Organism {
         this.cells = new ArrayList<OrganismCell>();
         this.damage = 0;
         this.age = 0;
+        this.energy = 0;
     }
 
     public List<OrganismCell> getCells() {
@@ -47,6 +54,17 @@ public class Organism {
         }
     }
 
+
+    // when a mouth cell from the organism touches food cell it will gain energy
+    // if the organism has enough energy- it produces
+    public void addEnergy() {
+        energy += 1;
+        if (energy >= ProduceThreshold) {
+            energy -= ProduceThreshold;
+            produce();
+        }
+    }
+
     public void increaseAge() {
         age += 1;
 
@@ -70,5 +88,9 @@ public class Organism {
         }
 
         return false;
+    }
+
+    public void produce(){
+        //TODO
     }
 }

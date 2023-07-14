@@ -7,7 +7,7 @@ import javax.swing.JPanel;
 import Exe3.Cells.Cell;
 import Exe3.Cells.EmptyCell;
 import Exe3.Cells.FoodCell;
-import Exe3.Cells.OrganismCells.KillerCell;
+import Exe3.Cells.OrganismCells.MouthCell;
 import Exe3.Cells.OrganismCells.OrganismCell;
 
 import java.awt.BorderLayout;
@@ -180,7 +180,7 @@ public class Game {
         // add actions to the buttons
         editButtons.get(0).addActionListener(e -> setCellType(EmptyCell.class, 0));
         editButtons.get(1).addActionListener(e -> setCellType(FoodCell.class, 1)); // TODO: change to FoodCell
-        editButtons.get(2).addActionListener(e -> setCellType(KillerCell.class, 2));
+        editButtons.get(2).addActionListener(e -> setCellType(MouthCell.class, 2));
     }
 
     private void setCellType(Class<? extends Cell> cellType, int index) {
