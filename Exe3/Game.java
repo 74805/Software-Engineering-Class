@@ -8,6 +8,7 @@ import Exe3.Cells.Cell;
 import Exe3.Cells.EmptyCell;
 import Exe3.Cells.FoodCell;
 import Exe3.Cells.OrganismCells.ProducerCell;
+import Exe3.Cells.OrganismCells.KillerCell;
 import Exe3.Cells.OrganismCells.MouthCell;
 import Exe3.Cells.OrganismCells.OrganismCell;
 
@@ -164,11 +165,13 @@ public class Game {
         editButtons.add(new JButton("Food"));
         editButtons.add(new JButton("Killer"));
         editButtons.add(new JButton("Mouth"));
+        editButtons.add(new JButton("Producer"));
 
         editButtons.get(0).setBackground(Color.GRAY);
         editButtons.get(1).setBackground(Color.GREEN);
         editButtons.get(2).setBackground(Color.PINK);
         editButtons.get(3).setBackground(Color.ORANGE);
+        editButtons.get(4).setBackground(Color.BLUE);
 
         for (JButton button : editButtons) {
             // make the buttons square
@@ -182,9 +185,10 @@ public class Game {
 
         // add actions to the buttons
         editButtons.get(0).addActionListener(e -> setCellType(EmptyCell.class, 0));
-        editButtons.get(1).addActionListener(e -> setCellType(FoodCell.class, 1)); // TODO: change to FoodCell
-        editButtons.get(2).addActionListener(e -> setCellType(ProducerCell.class, 2));
+        editButtons.get(1).addActionListener(e -> setCellType(FoodCell.class, 1)); 
+        editButtons.get(2).addActionListener(e -> setCellType(KillerCell.class, 2));
         editButtons.get(3).addActionListener(e -> setCellType(MouthCell.class, 3));
+        editButtons.get(4).addActionListener(e -> setCellType(ProducerCell.class, 4));
     }
 
     private void setCellType(Class<? extends Cell> cellType, int index) {
