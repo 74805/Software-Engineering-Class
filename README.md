@@ -20,7 +20,7 @@ Independent cells are not part of organisms.
 ### Organism Cells
 Organism Cells are only found in organisms, and cannot exist on their own in the grid.
 - Mouth - Orange, eats food in directly adjacent cells.
-- Producer - Green, randomly generates food in directly adjacent empty cells.
+- Producer - Blue, randomly generates food in directly adjacent empty cells.
 - Mover - Light blue, allows the organism to move and rotate randomly.
 - Killer - Red, harms organisms in directly adjacent cells (besides itself).
 
