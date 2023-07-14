@@ -18,4 +18,8 @@ public class FoodCell extends Cell { //same as empty cell, but green
         // create a new green buttone
         button.setBackground(Color.GREEN);
     }
+
+    public void gotEaten(){ // if we were eaten, tell board to change to an empty cell
+        this.setNextState(State.EMPTY);
+    }
 }
