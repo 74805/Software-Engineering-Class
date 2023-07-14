@@ -6,6 +6,7 @@ import javax.swing.JPanel;
 
 import Exe3.Cells.Cell;
 import Exe3.Cells.EmptyCell;
+import Exe3.Cells.FoodCell;
 import Exe3.Cells.OrganismCells.KillerCell;
 import Exe3.Cells.OrganismCells.OrganismCell;
 
