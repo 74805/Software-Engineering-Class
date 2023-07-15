@@ -124,6 +124,7 @@ public class Board {
         organisms.add(organism);
     }
 
+    //TODO:
     public void produceOrganism(Organism org, int direction){
         if(2*org.getmaxY() -org.getminY() +1 >=30) direction++;// if the produce will go too high - change
         if(2*org.getminY() -org.getmaxY() -1 <0) direction--;// if the produce will go too low - change
@@ -225,7 +226,7 @@ public class Board {
     public void killOrganism(Organism organism){
         for(Cell cell:organism.getCells()){
             EmptyCell empty = new EmptyCell(cell);
-            replaceCell(cell, cell.getX(), cell.getY());
+            replaceCell(empty, cell.getX(), cell.getY());
             organisms.remove(organism);
         }
     }
