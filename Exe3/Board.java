@@ -186,6 +186,12 @@ public class Board {
     }
 
     public void produceFood(ProducerCell prodCell){
-        //TODO
+        List<Cell> adjacent = getAdjacentCells(prodCell);
+        for(Cell cell:adjacent){
+            if(cell instanceof EmptyCell){
+                FoodCell food = new FoodCell(cell);
+                replaceCell(food, food.getX(), food.getY());
+            }
+        }
     }
 }
