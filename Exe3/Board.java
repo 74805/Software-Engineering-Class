@@ -225,8 +225,8 @@ public class Board {
 
     public void killOrganism(Organism organism){
         for(Cell cell:organism.getCells()){
-            EmptyCell empty = new EmptyCell(cell);
-            replaceCell(empty, cell.getX(), cell.getY());
+            FoodCell food = new FoodCell(cell);
+            replaceCell(food, cell.getX(), cell.getY());
             organisms.remove(organism);
         }
     }
