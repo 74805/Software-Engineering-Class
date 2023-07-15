@@ -15,11 +15,7 @@ public class Organism {
     // lifespan is calculated by multiplying the number of cells by the
     // hyperparameter Lifespan Multiplier
     private static final int lifespanMultiplier = 100;
-
-    //How much does an organism have to eat untill produce
-    private static final int ProduceThreshold = 2;
     
-
     // age is the amout of ticks that have passed since the organism was created
     private int age;
 
@@ -59,8 +55,8 @@ public class Organism {
     // if the organism has enough energy- it produces
     public void addEnergy() {
         energy += 1;
-        if (energy >= ProduceThreshold) {
-            energy -= ProduceThreshold;
+        if (energy >= cells.size()) { //produce if the ammount of energy is greater/equ than the number of cells
+            energy -= cells.size();
             produce();
         }
     }
