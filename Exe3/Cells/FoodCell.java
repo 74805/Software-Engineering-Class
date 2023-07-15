@@ -19,7 +19,14 @@ public class FoodCell extends Cell {
         button.setBackground(Color.GREEN);
     }
 
+    public FoodCell(Cell some_cell){
+        super(some_cell.getX(), some_cell.getY(), some_cell.getClickHandler());
+        // create a new green buttone
+        button.setBackground(Color.GREEN);
+    }
+
     public void gotEaten(){ // if we were eaten, tell board to change to an empty cell
         this.setNextState(State.EMPTY);
     }
+
 }

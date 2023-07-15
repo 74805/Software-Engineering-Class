@@ -8,11 +8,13 @@ import javax.swing.JPanel;
 
 import Exe3.Cells.Cell;
 import Exe3.Cells.EmptyCell;
+import Exe3.Cells.FoodCell;
 import Exe3.Cells.OrganismCells.OrganismCell;
 
 public class Board {
     private Cell[][] cells;
     private List<Organism> organisms;
+    //private click;
 
     public Board(int rows, int cols, Consumer<Cell> clickHandler) {
         organisms = new ArrayList<Organism>();
@@ -107,4 +109,44 @@ public class Board {
         organisms.add(organism);
     }
 
+    public void produceOrganism(Organism org, int direction){
+        if(2*org.getmaxY() -org.getminY() +1 >=30) direction++;// if the produce will go too high - change
+        if(2*org.getminY() -org.getmaxY() -1 <0) direction--;// if the produce will go too low - change
+        if(2*org.getmaxX() -org.getminX() +1 >=40) direction++;// if the produce will go too right - change
+        if(2*org.getminX() -org.getmaxX() -1 <0) direction--;// if the produce will go too left - change
+        switch(direction){
+            case 0: //up
+                boolean isEmptyPlace = true;
+                for(Cell cell:org.getCells()){
+                    int x = cell.getX();
+                    int y = cell.getY();
+                    y+= 2*org.getmaxY() -org.getminY() +1;
+                    if(!(this.cells[x][y] instanceof EmptyCell)) isEmptyPlace = false;
+                }
+                if(isEmptyPlace){
+                    //TODO
+                }
+                else{
+                    for(Cell cell:org.getCells()){
+                        int x = cell.getX();
+                        int y = cell.getY();
+                        y+= 2*org.getmaxY() -org.getminY() +1;
+                        if(this.cells[x][y] instanceof EmptyCell) {
+                            FoodCell food_cell = new FoodCell((EmptyCell)cells[x][y]);
+                            replaceCell(food_cell, x, y);
+                        }
+                        else if(this.cells[x][y] instanceof OrganismCell) {
+                            ((OrganismCell) this.cells[x][y]).getOraganism().addEnergy();
+                        }
+                }
+                }
+                break;
+            case 1: //down
+                break;
+            case 2: //right
+                break;
+            case 3: //left
+                break;
+        }
+    }
 }

@@ -18,4 +18,5 @@ public class EmptyCell extends Cell {
         // create a new gray buttone
         button.setBackground(Color.GRAY);
     }
+
 }
