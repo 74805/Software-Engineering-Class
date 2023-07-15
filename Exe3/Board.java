@@ -139,6 +139,7 @@ public class Board {
                     if(!(this.cells[x][y] instanceof EmptyCell)) isEmptyPlace = false;
                 }
                 if(isEmptyPlace){
+                    Organism new_organism = new Organism();
                     for(Cell cell:org.getCells()){
                         int x = cell.getX();
                         int y = cell.getY();
@@ -148,19 +149,24 @@ public class Board {
                         if(muatation == 1){ //10% chance for mutation
                             FoodCell food_cell = new FoodCell(cell);
                             replaceCell(food_cell, x, y);
+                            // not added to organism
                         }
                         else if(muatation ==2){
                             ProducerCell producerCell = new ProducerCell(cell);
                             replaceCell(producerCell, x, y);
+                            new_organism.addCell((OrganismCell)producerCell);
                         }
                         else if(muatation ==3){
                             KillerCell killerCell = new KillerCell(cell);
                             replaceCell(killerCell, x, y);
+                            new_organism.addCell((OrganismCell)killerCell);
                         }
                         else{
                             replaceCell(cell, x, y);
+                            new_organism.addCell((OrganismCell)cell);
                         }   
                 }
+                organisms.add(new_organism);
                 }
                 else{
                     for(Cell cell:org.getCells()){
@@ -213,6 +219,14 @@ public class Board {
                 MouthCell winner = (MouthCell) mouth_competitor.get(randomMouth);
                 winner.getOraganism().addEnergy();
             }
+        }
+    }
+
+    public void killOrganism(Organism organism){
+        for(Cell cell:organism.getCells()){
+            EmptyCell empty = new EmptyCell(cell);
+            replaceCell(cell, cell.getX(), cell.getY());
+            organisms.remove(organism);
         }
     }
 }
