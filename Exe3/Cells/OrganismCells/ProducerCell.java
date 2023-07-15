@@ -21,6 +21,13 @@ public class ProducerCell extends OrganismCell {
         button.setBackground(Color.CYAN);
     }
 
+    public ProducerCell(Cell some_cell) {
+        super(some_cell.getX(), some_cell.getY(), some_cell.getClickHandler());
+
+        // create a new orange buttone
+        button.setBackground(Color.CYAN);
+    }
+
     // damage all adjacent organisms
     @Override
     public void operate(Cell[][] adjacentCells) {

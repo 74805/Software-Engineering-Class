@@ -23,6 +23,13 @@ public class MouthCell extends OrganismCell {
         button.setBackground(Color.ORANGE);
     }
 
+    public MouthCell(Cell some_cell) {
+        super(some_cell.getX(), some_cell.getY(), some_cell.getClickHandler());
+
+        // create a new orange buttone
+        button.setBackground(Color.ORANGE);
+    }
+
     // damage all adjacent organisms
     @Override
     public void operate(Cell[][] adjacentCells) {
