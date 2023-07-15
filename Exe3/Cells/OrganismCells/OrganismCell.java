@@ -21,6 +21,10 @@ public abstract class OrganismCell extends Cell {
     // adjacentCells is a 3x3 matrix of cells, where the middle cell is the current
     public abstract void operate(Cell[][] adjacentCells);
 
+    public Organism getOraganism(){
+        return organism;
+    }
+
     public void setOrganism(Organism organism) {
         this.organism = organism;
     }
@@ -29,7 +33,5 @@ public abstract class OrganismCell extends Cell {
         this.setNextState(State.FOOD);
     }
 
-    public boolean isAdjacent(Cell cell) {
-        return Math.abs(cell.getX() - getX()) <= 1 && Math.abs(cell.getY() - getY()) <= 1;
-    }
+
 }

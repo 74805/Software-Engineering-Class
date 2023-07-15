@@ -79,4 +79,8 @@ public abstract class Cell {
     public void setNextState(State s){
         this.next_state = s;
     }
+
+    public boolean isAdjacent(Cell cell) {
+        return Math.abs(cell.getX() - getX()) <= 1 && Math.abs(cell.getY() - getY()) <= 1;
+    }
 }

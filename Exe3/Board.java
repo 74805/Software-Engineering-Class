@@ -33,6 +33,17 @@ public class Board {
         return cells;
     }
 
+    public List<Cell> getAdjacentCells(Cell curCell)
+    {
+        List<Cell> adjacentCells = new ArrayList<>();
+        for(Cell[] row:cells){
+            for(Cell cell:row){
+                if(curCell.isAdjacent(cell)) adjacentCells.add(cell);
+            }
+        }
+        return(adjacentCells);
+    }
+
     public void addCell(Cell cell, int x, int y) {
         cells[x][y] = cell;
     }
@@ -165,12 +176,16 @@ public class Board {
                 }
                 }
                 break;
-            case 1: //down
+            case 1: //down TODO
                 break;
             case 2: //right
                 break;
             case 3: //left
                 break;
         }
+    }
+
+    public void produceFood(ProducerCell prodCell){
+        //TODO
     }
 }
