@@ -11,6 +11,7 @@ import Exe3.Cells.Cell;
 import Exe3.Cells.EmptyCell;
 import Exe3.Cells.FoodCell;
 import Exe3.Cells.OrganismCells.KillerCell;
+import Exe3.Cells.OrganismCells.MouthCell;
 import Exe3.Cells.OrganismCells.OrganismCell;
 import Exe3.Cells.OrganismCells.ProducerCell;
 
@@ -191,6 +192,26 @@ public class Board {
             if(cell instanceof EmptyCell){
                 FoodCell food = new FoodCell(cell);
                 replaceCell(food, food.getX(), food.getY());
+            }
+        }
+    }
+
+    public void eatfood(MouthCell mouthCell){
+        List<Cell> adjacent = getAdjacentCells(mouthCell);
+        for(Cell cell:adjacent){
+            if(cell instanceof FoodCell){
+                EmptyCell empty = new EmptyCell(cell);
+                replaceCell(empty, empty.getX(), empty.getY());
+                // now we will pick random organism from all the adjacent mouth cells:
+                List<Cell> mouth_competitor = new ArrayList<>();
+                List<Cell> adjacent_food = getAdjacentCells(cell);
+                for (Cell close_food:adjacent_food){
+                    if(close_food instanceof MouthCell) mouth_competitor.add(close_food);
+                }
+                Random random = new Random();
+                int randomMouth = random.nextInt(mouth_competitor.size());
+                MouthCell winner = (MouthCell) mouth_competitor.get(randomMouth);
+                winner.getOraganism().addEnergy();
             }
         }
     }
