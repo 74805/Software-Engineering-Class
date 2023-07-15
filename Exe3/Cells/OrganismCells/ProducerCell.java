@@ -11,14 +11,14 @@ public class ProducerCell extends OrganismCell {
         super();
 
         // create a new gray buttone
-        button.setBackground(Color.BLUE);
+        button.setBackground(Color.CYAN);
     }
 
     public ProducerCell(int x, int y, Consumer<Cell> clickHandler) {
         super(x, y, clickHandler);
 
         // create a new gray buttone
-        button.setBackground(Color.BLUE);
+        button.setBackground(Color.CYAN);
     }
 
     // damage all adjacent organisms

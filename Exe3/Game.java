@@ -171,7 +171,7 @@ public class Game {
         editButtons.get(1).setBackground(Color.GREEN);
         editButtons.get(2).setBackground(Color.PINK);
         editButtons.get(3).setBackground(Color.ORANGE);
-        editButtons.get(4).setBackground(Color.BLUE);
+        editButtons.get(4).setBackground(Color.CYAN);
 
         for (JButton button : editButtons) {
             // make the buttons square
