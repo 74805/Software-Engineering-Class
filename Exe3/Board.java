@@ -2,6 +2,7 @@ package Exe3;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.function.Consumer;
 
 import javax.swing.JPanel;
@@ -9,7 +10,9 @@ import javax.swing.JPanel;
 import Exe3.Cells.Cell;
 import Exe3.Cells.EmptyCell;
 import Exe3.Cells.FoodCell;
+import Exe3.Cells.OrganismCells.KillerCell;
 import Exe3.Cells.OrganismCells.OrganismCell;
+import Exe3.Cells.OrganismCells.ProducerCell;
 
 public class Board {
     private Cell[][] cells;
@@ -124,7 +127,28 @@ public class Board {
                     if(!(this.cells[x][y] instanceof EmptyCell)) isEmptyPlace = false;
                 }
                 if(isEmptyPlace){
-                    //TODO
+                    for(Cell cell:org.getCells()){
+                        int x = cell.getX();
+                        int y = cell.getY();
+                        y+= 2*org.getmaxY() -org.getminY() +1;
+                        Random random = new Random();
+                        int muatation = random.nextInt(20);
+                        if(muatation == 1){ //10% chance for mutation
+                            FoodCell food_cell = new FoodCell(cell);
+                            replaceCell(food_cell, x, y);
+                        }
+                        else if(muatation ==2){
+                            ProducerCell producerCell = new ProducerCell(cell);
+                            replaceCell(producerCell, x, y);
+                        }
+                        else if(muatation ==3){
+                            KillerCell killerCell = new KillerCell(cell);
+                            replaceCell(killerCell, x, y);
+                        }
+                        else{
+                            replaceCell(cell, x, y);
+                        }   
+                }
                 }
                 else{
                     for(Cell cell:org.getCells()){

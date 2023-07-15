@@ -28,7 +28,7 @@ public class ProducerCell extends OrganismCell {
         button.setBackground(Color.CYAN);
     }
 
-    // damage all adjacent organisms
+    // Tells organism whether to produce or not
     @Override
     public void operate(Cell[][] adjacentCells) {
         //TODO
