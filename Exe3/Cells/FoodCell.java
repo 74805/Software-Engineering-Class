@@ -1,5 +1,5 @@
 package Exe3.Cells;
-import Exe3.State;
+// import Exe3.State;
 import java.awt.Color;
 import java.util.function.Consumer;
 
@@ -25,8 +25,8 @@ public class FoodCell extends Cell {
         button.setBackground(Color.GREEN);
     }
 
-    public void gotEaten(){ // if we were eaten, tell board to change to an empty cell
-        this.setNextState(State.EMPTY);
-    }
+    // public void gotEaten(){ // if we were eaten, tell board to change to an empty cell
+    //     this.setNextState(State.EMPTY);
+    // }
 
 }

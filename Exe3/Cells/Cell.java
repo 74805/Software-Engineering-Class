@@ -1,5 +1,5 @@
 package Exe3.Cells;
-import Exe3.State;
+//import Exe3.State;
 import java.awt.Dimension;
 import java.util.function.Consumer;
 
@@ -11,17 +11,17 @@ public abstract class Cell {
     //private boolean alive;
     private int x;
     private int y;
-    private State next_state; //what kind of cell are we supposed to be
+    //private State next_state; //what kind of cell are we supposed to be
     protected JButton button;
     protected Consumer<Cell> clickHandler;
     public Cell() {
-        this.next_state = State.SAME;
+        // this.next_state = State.SAME;
         button = new JButton();
         button.setPreferredSize(new Dimension(20, 20));
     }
 
     public Cell(int x, int y, Consumer<Cell> clickHandler) {
-        this.next_state = State.SAME;
+        //this.next_state = State.SAME;
         this.x = x;
         this.y = y;
         this.clickHandler = clickHandler;
@@ -71,14 +71,14 @@ public abstract class Cell {
         button.setEnabled(true);
     }
 
-    //new: get and set next state
-    public State getNextState() {
-        return next_state;
-    }
+    // //new: get and set next state
+    // public State getNextState() {
+    //     return next_state;
+    // }
 
-    public void setNextState(State s){
-        this.next_state = s;
-    }
+    // public void setNextState(State s){
+    //     this.next_state = s;
+    // }
 
     public boolean isAdjacent(Cell cell) {
         return Math.abs(cell.getX() - getX()) <= 1 && Math.abs(cell.getY() - getY()) <= 1;

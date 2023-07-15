@@ -3,7 +3,7 @@ package Exe3.Cells.OrganismCells;
 import java.util.function.Consumer;
 
 import Exe3.Organism;
-import Exe3.State;
+// import Exe3.State;
 import Exe3.Cells.Cell;
 
 
@@ -29,9 +29,6 @@ public abstract class OrganismCell extends Cell {
         this.organism = organism;
     }
 
-    public void die() { //this cell would become a food cell
-        this.setNextState(State.FOOD);
-    }
 
 
 }

@@ -15,6 +15,7 @@ public class Organism {
     private int minY = -1;
     private int damage;
     private int energy; // how much food the organism ate
+    private boolean alive; //is the organism alive?
 
 
     // lifespan is calculated by multiplying the number of cells by the
@@ -35,6 +36,7 @@ public class Organism {
         this.damage = 0;
         this.age = 0;
         this.energy = 0;
+        this.alive = true; //in the boeard we maust check if organism is alive!
     }
 
     public List<OrganismCell> getCells() {
@@ -86,9 +88,7 @@ public class Organism {
 
     private void die() {
         // turn all cells into food cells
-        for (OrganismCell cell : cells) {
-            cell.die();
-        }
+        this.alive = false;
     }
 
     public boolean isAdjacent(Cell cell) {
