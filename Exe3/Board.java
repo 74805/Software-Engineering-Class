@@ -28,12 +28,8 @@ public class Board {
         return cells;
     }
 
-    public void addCell(Cell cell, int x, int y) {
-        cells[x][y] = cell;
-    }
-
-    public void replaceCell(Cell cell, int x, int y) {
-        cells[x][y] = cell;
+    public void changeCell(Cell cell) {
+        cells[cell.getX()][cell.getY()] = cell;
     }
 
     public void display(JPanel panel) {
