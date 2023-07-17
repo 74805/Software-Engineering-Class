@@ -1,6 +1,5 @@
 package Exe3.Cells;
 
-// import Exe3.State;
 import java.awt.Color;
 import java.util.function.Consumer;
 
