@@ -9,8 +9,8 @@ import javax.swing.JPanel;
 import Exe3.State;
 
 public abstract class Cell {
-    private int x;
-    private int y;
+    protected int x;
+    protected int y;
 
     private State next_state;
 
@@ -77,9 +77,5 @@ public abstract class Cell {
 
     public void enable() {
         button.setEnabled(true);
-    }
-
-    public boolean isAdjacent(Cell cell) {
-        return Math.abs(cell.x - x) <= 1 || Math.abs(cell.y - y) <= 1;
     }
 }

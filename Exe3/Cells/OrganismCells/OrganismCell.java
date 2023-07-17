@@ -31,4 +31,7 @@ public abstract class OrganismCell extends Cell {
         this.organism = organism;
     }
 
+    public boolean isAdjacent(Cell cell) {
+        return Math.abs(cell.getX() - x) <= 1 && Math.abs(cell.getY() - y) <= 1;
+    }
 }
