@@ -23,13 +23,6 @@ public class ProducerCell extends OrganismCell {
         button.setBackground(Color.CYAN);
     }
 
-    public ProducerCell(Cell some_cell) {
-        super(some_cell.getX(), some_cell.getY(), some_cell.getClickHandler());
-
-        // create a new cyan button
-        button.setBackground(Color.CYAN);
-    }
-
     // produces a new food cell in a random adjacent cell
     @Override
     public void operate(Cell[][] adjacentCells) {

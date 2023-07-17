@@ -19,10 +19,4 @@ public class FoodCell extends Cell {
         button.setBackground(Color.GREEN);
     }
 
-    public FoodCell(Cell some_cell) {
-        super(some_cell.getX(), some_cell.getY(), some_cell.getClickHandler());
-        // create a new green button
-        button.setBackground(Color.GREEN);
-    }
-
 }

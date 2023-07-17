@@ -19,11 +19,4 @@ public class EmptyCell extends Cell {
         button.setBackground(Color.GRAY);
     }
 
-    public EmptyCell(Cell some_cell) {
-        super(some_cell.getX(), some_cell.getY(), some_cell.getClickHandler());
-
-        // create a new orange button
-        button.setBackground(Color.GRAY);
-    }
-
 }

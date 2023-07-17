@@ -15,7 +15,6 @@ public abstract class Cell {
     private State next_state;
 
     protected JButton button;
-    protected Consumer<Cell> clickHandler;
 
     public Cell() {
         next_state = State.SAME;
@@ -29,7 +28,6 @@ public abstract class Cell {
 
         this.x = x;
         this.y = y;
-        this.clickHandler = clickHandler;
 
         button = new JButton();
         button.setPreferredSize(new Dimension(20, 20));
@@ -67,10 +65,6 @@ public abstract class Cell {
 
     public JButton getButton() {
         return button;
-    }
-
-    public Consumer<Cell> getClickHandler() {
-        return clickHandler;
     }
 
     public void display(JPanel panel) {
