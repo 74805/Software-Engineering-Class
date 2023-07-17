@@ -87,10 +87,10 @@ public class Organism {
         }
     }
 
+    // turn all cells into food cells
     private void die() {
-        // turn all cells into food cells
         for (OrganismCell cell : cells) {
-            cell.die();
+            cell.setNextState(State.FOOD);
         }
     }
 

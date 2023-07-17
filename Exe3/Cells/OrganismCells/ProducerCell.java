@@ -3,6 +3,7 @@ package Exe3.Cells.OrganismCells;
 import java.awt.Color;
 import java.util.function.Consumer;
 
+import Exe3.State;
 import Exe3.Cells.Cell;
 import Exe3.Cells.EmptyCell;
 
@@ -39,7 +40,7 @@ public class ProducerCell extends OrganismCell {
 
         Cell cell = adjacentCells[index / 3][index % 3];
         if (cell instanceof EmptyCell) {
-            // TODO: replace with a food cell
+            cell.setNextState(State.FOOD);
         }
     }
 

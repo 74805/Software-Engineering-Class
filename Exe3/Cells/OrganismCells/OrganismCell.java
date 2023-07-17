@@ -27,8 +27,4 @@ public abstract class OrganismCell extends Cell {
         this.organism = organism;
     }
 
-    public void die() {
-        // TODO: Turn into food cell
-    }
-
 }
