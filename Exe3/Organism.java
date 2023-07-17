@@ -70,7 +70,7 @@ public class Organism {
     }
 
     // when a mouth cell from the organism touches a food cell it will gain energy
-    // if the organism has enough energy- it reproduces
+    // if the organism has enough energy - it reproduces
     public void addEnergy() {
         energy += 1;
         if (energy >= cells.size()) {

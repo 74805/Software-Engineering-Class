@@ -23,7 +23,7 @@ public class MouthCell extends OrganismCell {
         button.setBackground(Color.ORANGE);
     }
 
-    // damage all adjacent organisms
+    // eat an adjacent food cell (if exists)
     @Override
     public void operate(Cell[][] adjacentCells) {
         for (Cell[] row : adjacentCells) {
