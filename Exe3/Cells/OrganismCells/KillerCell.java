@@ -10,21 +10,21 @@ public class KillerCell extends OrganismCell {
     public KillerCell() {
         super();
 
-        // create a new gray buttone
+        // create a new pink button
         button.setBackground(Color.PINK);
     }
 
     public KillerCell(int x, int y, Consumer<Cell> clickHandler) {
         super(x, y, clickHandler);
 
-        // create a new gray buttone
+        // create a new pink button
         button.setBackground(Color.PINK);
     }
 
     public KillerCell(Cell some_cell) {
         super(some_cell.getX(), some_cell.getY(), some_cell.getClickHandler());
 
-        // create a new orange buttone
+        // create a new pink button
         button.setBackground(Color.PINK);
     }
 
@@ -38,7 +38,6 @@ public class KillerCell extends OrganismCell {
                 }
             }
         }
-
     }
 
 }

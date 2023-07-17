@@ -185,7 +185,7 @@ public class Game {
 
         // add actions to the buttons
         editButtons.get(0).addActionListener(e -> setCellType(EmptyCell.class, 0));
-        editButtons.get(1).addActionListener(e -> setCellType(FoodCell.class, 1)); 
+        editButtons.get(1).addActionListener(e -> setCellType(FoodCell.class, 1));
         editButtons.get(2).addActionListener(e -> setCellType(KillerCell.class, 2));
         editButtons.get(3).addActionListener(e -> setCellType(MouthCell.class, 3));
         editButtons.get(4).addActionListener(e -> setCellType(ProducerCell.class, 4));
@@ -222,7 +222,7 @@ public class Game {
                 cell = cellType.newInstance();
                 cell.setClickHandler(this::clickCell);
                 cell.setPosition(x, y);
-                board.replaceCell(cell, x, y);
+                board.changeCell(cell);
                 boardPanel.add(cell.getButton(), index);
 
                 // repaint the boardPanel to update the changes

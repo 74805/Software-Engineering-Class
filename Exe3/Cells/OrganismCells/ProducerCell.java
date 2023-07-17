@@ -4,35 +4,43 @@ import java.awt.Color;
 import java.util.function.Consumer;
 
 import Exe3.Cells.Cell;
+import Exe3.Cells.EmptyCell;
 
 public class ProducerCell extends OrganismCell {
 
     public ProducerCell() {
         super();
 
-        // create a new gray buttone
+        // create a new cyan button
         button.setBackground(Color.CYAN);
     }
 
     public ProducerCell(int x, int y, Consumer<Cell> clickHandler) {
         super(x, y, clickHandler);
 
-        // create a new gray buttone
+        // create a new cyan button
         button.setBackground(Color.CYAN);
     }
 
     public ProducerCell(Cell some_cell) {
         super(some_cell.getX(), some_cell.getY(), some_cell.getClickHandler());
 
-        // create a new orange buttone
+        // create a new cyan button
         button.setBackground(Color.CYAN);
     }
 
-    // Tells organism whether to produce or not
+    // produces a new food cell in a random adjacent cell
     @Override
     public void operate(Cell[][] adjacentCells) {
-        //TODO
+        int index = (int) (Math.random() * 9);
+        while (index == 4) {
+            index = (int) (Math.random() * 9);
+        }
 
+        Cell cell = adjacentCells[index / 3][index % 3];
+        if (cell instanceof EmptyCell) {
+            // TODO: replace with a food cell
+        }
     }
 
 }

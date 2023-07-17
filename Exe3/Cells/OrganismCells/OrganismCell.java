@@ -3,9 +3,7 @@ package Exe3.Cells.OrganismCells;
 import java.util.function.Consumer;
 
 import Exe3.Organism;
-// import Exe3.State;
 import Exe3.Cells.Cell;
-
 
 public abstract class OrganismCell extends Cell {
     protected Organism organism;
@@ -21,7 +19,7 @@ public abstract class OrganismCell extends Cell {
     // adjacentCells is a 3x3 matrix of cells, where the middle cell is the current
     public abstract void operate(Cell[][] adjacentCells);
 
-    public Organism getOraganism(){
+    public Organism getOraganism() {
         return organism;
     }
 
@@ -29,6 +27,8 @@ public abstract class OrganismCell extends Cell {
         this.organism = organism;
     }
 
-
+    public void die() {
+        // TODO: Turn into food cell
+    }
 
 }
