@@ -33,11 +33,11 @@ public class Game {
 
     private Thread guiThread;
 
-    private final int rows = 30;
-    private final int cols = 40;
+    public static final int ROWS = 30;
+    public static final int COLS = 40;
 
     public Game() {
-        board = new Board(rows, cols, this::clickCell);
+        board = new Board(ROWS, COLS, this::clickCell);
     }
 
     // start/resume the game
@@ -72,7 +72,6 @@ public class Game {
         });
 
         guiThread.start();
-
     }
 
     // pause the game
@@ -122,10 +121,10 @@ public class Game {
     }
 
     public void display() {
-        frame = new JFrame("the Life engine");
+        frame = new JFrame("The Life Engine");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        boardPanel = new JPanel(new GridLayout(rows, cols));
+        boardPanel = new JPanel(new GridLayout(ROWS, COLS));
         frame.add(boardPanel, BorderLayout.NORTH);
 
         board.display(boardPanel);
