@@ -59,6 +59,20 @@ public class Organism {
         }
     }
 
+    public void operate(Cell[][] boardCells) {
+        boolean moved = false;
+        for (OrganismCell cell : cells) {
+            if (/* cell instanceof MoverCell */ false) {
+                if (!moved) {
+                    moved = true;
+                    cell.operate(cell.getAdjacentCells(boardCells));
+                }
+            } else {
+                cell.operate(cell.getAdjacentCells(boardCells));
+            }
+        }
+    }
+
     // when touched by a killer cell, an organism will take damage. Once it has
     // taken as much damage as it has cells in its body, it will die
     public void takeDamage() {
