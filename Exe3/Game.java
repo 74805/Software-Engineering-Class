@@ -16,6 +16,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -62,10 +63,12 @@ public class Game {
 
         guiThread = new Thread(() -> {
             while (!guiThread.isInterrupted()) {
-                board.update();
                 try {
+                    board.update();
+                    boardPanel.repaint();
+
                     Thread.sleep(100);
-                } catch (InterruptedException e) {
+                } catch (Exception e) {
                     break;
                 }
             }

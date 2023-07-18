@@ -1,5 +1,7 @@
 package Exe3;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -41,11 +43,12 @@ public class Board {
         }
     }
 
-    public void update() {
+    public void update() throws NoSuchMethodException, SecurityException, InstantiationException,
+            IllegalAccessException, IllegalArgumentException, InvocationTargetException {
         Collections.shuffle(organisms);
 
         for (Organism organism : organisms) {
-            organism.operate();
+            organism.operate(cells);
         }
 
         // go over all cells and replace with the next state
@@ -54,11 +57,12 @@ public class Board {
             for (Cell cell : row) {
                 nextState = cell.getNextState();
                 if (nextState != State.SAME) {
+                    // call the copy constructor
                     Class<?> associatedClass = nextState.getCellType();
-                    java.lang.reflect.Constructor<?> copyConstructor = associatedClass
-                            .getDeclaredConstructor(associatedClass);
+                    Constructor<?> copyConstructor = associatedClass.getDeclaredConstructor(Cell.class);
                     Cell newCell = (Cell) copyConstructor.newInstance(cell);
 
+                    // finally, replace the cell
                     changeCell(newCell);
                 }
             }
