@@ -1,6 +1,7 @@
 package Exe3;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -41,7 +42,27 @@ public class Board {
     }
 
     public void update() {
-        // TODO
+        Collections.shuffle(organisms);
+
+        for (Organism organism : organisms) {
+            organism.operate();
+        }
+
+        // go over all cells and replace with the next state
+        State nextState;
+        for (Cell[] row : cells) {
+            for (Cell cell : row) {
+                nextState = cell.getNextState();
+                if (nextState != State.SAME) {
+                    Class<?> associatedClass = nextState.getCellType();
+                    java.lang.reflect.Constructor<?> copyConstructor = associatedClass
+                            .getDeclaredConstructor(associatedClass);
+                    Cell newCell = (Cell) copyConstructor.newInstance(cell);
+
+                    changeCell(newCell);
+                }
+            }
+        }
     }
 
     public void disable() {
