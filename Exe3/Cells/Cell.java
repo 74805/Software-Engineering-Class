@@ -23,6 +23,15 @@ public abstract class Cell {
         button.setPreferredSize(new Dimension(20, 20));
     }
 
+    public Cell(Cell other) {
+        next_state = State.SAME;
+
+        x = other.x;
+        y = other.y;
+
+        button = other.button;
+    }
+
     public Cell(int x, int y, Consumer<Cell> clickHandler) {
         next_state = State.SAME;
 

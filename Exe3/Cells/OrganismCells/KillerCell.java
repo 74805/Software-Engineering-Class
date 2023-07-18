@@ -14,6 +14,12 @@ public class KillerCell extends OrganismCell {
         button.setBackground(Color.PINK);
     }
 
+    public KillerCell(KillerCell other) {
+        super(other);
+
+        button.setBackground(Color.PINK);
+    }
+
     public KillerCell(int x, int y, Consumer<Cell> clickHandler) {
         super(x, y, clickHandler);
 

@@ -12,6 +12,12 @@ public class FoodCell extends Cell {
         button.setBackground(Color.GREEN);
     }
 
+    public FoodCell(EmptyCell other) {
+        super(other);
+
+        button.setBackground(Color.GREEN);
+    }
+
     public FoodCell(int x, int y, Consumer<Cell> clickHandler) {
         super(x, y, clickHandler);
 

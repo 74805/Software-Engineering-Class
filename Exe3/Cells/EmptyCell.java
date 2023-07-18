@@ -12,6 +12,12 @@ public class EmptyCell extends Cell {
         button.setBackground(Color.GRAY);
     }
 
+    public EmptyCell(EmptyCell other) {
+        super(other);
+
+        button.setBackground(Color.GRAY);
+    }
+
     public EmptyCell(int x, int y, Consumer<Cell> clickHandler) {
         super(x, y, clickHandler);
 

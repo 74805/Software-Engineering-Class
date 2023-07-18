@@ -13,7 +13,9 @@ public abstract class OrganismCell extends Cell {
     }
 
     public OrganismCell(OrganismCell other) {
-        // TODO: Create copy constructor
+        super(other);
+
+        organism = other.organism;
     }
 
     public OrganismCell(int x, int y, Consumer<Cell> clickHandler) {
