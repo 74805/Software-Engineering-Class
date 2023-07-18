@@ -12,7 +12,7 @@ public class FoodCell extends Cell {
         button.setBackground(Color.GREEN);
     }
 
-    public FoodCell(EmptyCell other) {
+    public FoodCell(Cell other) {
         super(other);
 
         button.setBackground(Color.GREEN);

@@ -14,7 +14,7 @@ public class KillerCell extends OrganismCell {
         button.setBackground(Color.PINK);
     }
 
-    public KillerCell(KillerCell other) {
+    public KillerCell(Cell other) {
         super(other);
 
         button.setBackground(Color.PINK);

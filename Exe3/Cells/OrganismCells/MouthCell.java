@@ -16,7 +16,7 @@ public class MouthCell extends OrganismCell {
         button.setBackground(Color.ORANGE);
     }
 
-    public MouthCell(MouthCell other) {
+    public MouthCell(Cell other) {
         super(other);
 
         button.setBackground(Color.ORANGE);

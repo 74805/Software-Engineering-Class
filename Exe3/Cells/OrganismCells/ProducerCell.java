@@ -16,7 +16,7 @@ public class ProducerCell extends OrganismCell {
         button.setBackground(Color.CYAN);
     }
 
-    public ProducerCell(ProducerCell other) {
+    public ProducerCell(Cell other) {
         super(other);
 
         button.setBackground(Color.CYAN);
