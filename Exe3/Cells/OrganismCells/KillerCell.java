@@ -3,12 +3,15 @@ package Exe3.Cells.OrganismCells;
 import java.awt.Color;
 import java.util.function.Consumer;
 
+import Exe3.State;
 import Exe3.Cells.Cell;
 
 public class KillerCell extends OrganismCell {
 
     public KillerCell() {
         super();
+
+        state = State.KILLER;
 
         // create a new pink button
         button.setBackground(Color.PINK);

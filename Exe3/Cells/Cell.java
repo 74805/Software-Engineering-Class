@@ -12,6 +12,7 @@ public abstract class Cell {
     protected int x;
     protected int y;
 
+    protected State state;
     private State next_state;
 
     protected JButton button;
