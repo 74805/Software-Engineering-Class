@@ -19,6 +19,8 @@ public class EmptyCell extends Cell {
     public EmptyCell(Cell other) {
         super(other);
 
+        state = State.EMPTY;
+
         button.setBackground(Color.GRAY);
     }
 

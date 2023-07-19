@@ -19,6 +19,8 @@ public class MoverCell extends OrganismCell {
     public MoverCell(Cell other) {
         super(other);
 
+        state = State.MOVER;
+
         button.setBackground(Color.YELLOW);
     }
 

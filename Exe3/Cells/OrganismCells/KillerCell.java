@@ -20,6 +20,8 @@ public class KillerCell extends OrganismCell {
     public KillerCell(Cell other) {
         super(other);
 
+        state = State.KILLER;
+
         button.setBackground(Color.PINK);
     }
 

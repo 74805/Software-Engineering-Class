@@ -19,6 +19,8 @@ public class FoodCell extends Cell {
     public FoodCell(Cell other) {
         super(other);
 
+        state = State.FOOD;
+
         button.setBackground(Color.GREEN);
     }
 
