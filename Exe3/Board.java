@@ -1,6 +1,9 @@
 package Exe3;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -29,6 +32,16 @@ public class Board {
     }
 
     public void changeCell(Cell cell) {
+        Cell oldCell = cells[cell.getX()][cell.getY()];
+        if (oldCell instanceof OrganismCell) {
+            OrganismCell organismCell = (OrganismCell) oldCell;
+            Organism organism = organismCell.getOrganism();
+            organism.removeCell(organismCell);
+            if (organism.getCells().size() == 0) {
+                organisms.remove(organism);
+            }
+        }
+
         cells[cell.getX()][cell.getY()] = cell;
     }
 
@@ -40,8 +53,30 @@ public class Board {
         }
     }
 
-    public void update() {
-        // TODO
+    public void update() throws NoSuchMethodException, SecurityException, InstantiationException,
+            IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+        Collections.shuffle(organisms);
+
+        for (Organism organism : organisms) {
+            organism.operate(cells);
+        }
+
+        // go over all cells and replace with the next state
+        State nextState;
+        for (Cell[] row : cells) {
+            for (Cell cell : row) {
+                nextState = cell.getNextState();
+                if (nextState != State.SAME) {
+                    // call the copy constructor
+                    Class<?> associatedClass = nextState.getCellType();
+                    Constructor<?> copyConstructor = associatedClass.getDeclaredConstructor(Cell.class);
+                    Cell newCell = (Cell) copyConstructor.newInstance(cell);
+
+                    // finally, replace the cell
+                    changeCell(newCell);
+                }
+            }
+        }
     }
 
     public void disable() {
@@ -61,14 +96,13 @@ public class Board {
     }
 
     public void reset(JPanel panel, Consumer<Cell> clickHandler) {
+        Cell cell;
         for (int i = 0; i < cells.length; i++) {
             for (int j = 0; j < cells[i].length; j++) {
                 if (!(cells[i][j] instanceof EmptyCell)) {
-                    int index = panel.getComponentZOrder(cells[i][j].getButton());
-                    panel.remove(cells[i][j].getButton());
-
-                    cells[i][j] = new EmptyCell(i, j, clickHandler);
-                    panel.add(cells[i][j].getButton(), index);
+                    cell = new EmptyCell(cells[i][j]);
+                    cell.setClickHandler(clickHandler);
+                    changeCell(cell);
                 }
             }
         }
@@ -93,14 +127,12 @@ public class Board {
             }
         }
 
-        // if the cell is adjacent to an organism, add it to the organism
-        if (adjacentOrganism != null) {
-            return;
+        // if the cell is not adjacent to an organism, create a new one
+        if (adjacentOrganism == null) {
+            Organism organism = new Organism();
+            organism.addCell(cell);
+            organisms.add(organism);
         }
-
-        Organism organism = new Organism();
-        organism.addCell((OrganismCell) cell);
-        organisms.add(organism);
     }
 
 }

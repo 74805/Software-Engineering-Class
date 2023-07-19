@@ -16,6 +16,12 @@ public class ProducerCell extends OrganismCell {
         button.setBackground(Color.CYAN);
     }
 
+    public ProducerCell(Cell other) {
+        super(other);
+
+        button.setBackground(Color.CYAN);
+    }
+
     public ProducerCell(int x, int y, Consumer<Cell> clickHandler) {
         super(x, y, clickHandler);
 
