@@ -1,5 +1,6 @@
 package Exe3;
 
+import Exe3.Cells.Cell;
 import Exe3.Cells.EmptyCell;
 import Exe3.Cells.OrganismCells.KillerCell;
 import Exe3.Cells.OrganismCells.MouthCell;
@@ -16,13 +17,13 @@ public enum State {
     PRODUCER(ProducerCell.class);
     // TODO: MOVER(MoverCells.class);
 
-    private Class<?> associatedClass;
+    private Class<? extends Cell> associatedClass;
 
-    State(Class<?> associatedClass) {
+    State(Class<? extends Cell> associatedClass) {
         this.associatedClass = associatedClass;
     }
 
-    public Class<?> getCellType() {
+    public Class<? extends Cell> getCellType() {
         return associatedClass;
     }
 }
