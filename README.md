@@ -15,14 +15,14 @@ run its course. Organisms that survive, successfully produce offspring, and out-
 A cell can be one of the following types.
 ### Independent Cells
 Independent cells are not part of organisms. 
-- Empty - Dark blue, inert.
-- Food - Grayish-blue, provides nourishment for organisms.
+- Empty - Gray, inert.
+- Food - Green, provides nourishment for organisms.
 ### Organism Cells
 Organism Cells are only found in organisms, and cannot exist on their own in the grid.
 - Mouth - Orange, eats food in directly adjacent cells.
-- Producer - Green, randomly generates food in directly adjacent empty cells.
-- Mover - Light blue, allows the organism to move and rotate randomly.
-- Killer - Red, harms organisms in directly adjacent cells (besides itself).
+- Producer - Cyan, randomly generates food in directly adjacent empty cells.
+- Mover - Undecided, allows the organism to move and rotate randomly.
+- Killer - Pink, harms organisms in directly adjacent cells (besides itself).
 
 ## Organisms
 Organisms are structures of cells that eat food, reproduce, and die.

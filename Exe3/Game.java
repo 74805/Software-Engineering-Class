@@ -6,13 +6,18 @@ import javax.swing.JPanel;
 
 import Exe3.Cells.Cell;
 import Exe3.Cells.EmptyCell;
+import Exe3.Cells.FoodCell;
+import Exe3.Cells.OrganismCells.ProducerCell;
 import Exe3.Cells.OrganismCells.KillerCell;
+import Exe3.Cells.OrganismCells.MouthCell;
 import Exe3.Cells.OrganismCells.OrganismCell;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,11 +35,11 @@ public class Game {
 
     private Thread guiThread;
 
-    private final int rows = 30;
-    private final int cols = 40;
+    public static final int ROWS = 30;
+    public static final int COLS = 40;
 
     public Game() {
-        board = new Board(rows, cols, this::clickCell);
+        board = new Board(ROWS, COLS, this::clickCell);
     }
 
     // start/resume the game
@@ -59,17 +64,18 @@ public class Game {
 
         guiThread = new Thread(() -> {
             while (!guiThread.isInterrupted()) {
-                board.update();
                 try {
+                    board.update();
+                    boardPanel.repaint();
+
                     Thread.sleep(100);
-                } catch (InterruptedException e) {
+                } catch (Exception e) {
                     break;
                 }
             }
         });
 
         guiThread.start();
-
     }
 
     // pause the game
@@ -81,6 +87,13 @@ public class Game {
         try {
             guiThread.join();
         } catch (InterruptedException e) {
+        }
+
+        // set the click handler
+        for (Cell[] row : board.getCells()) {
+            for (Cell cell : row) {
+                cell.setClickHandler(this::clickCell);
+            }
         }
 
         // enable the board buttons
@@ -102,27 +115,16 @@ public class Game {
         // enable the board buttons
         board.reset(boardPanel, this::clickCell);
 
-        // enable the edit buttons
-        for (JButton button : editButtons) {
-            button.setEnabled(true);
-        }
-
-        // enable the start button
-        startButton.setEnabled(true);
-        stopButton.setEnabled(false);
-        resetButton.setEnabled(false);
-
         // repaint the boardPanel to update the changes
         boardPanel.revalidate();
         boardPanel.repaint();
-
     }
 
     public void display() {
-        frame = new JFrame("the Life engine");
+        frame = new JFrame("The Life Engine");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        boardPanel = new JPanel(new GridLayout(rows, cols));
+        boardPanel = new JPanel(new GridLayout(ROWS, COLS));
         frame.add(boardPanel, BorderLayout.NORTH);
 
         board.display(boardPanel);
@@ -161,10 +163,14 @@ public class Game {
         editButtons.add(new JButton("Empty"));
         editButtons.add(new JButton("Food"));
         editButtons.add(new JButton("Killer"));
+        editButtons.add(new JButton("Mouth"));
+        editButtons.add(new JButton("Producer"));
 
         editButtons.get(0).setBackground(Color.GRAY);
         editButtons.get(1).setBackground(Color.GREEN);
         editButtons.get(2).setBackground(Color.PINK);
+        editButtons.get(3).setBackground(Color.ORANGE);
+        editButtons.get(4).setBackground(Color.CYAN);
 
         for (JButton button : editButtons) {
             // make the buttons square
@@ -178,8 +184,10 @@ public class Game {
 
         // add actions to the buttons
         editButtons.get(0).addActionListener(e -> setCellType(EmptyCell.class, 0));
-        editButtons.get(1).addActionListener(e -> setCellType(EmptyCell.class, 1)); // TODO: change to FoodCell
+        editButtons.get(1).addActionListener(e -> setCellType(FoodCell.class, 1));
         editButtons.get(2).addActionListener(e -> setCellType(KillerCell.class, 2));
+        editButtons.get(3).addActionListener(e -> setCellType(MouthCell.class, 3));
+        editButtons.get(4).addActionListener(e -> setCellType(ProducerCell.class, 4));
     }
 
     private void setCellType(Class<? extends Cell> cellType, int index) {
@@ -204,28 +212,22 @@ public class Game {
                 // enable reset button
                 resetButton.setEnabled(true);
 
-                int index = boardPanel.getComponentZOrder(cell.getButton());
-                int x = cell.getX();
-                int y = cell.getY();
-
-                boardPanel.remove(cell.getButton());
-
-                cell = cellType.newInstance();
-                cell.setClickHandler(this::clickCell);
-                cell.setPosition(x, y);
-                board.replaceCell(cell, x, y);
-                boardPanel.add(cell.getButton(), index);
+                // call the copy constructor of the cellType
+                Constructor<?> copyConstructor = cellType.getDeclaredConstructor(Cell.class);
+                Cell newCell = (Cell) copyConstructor.newInstance(cell);
+                board.changeCell(newCell);
 
                 // repaint the boardPanel to update the changes
                 boardPanel.revalidate();
                 boardPanel.repaint();
 
                 // add the cell to an organism if its an organism cell
-                if (cell instanceof OrganismCell) {
-                    board.addToOrganism((OrganismCell) cell);
+                if (newCell instanceof OrganismCell && ((OrganismCell) newCell).getOrganism() == null) {
+                    board.addToOrganism((OrganismCell) newCell);
                 }
 
-            } catch (InstantiationException | IllegalAccessException e) {
+            } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | SecurityException
+                    | IllegalArgumentException | InvocationTargetException e) {
             }
         }
     }

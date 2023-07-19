@@ -9,7 +9,14 @@ import Exe3.Cells.OrganismCells.OrganismCell;
 public class Organism {
     private Board board;
     private List<OrganismCell> cells;
+
+    private int maxX = 100;
+    private int minX = -1;
+    private int maxY = 100;
+    private int minY = -1;
+
     private int damage;
+    private int energy; // how much food the organism ate
 
     // direction is the direction the organism is currently moving in
     // 0 = up, 1 = right, 2 = down, 3 = left
@@ -17,16 +24,23 @@ public class Organism {
 
     // lifespan is calculated by multiplying the number of cells by the
     // hyperparameter Lifespan Multiplier
-    private static final int lifespanMultiplier = 100;
+    public static final int LIFESPAN_MULTIPLIER = 100;
 
     // age is the amout of ticks that have passed since the organism was created
     private int age;
 
     public Organism() {
-        this.cells = new ArrayList<OrganismCell>();
-        this.damage = 0;
-        this.direction = (int) (Math.random() * 4);
-        this.age = 0;
+        cells = new ArrayList<OrganismCell>();
+
+        damage = 0;
+        direction = (int) (Math.random() * 4);
+        age = 0;
+        energy = 0;
+    }
+
+    public Organism(Organism other) {
+        // TODO: create copy constructor
+        // (for reproduction)
     }
 
     public List<OrganismCell> getCells() {
@@ -35,11 +49,39 @@ public class Organism {
 
     public void addCell(OrganismCell cell) {
         cells.add(cell);
+        cell.setOrganism(this);
+
+        if (cell.getX() > maxX)
+            maxX = cell.getX();
+        else if (cell.getX() < minX)
+            minX = cell.getX();
+        if (cell.getY() > maxY)
+            maxY = cell.getY();
+        else if (cell.getY() < minY)
+            minY = cell.getY();
+    }
+
+    public void removeCell(OrganismCell cell) {
+        cells.remove(cell);
     }
 
     public void merge(Organism other) {
         for (OrganismCell cell : other.getCells()) {
             cells.add(cell);
+        }
+    }
+
+    public void operate(Cell[][] boardCells) {
+        boolean moved = false;
+        for (OrganismCell cell : cells) {
+            if (/* cell instanceof MoverCell */ false) {
+                if (!moved) {
+                    moved = true;
+                    cell.operate(cell.getAdjacentCells(boardCells));
+                }
+            } else {
+                cell.operate(cell.getAdjacentCells(boardCells));
+            }
         }
     }
 
@@ -53,18 +95,28 @@ public class Organism {
         }
     }
 
+    // when a mouth cell from the organism touches a food cell it will gain energy
+    // if the organism has enough energy - it reproduces
+    public void addEnergy() {
+        energy += 1;
+        if (energy >= cells.size()) {
+            energy = 0;
+            reproduce();
+        }
+    }
+
     public void increaseAge() {
         age += 1;
 
-        if (age >= cells.size() * lifespanMultiplier) {
+        if (age >= cells.size() * LIFESPAN_MULTIPLIER) {
             die();
         }
     }
 
+    // turn all cells into food cells
     private void die() {
-        // turn all cells into food cells
         for (OrganismCell cell : cells) {
-            cell.die();
+            cell.setNextState(State.FOOD);
         }
     }
 
@@ -110,5 +162,26 @@ public class Organism {
 
     public void rotateLeft() {
         // TODO
+    }
+
+    public int getmaxX() {
+        return maxX;
+    }
+
+    public int getmaxY() {
+        return maxY;
+    }
+
+    public int getminX() {
+        return minX;
+    }
+
+    public int getminY() {
+        return minY;
+    }
+
+    public void reproduce() {
+        // TODO
+        // after creating mover cell
     }
 }
