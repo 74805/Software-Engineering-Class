@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Exe3.Cells.Cell;
+import Exe3.Cells.OrganismCells.MoverCell;
 import Exe3.Cells.OrganismCells.OrganismCell;
 
 public class Organism {
@@ -74,7 +75,7 @@ public class Organism {
     public void operate(Cell[][] boardCells) {
         boolean moved = false;
         for (OrganismCell cell : cells) {
-            if (/* cell instanceof MoverCell */ false) {
+            if (cell instanceof MoverCell) {
                 if (!moved) {
                     moved = true;
                     cell.operate(cell.getAdjacentCells(boardCells));

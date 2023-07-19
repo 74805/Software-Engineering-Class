@@ -6,7 +6,7 @@ import Exe3.Cells.OrganismCells.KillerCell;
 import Exe3.Cells.OrganismCells.MouthCell;
 import Exe3.Cells.OrganismCells.ProducerCell;
 import Exe3.Cells.FoodCell;
-//TODO: import Exe3.Cells.OrganismCells.MoverCell; 
+import Exe3.Cells.OrganismCells.MoverCell;
 
 public enum State {
     SAME(null),
@@ -14,8 +14,8 @@ public enum State {
     FOOD(FoodCell.class),
     KILLER(KillerCell.class),
     MOUTH(MouthCell.class),
-    PRODUCER(ProducerCell.class);
-    // TODO: MOVER(MoverCells.class);
+    PRODUCER(ProducerCell.class),
+    MOVER(MoverCell.class);
 
     private Class<? extends Cell> associatedClass;
 
