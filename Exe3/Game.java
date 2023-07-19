@@ -205,6 +205,7 @@ public class Game {
                 // enable reset button
                 resetButton.setEnabled(true);
 
+                // call the copy constructor of the cellType
                 Constructor<?> copyConstructor = cellType.getDeclaredConstructor(Cell.class);
                 Cell newCell = (Cell) copyConstructor.newInstance(cell);
                 board.changeCell(newCell);
