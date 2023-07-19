@@ -43,6 +43,8 @@ public class Organism {
 
     public void addCell(OrganismCell cell) {
         cells.add(cell);
+        cell.setOrganism(this);
+
         if (cell.getX() > maxX)
             maxX = cell.getX();
         else if (cell.getX() < minX)
@@ -51,6 +53,10 @@ public class Organism {
             maxY = cell.getY();
         else if (cell.getY() < minY)
             minY = cell.getY();
+    }
+
+    public void removeCell(OrganismCell cell) {
+        cells.remove(cell);
     }
 
     public void merge(Organism other) {
