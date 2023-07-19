@@ -32,6 +32,16 @@ public class Board {
     }
 
     public void changeCell(Cell cell) {
+        Cell oldCell = cells[cell.getX()][cell.getY()];
+        if (oldCell instanceof OrganismCell) {
+            OrganismCell organismCell = (OrganismCell) oldCell;
+            Organism organism = organismCell.getOrganism();
+            organism.removeCell(organismCell);
+            if (organism.getCells().size() == 0) {
+                organisms.remove(organism);
+            }
+        }
+
         cells[cell.getX()][cell.getY()] = cell;
     }
 
@@ -86,14 +96,13 @@ public class Board {
     }
 
     public void reset(JPanel panel, Consumer<Cell> clickHandler) {
+        Cell cell;
         for (int i = 0; i < cells.length; i++) {
             for (int j = 0; j < cells[i].length; j++) {
                 if (!(cells[i][j] instanceof EmptyCell)) {
-                    int index = panel.getComponentZOrder(cells[i][j].getButton());
-                    panel.remove(cells[i][j].getButton());
-
-                    cells[i][j] = new EmptyCell(i, j, clickHandler);
-                    panel.add(cells[i][j].getButton(), index);
+                    cell = new EmptyCell(cells[i][j]);
+                    cell.setClickHandler(clickHandler);
+                    changeCell(cell);
                 }
             }
         }
@@ -118,14 +127,12 @@ public class Board {
             }
         }
 
-        // if the cell is adjacent to an organism, add it to the organism
-        if (adjacentOrganism != null) {
-            return;
+        // if the cell is not adjacent to an organism, create a new one
+        if (adjacentOrganism == null) {
+            Organism organism = new Organism();
+            organism.addCell(cell);
+            organisms.add(organism);
         }
-
-        Organism organism = new Organism();
-        organism.addCell((OrganismCell) cell);
-        organisms.add(organism);
     }
 
 }

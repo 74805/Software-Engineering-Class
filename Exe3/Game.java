@@ -16,6 +16,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
@@ -107,20 +108,9 @@ public class Game {
         // enable the board buttons
         board.reset(boardPanel, this::clickCell);
 
-        // enable the edit buttons
-        for (JButton button : editButtons) {
-            button.setEnabled(true);
-        }
-
-        // enable the start button
-        startButton.setEnabled(true);
-        stopButton.setEnabled(false);
-        resetButton.setEnabled(false);
-
         // repaint the boardPanel to update the changes
         boardPanel.revalidate();
         boardPanel.repaint();
-
     }
 
     public void display() {
@@ -215,28 +205,21 @@ public class Game {
                 // enable reset button
                 resetButton.setEnabled(true);
 
-                int index = boardPanel.getComponentZOrder(cell.getButton());
-                int x = cell.getX();
-                int y = cell.getY();
-
-                boardPanel.remove(cell.getButton());
-
-                cell = cellType.newInstance();
-                cell.setClickHandler(this::clickCell);
-                cell.setPosition(x, y);
-                board.changeCell(cell);
-                boardPanel.add(cell.getButton(), index);
+                Constructor<?> copyConstructor = cellType.getDeclaredConstructor(Cell.class);
+                Cell newCell = (Cell) copyConstructor.newInstance(cell);
+                board.changeCell(newCell);
 
                 // repaint the boardPanel to update the changes
                 boardPanel.revalidate();
                 boardPanel.repaint();
 
                 // add the cell to an organism if its an organism cell
-                if (cell instanceof OrganismCell) {
-                    board.addToOrganism((OrganismCell) cell);
+                if (newCell instanceof OrganismCell && ((OrganismCell) newCell).getOrganism() == null) {
+                    board.addToOrganism((OrganismCell) newCell);
                 }
 
-            } catch (InstantiationException | IllegalAccessException e) {
+            } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | SecurityException
+                    | IllegalArgumentException | InvocationTargetException e) {
             }
         }
     }
