@@ -89,6 +89,13 @@ public class Game {
         } catch (InterruptedException e) {
         }
 
+        // set the click handler
+        for (Cell[] row : board.getCells()) {
+            for (Cell cell : row) {
+                cell.setClickHandler(this::clickCell);
+            }
+        }
+
         // enable the board buttons
         board.enable();
 
