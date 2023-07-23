@@ -12,6 +12,7 @@ import Exe3.Cells.FoodCell;
 import Exe3.Cells.OrganismCells.ProducerCell;
 import Exe3.Cells.OrganismCells.KillerCell;
 import Exe3.Cells.OrganismCells.MouthCell;
+import Exe3.Cells.OrganismCells.MoverCell;
 import Exe3.Cells.OrganismCells.OrganismCell;
 
 import java.awt.BorderLayout;
@@ -173,12 +174,14 @@ public class Game {
         editButtons.add(new JButton("Killer"));
         editButtons.add(new JButton("Mouth"));
         editButtons.add(new JButton("Producer"));
+        editButtons.add(new JButton("Mover"));
 
         editButtons.get(0).setBackground(Color.GRAY);
         editButtons.get(1).setBackground(Color.GREEN);
         editButtons.get(2).setBackground(Color.PINK);
         editButtons.get(3).setBackground(Color.ORANGE);
         editButtons.get(4).setBackground(Color.CYAN);
+        editButtons.get(5).setBackground(Color.YELLOW);
 
         for (JButton button : editButtons) {
             // make the buttons square
@@ -196,6 +199,7 @@ public class Game {
         editButtons.get(2).addActionListener(e -> setCellType(KillerCell.class, 2));
         editButtons.get(3).addActionListener(e -> setCellType(MouthCell.class, 3));
         editButtons.get(4).addActionListener(e -> setCellType(ProducerCell.class, 4));
+        editButtons.get(5).addActionListener(e -> setCellType(MoverCell.class, 5));
 
         // add border
         for (JButton button : editButtons) {
