@@ -6,6 +6,7 @@ import java.util.function.Consumer;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import Exe3.Organism;
 import Exe3.State;
 
 public abstract class Cell {
@@ -13,19 +14,20 @@ public abstract class Cell {
     protected int y;
 
     protected State state;
-    private State next_state;
+    protected State nextState;
+    protected Organism nextOrganism;
 
     protected JButton button;
 
     public Cell() {
-        next_state = State.SAME;
+        nextState = State.SAME;
 
         button = new JButton();
         button.setPreferredSize(new Dimension(20, 20));
     }
 
     public Cell(Cell other) {
-        next_state = State.SAME;
+        nextState = State.SAME;
 
         x = other.x;
         y = other.y;
@@ -34,7 +36,7 @@ public abstract class Cell {
     }
 
     public Cell(int x, int y, Consumer<Cell> clickHandler) {
-        next_state = State.SAME;
+        nextState = State.SAME;
 
         this.x = x;
         this.y = y;
@@ -55,16 +57,28 @@ public abstract class Cell {
     }
 
     public State getNextState() {
-        return next_state;
+        return nextState;
     }
 
-    public void setNextState(State next_state) {
-        this.next_state = next_state;
+    public State getState() {
+        return state;
+    }
+
+    public void setNextState(State nextState) {
+        this.nextState = nextState;
     }
 
     public void setPosition(int x, int y) {
         this.x = x;
         this.y = y;
+    }
+
+    public void setNextOrganism(Organism nextOrganism) {
+        this.nextOrganism = nextOrganism;
+    }
+
+    public Organism getNextOrganism() {
+        return nextOrganism;
     }
 
     public void setClickHandler(Consumer<Cell> clickHandler) {
