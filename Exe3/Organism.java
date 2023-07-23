@@ -59,6 +59,10 @@ public class Organism {
             for (OrganismCell cell : cells) {
                 cell.setX(cell.getX() + distanceDif);
             }
+        } else {
+            for (OrganismCell cell : cells) {
+                cell.setY(cell.getY() + distanceDif);
+            }
         }
 
     }
