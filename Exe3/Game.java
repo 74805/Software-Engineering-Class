@@ -72,7 +72,7 @@ public class Game {
 
                     Thread.sleep(100);
                 } catch (Exception e) {
-                    break;
+                    displayExeption(e);
                 }
             }
         });
@@ -162,7 +162,7 @@ public class Game {
     }
 
     public static void displayExeption(Exception e) {
-        JOptionPane.showMessageDialog(null, e.getMessage(), "exeption raised:", JOptionPane.PLAIN_MESSAGE);
+        JOptionPane.showMessageDialog(null, e.getMessage(), "Somthing went wrong", JOptionPane.PLAIN_MESSAGE);
     }
 
     private void setEditButtons(JPanel panel) {
