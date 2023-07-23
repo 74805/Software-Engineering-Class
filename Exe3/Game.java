@@ -117,6 +117,9 @@ public class Game {
 
     // reset the game
     private void reset() {
+        // disable reset button
+        resetButton.setEnabled(false);
+
         // enable the board buttons
         board.reset(boardPanel, this::clickCell);
 
