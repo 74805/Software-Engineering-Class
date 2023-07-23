@@ -189,13 +189,13 @@ public class Organism {
         }
     }
 
-    public void rotateRight() {
-        // TODO
-    }
+    // public void rotateRight() {
+    // // TODO
+    // }
 
-    public void rotateLeft() {
-        // TODO
-    }
+    // public void rotateLeft() {
+    // // TODO
+    // }
 
     public int getmaxX() {
         return maxX;
