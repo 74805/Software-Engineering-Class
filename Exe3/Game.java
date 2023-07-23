@@ -61,7 +61,7 @@ public class Game {
         // clear the cellType
         cellType = null;
         for (JButton button : editButtons) {
-            button.getModel().setPressed(false);
+            button.setBorder(new LineBorder(Color.BLACK, 1, true));
         }
 
         guiThread = new Thread(() -> {
@@ -106,7 +106,6 @@ public class Game {
         for (JButton button : editButtons) {
             button.setEnabled(true);
         }
-
 
         // enable the start button
         startButton.setEnabled(true);
@@ -163,7 +162,7 @@ public class Game {
     }
 
     public static void displayExeption(Exception e) {
-        JOptionPane.showMessageDialog(null, e.getMessage() , "exeption raised:" , JOptionPane.PLAIN_MESSAGE);
+        JOptionPane.showMessageDialog(null, e.getMessage(), "exeption raised:", JOptionPane.PLAIN_MESSAGE);
     }
 
     private void setEditButtons(JPanel panel) {
@@ -183,8 +182,6 @@ public class Game {
         for (JButton button : editButtons) {
             // make the buttons square
             button.setPreferredSize(new Dimension(60, 60));
-            if (button.getText()=="Producer")
-                button.setPreferredSize(new Dimension(80,60));
 
             // make the text smaller
             button.setFont(button.getFont().deriveFont(8f));
@@ -203,16 +200,13 @@ public class Game {
     private void setCellType(Class<? extends Cell> cellType, int index) {
         if (this.cellType == cellType) {
             this.cellType = null;
-            editButtons.get(index).getModel().setPressed(false);
+            editButtons.get(index).setBorder(new LineBorder(Color.BLACK, 1, true));
         } else {
             this.cellType = cellType;
-            editButtons.get(index).getModel().setPressed(true);
             editButtons.get(index).setBorder(new LineBorder(Color.BLACK, 3, true));
-
 
             for (int i = 0; i < editButtons.size(); i++) {
                 if (i != index) {
-                    editButtons.get(i).getModel().setPressed(false);
                     editButtons.get(i).setBorder(new LineBorder(Color.BLACK, 1, true));
                 }
             }
@@ -242,7 +236,7 @@ public class Game {
 
             } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | SecurityException
                     | IllegalArgumentException | InvocationTargetException e) {
-                        displayExeption(e);
+                displayExeption(e);
             }
         }
     }
