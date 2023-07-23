@@ -137,7 +137,11 @@ public class Organism {
     public void move() {
         int dx = 0, dy = 0;
         Random random = new Random();
-        direction = random.nextInt(4);
+
+        // change direction with 25% probability
+        if (random.nextInt(4) == 0) {
+            direction = random.nextInt(4);
+        }
 
         switch (direction) {
             case 0:
