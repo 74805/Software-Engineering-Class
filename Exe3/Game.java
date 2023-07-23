@@ -185,7 +185,7 @@ public class Game {
             button.setPreferredSize(new Dimension(60, 60));
 
             // make the text smaller
-            button.setFont(button.getFont().deriveFont(8f));
+            button.setFont(button.getFont().deriveFont(12f));
 
             panel.add(button);
         }
