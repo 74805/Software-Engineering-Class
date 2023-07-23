@@ -37,9 +37,6 @@ public class Board {
             OrganismCell organismCell = (OrganismCell) oldCell;
             Organism organism = organismCell.getOrganism();
             organism.removeCell(organismCell);
-            if (organism.getCells().size() == 0) {
-                organisms.remove(organism);
-            }
         }
 
         cells[cell.getX()][cell.getY()] = cell;
@@ -57,8 +54,13 @@ public class Board {
             IllegalAccessException, IllegalArgumentException, InvocationTargetException {
         Collections.shuffle(organisms);
 
-        for (Organism organism : organisms) {
-            organism.operate(cells);
+        for (int i = 0; i < organisms.size(); i++) {
+            if (organisms.get(i).getCells().size() == 0) {
+                organisms.remove(i);
+                i--;
+            } else {
+                organisms.get(i).operate();
+            }
         }
 
         // go over all cells and replace with the next state
@@ -71,6 +73,17 @@ public class Board {
                     Class<?> associatedClass = nextState.getCellType();
                     Constructor<?> copyConstructor = associatedClass.getDeclaredConstructor(Cell.class);
                     Cell newCell = (Cell) copyConstructor.newInstance(cell);
+
+                    if (cell instanceof OrganismCell && cell.getNextOrganism() == null) {
+                        ((OrganismCell) cell).getOrganism().removeCell((OrganismCell) cell);
+                    }
+
+                    if (newCell instanceof OrganismCell) {
+                        Organism nextOrganism = cell.getNextOrganism();
+                        if (nextOrganism != null) {
+                            nextOrganism.addCell((OrganismCell) newCell);
+                        }
+                    }
 
                     // finally, replace the cell
                     changeCell(newCell);
@@ -129,14 +142,19 @@ public class Board {
 
         // if the cell is not adjacent to an organism, create a new one
         if (adjacentOrganism == null) {
-            Organism organism = new Organism();
+            Organism organism = new Organism(this);
             organism.addCell(cell);
             organisms.add(organism);
         }
     }
 
     public void moveCell(OrganismCell cell, int x, int y) {
-        // TODO
+        cells[x][y].setNextState(cell.getState());
+        cells[x][y].setNextOrganism(cell.getOrganism());
+        if (cell.getNextState() == State.SAME) {
+            cell.setNextState(State.EMPTY);
+            cell.setNextOrganism(null);
+        }
     }
 
 }

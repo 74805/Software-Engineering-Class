@@ -38,6 +38,10 @@ public class MoverCell extends OrganismCell {
     @Override
     public void operate(Cell[][] adjacentCells) {
         // move the organism randomly
+        if (Math.random() < 0.5) {
+            return;
+        }
+
         organism.move();
 
         // rotate the organism randomly

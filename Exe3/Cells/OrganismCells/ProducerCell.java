@@ -44,7 +44,7 @@ public class ProducerCell extends OrganismCell {
         }
 
         Cell cell = adjacentCells[index / 3][index % 3];
-        if (cell instanceof EmptyCell) {
+        if (cell instanceof EmptyCell && cell.getNextState() == State.SAME) {
             cell.setNextState(State.FOOD);
         }
     }

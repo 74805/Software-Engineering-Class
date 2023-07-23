@@ -2,8 +2,10 @@ package Exe3;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import Exe3.Cells.Cell;
+import Exe3.Cells.EmptyCell;
 import Exe3.Cells.OrganismCells.MoverCell;
 import Exe3.Cells.OrganismCells.OrganismCell;
 
@@ -30,7 +32,8 @@ public class Organism {
     // age is the amout of ticks that have passed since the organism was created
     private int age;
 
-    public Organism() {
+    public Organism(Board board) {
+        this.board = board;
         cells = new ArrayList<OrganismCell>();
 
         damage = 0;
@@ -72,16 +75,16 @@ public class Organism {
         }
     }
 
-    public void operate(Cell[][] boardCells) {
+    public void operate() {
         boolean moved = false;
         for (OrganismCell cell : cells) {
             if (cell instanceof MoverCell) {
                 if (!moved) {
                     moved = true;
-                    cell.operate(cell.getAdjacentCells(boardCells));
+                    cell.operate(cell.getAdjacentCells(board.getCells()));
                 }
             } else {
-                cell.operate(cell.getAdjacentCells(boardCells));
+                cell.operate(cell.getAdjacentCells(board.getCells()));
             }
         }
     }
@@ -133,22 +136,47 @@ public class Organism {
 
     public void move() {
         int dx = 0, dy = 0;
-        if (Math.random() < 0.2) {
-            direction = (int) Math.random() * 4;
+        Random random = new Random();
+        direction = random.nextInt(4);
 
-            switch (direction) {
-                case 0:
-                    dy = -1;
-                    break;
-                case 1:
-                    dx = 1;
-                    break;
-                case 2:
-                    dy = 1;
-                    break;
-                case 3:
-                    dx = -1;
-                    break;
+        switch (direction) {
+            case 0:
+                dy = -1;
+                break;
+            case 1:
+                dx = 1;
+                break;
+            case 2:
+                dy = 1;
+                break;
+            case 3:
+                dx = -1;
+                break;
+        }
+
+        // check if moving in this direction is possible
+        Cell[][] boardCells = board.getCells();
+        for (OrganismCell cell : cells) {
+            int newX = cell.getX() + dx;
+            int newY = cell.getY() + dy;
+
+            if (newX < 0 || newX >= boardCells.length || newY < 0 || newY >= boardCells[0].length) {
+                return;
+            }
+
+            Cell nextCell = boardCells[newX][newY];
+            Class<? extends Cell> nextCellType = nextCell.getNextState().getCellType();
+            // if the next cell hasn't changed yet and is empty, continue
+            if (nextCellType == null && nextCell instanceof EmptyCell) {
+                continue;
+            } else {
+                if (nextCellType != null) {
+                    return;
+                }
+
+                if (!(nextCell instanceof OrganismCell) || ((OrganismCell) nextCell).getNextOrganism() != this) {
+                    return;
+                }
             }
         }
 
