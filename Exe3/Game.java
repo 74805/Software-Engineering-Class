@@ -165,23 +165,19 @@ public class Game {
         editButtons.add(new JButton("Killer"));
         editButtons.add(new JButton("Mouth"));
         editButtons.add(new JButton("Producer"));
-
+    
         editButtons.get(0).setBackground(Color.GRAY);
         editButtons.get(1).setBackground(Color.GREEN);
         editButtons.get(2).setBackground(Color.PINK);
         editButtons.get(3).setBackground(Color.ORANGE);
         editButtons.get(4).setBackground(Color.CYAN);
-
+    
         for (JButton button : editButtons) {
-            // make the buttons square
-            button.setPreferredSize(new Dimension(60, 60));
-
-            // make the text smaller
-            button.setFont(button.getFont().deriveFont(8f));
-
+            button.setPreferredSize(new Dimension(60, 60)); // make the buttons square
+            button.setFont(button.getFont().deriveFont(8f)); // make the text smaller
+            button.setToolTipText(button.getText()); // set the tooltip to display the full name
             panel.add(button);
         }
-
         // add actions to the buttons
         editButtons.get(0).addActionListener(e -> setCellType(EmptyCell.class, 0));
         editButtons.get(1).addActionListener(e -> setCellType(FoodCell.class, 1));
@@ -189,6 +185,7 @@ public class Game {
         editButtons.get(3).addActionListener(e -> setCellType(MouthCell.class, 3));
         editButtons.get(4).addActionListener(e -> setCellType(ProducerCell.class, 4));
     }
+
 
     private void setCellType(Class<? extends Cell> cellType, int index) {
         if (this.cellType == cellType) {
