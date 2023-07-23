@@ -37,7 +37,9 @@ public class Organism {
         cells = new ArrayList<OrganismCell>();
 
         damage = 0;
-        direction = (int) (Math.random() * 4);
+
+        Random random = new Random();
+        direction = random.nextInt(4);
         age = 0;
         energy = 0;
     }
@@ -71,7 +73,7 @@ public class Organism {
 
     public void merge(Organism other) {
         for (OrganismCell cell : other.getCells()) {
-            cells.add(cell);
+            addCell(cell);
         }
     }
 
@@ -171,31 +173,21 @@ public class Organism {
             Cell nextCell = boardCells[newX][newY];
             Class<? extends Cell> nextCellType = nextCell.getNextState().getCellType();
             // if the next cell hasn't changed yet and is empty, continue
-            if (nextCellType == null && nextCell instanceof EmptyCell) {
+            if (nextCellType == null && nextCell.getState().getCellType() == EmptyCell.class) {
                 continue;
-            } else {
-                if (nextCellType != null) {
-                    return;
-                }
-
-                if (!(nextCell instanceof OrganismCell) || ((OrganismCell) nextCell).getNextOrganism() != this) {
-                    return;
-                }
             }
+
+            if (nextCell instanceof OrganismCell && ((OrganismCell) nextCell).getNextOrganism() == this) {
+                continue;
+            }
+
+            return;
         }
 
         for (OrganismCell cell : cells) {
             board.moveCell((OrganismCell) cell, cell.getX() + dx, cell.getY() + dy);
         }
     }
-
-    // public void rotateRight() {
-    // // TODO
-    // }
-
-    // public void rotateLeft() {
-    // // TODO
-    // }
 
     public int getmaxX() {
         return maxX;
