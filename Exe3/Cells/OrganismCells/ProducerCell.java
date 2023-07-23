@@ -29,6 +29,8 @@ public class ProducerCell extends OrganismCell {
     public ProducerCell(int x, int y, Consumer<Cell> clickHandler) {
         super(x, y, clickHandler);
 
+        state = State.PRODUCER;
+
         // create a new cyan button
         button.setBackground(Color.CYAN);
     }

@@ -27,6 +27,8 @@ public class EmptyCell extends Cell {
     public EmptyCell(int x, int y, Consumer<Cell> clickHandler) {
         super(x, y, clickHandler);
 
+        state = State.EMPTY;
+
         // create a new gray button
         button.setBackground(Color.GRAY);
     }

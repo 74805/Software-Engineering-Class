@@ -18,6 +18,8 @@ public abstract class OrganismCell extends Cell {
         if (other instanceof OrganismCell) {
             organism = ((OrganismCell) other).organism;
         }
+
+        nextOrganism = organism;
     }
 
     public OrganismCell(int x, int y, Consumer<Cell> clickHandler) {
@@ -33,6 +35,7 @@ public abstract class OrganismCell extends Cell {
 
     public void setOrganism(Organism organism) {
         this.organism = organism;
+        nextOrganism = organism;
     }
 
     public Cell[][] getAdjacentCells(Cell[][] boardCells) {

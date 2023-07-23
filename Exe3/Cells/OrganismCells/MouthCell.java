@@ -21,6 +21,9 @@ public class MouthCell extends OrganismCell {
     public MouthCell(Cell other) {
         super(other);
 
+        state = State.MOUTH;
+
+        // create a new orange button
         button.setBackground(Color.ORANGE);
     }
 

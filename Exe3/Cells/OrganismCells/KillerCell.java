@@ -22,11 +22,14 @@ public class KillerCell extends OrganismCell {
 
         state = State.KILLER;
 
+        // create a new pink button
         button.setBackground(Color.PINK);
     }
 
     public KillerCell(int x, int y, Consumer<Cell> clickHandler) {
         super(x, y, clickHandler);
+
+        state = State.KILLER;
 
         // create a new pink button
         button.setBackground(Color.PINK);

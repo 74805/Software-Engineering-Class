@@ -27,6 +27,8 @@ public class FoodCell extends Cell {
     public FoodCell(int x, int y, Consumer<Cell> clickHandler) {
         super(x, y, clickHandler);
 
+        state = State.FOOD;
+
         // create a new green button
         button.setBackground(Color.GREEN);
     }
