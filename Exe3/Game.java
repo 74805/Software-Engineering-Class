@@ -230,6 +230,7 @@ public class Game {
                 Constructor<?> copyConstructor = cellType.getDeclaredConstructor(Cell.class);
                 Cell newCell = (Cell) copyConstructor.newInstance(cell);
                 board.changeCell(newCell);
+                newCell.setClickHandler(this::clickCell);
 
                 // repaint the boardPanel to update the changes
                 boardPanel.revalidate();
