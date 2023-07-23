@@ -38,6 +38,10 @@ public class ProducerCell extends OrganismCell {
     // produces a new food cell in a random adjacent cell
     @Override
     public void operate(Cell[][] adjacentCells) {
+        // produce a new food cell with a 5% chance
+        if (Math.random() > 0.05) {
+            return;
+        }
         int index = (int) (Math.random() * 9);
         while (index == 4) {
             index = (int) (Math.random() * 9);

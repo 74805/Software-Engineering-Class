@@ -94,7 +94,7 @@ public class Organism {
     public void takeDamage() {
         damage += 1;
 
-        if (damage >= cells.size()) {
+        if (damage >= 8 * cells.size()) {
             die();
         }
     }
