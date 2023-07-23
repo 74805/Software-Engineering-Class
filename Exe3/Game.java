@@ -3,6 +3,8 @@ package Exe3;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.border.*;
+import javax.swing.JOptionPane;
 
 import Exe3.Cells.Cell;
 import Exe3.Cells.EmptyCell;
@@ -59,7 +61,7 @@ public class Game {
         // clear the cellType
         cellType = null;
         for (JButton button : editButtons) {
-            button.getModel().setPressed(false);
+            button.setBorder(new LineBorder(Color.BLACK, 1, true));
         }
 
         guiThread = new Thread(() -> {
@@ -70,6 +72,7 @@ public class Game {
 
                     Thread.sleep(100);
                 } catch (Exception e) {
+                    // if the thread was interrupted, exit the loop
                     break;
                 }
             }
@@ -87,6 +90,7 @@ public class Game {
         try {
             guiThread.join();
         } catch (InterruptedException e) {
+            displayExeption(e);
         }
 
         // set the click handler
@@ -158,6 +162,10 @@ public class Game {
         frame.setVisible(true);
     }
 
+    public static void displayExeption(Exception e) {
+        JOptionPane.showMessageDialog(null, e.getMessage(), "Somthing went wrong", JOptionPane.PLAIN_MESSAGE);
+    }
+
     private void setEditButtons(JPanel panel) {
         editButtons = new ArrayList<>();
         editButtons.add(new JButton("Empty"));
@@ -177,7 +185,7 @@ public class Game {
             button.setPreferredSize(new Dimension(60, 60));
 
             // make the text smaller
-            button.setFont(button.getFont().deriveFont(8f));
+            button.setFont(button.getFont().deriveFont(12f));
 
             panel.add(button);
         }
@@ -188,21 +196,27 @@ public class Game {
         editButtons.get(2).addActionListener(e -> setCellType(KillerCell.class, 2));
         editButtons.get(3).addActionListener(e -> setCellType(MouthCell.class, 3));
         editButtons.get(4).addActionListener(e -> setCellType(ProducerCell.class, 4));
+
+        // add border
+        for (JButton button : editButtons) {
+            button.setBorder(new LineBorder(Color.BLACK, 1, true));
+        }
     }
 
     private void setCellType(Class<? extends Cell> cellType, int index) {
         if (this.cellType == cellType) {
             this.cellType = null;
-            editButtons.get(index).getModel().setPressed(false);
+            editButtons.get(index).setBorder(new LineBorder(Color.BLACK, 1, true));
         } else {
             this.cellType = cellType;
-            editButtons.get(index).getModel().setPressed(true);
+            editButtons.get(index).setBorder(new LineBorder(Color.BLACK, 3, true));
 
             for (int i = 0; i < editButtons.size(); i++) {
                 if (i != index) {
-                    editButtons.get(i).getModel().setPressed(false);
+                    editButtons.get(i).setBorder(new LineBorder(Color.BLACK, 1, true));
                 }
             }
+
         }
     }
 
@@ -216,6 +230,7 @@ public class Game {
                 Constructor<?> copyConstructor = cellType.getDeclaredConstructor(Cell.class);
                 Cell newCell = (Cell) copyConstructor.newInstance(cell);
                 board.changeCell(newCell);
+                newCell.setClickHandler(this::clickCell);
 
                 // repaint the boardPanel to update the changes
                 boardPanel.revalidate();
@@ -228,6 +243,7 @@ public class Game {
 
             } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | SecurityException
                     | IllegalArgumentException | InvocationTargetException e) {
+                displayExeption(e);
             }
         }
     }
