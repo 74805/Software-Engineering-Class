@@ -3,6 +3,8 @@ package Exe3;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.border.*;
+import javax.swing.JOptionPane;
 
 import Exe3.Cells.Cell;
 import Exe3.Cells.EmptyCell;
@@ -87,6 +89,7 @@ public class Game {
         try {
             guiThread.join();
         } catch (InterruptedException e) {
+            displayExeption(e);
         }
 
         // set the click handler
@@ -103,6 +106,7 @@ public class Game {
         for (JButton button : editButtons) {
             button.setEnabled(true);
         }
+
 
         // enable the start button
         startButton.setEnabled(true);
@@ -158,6 +162,10 @@ public class Game {
         frame.setVisible(true);
     }
 
+    public static void displayExeption(Exception e) {
+        JOptionPane.showMessageDialog(null, e.getMessage() , "exeption raised:" , JOptionPane.PLAIN_MESSAGE);
+    }
+
     private void setEditButtons(JPanel panel) {
         editButtons = new ArrayList<>();
         editButtons.add(new JButton("Empty"));
@@ -175,6 +183,8 @@ public class Game {
         for (JButton button : editButtons) {
             // make the buttons square
             button.setPreferredSize(new Dimension(60, 60));
+            if (button.getText()=="Producer")
+                button.setPreferredSize(new Dimension(80,60));
 
             // make the text smaller
             button.setFont(button.getFont().deriveFont(8f));
@@ -197,12 +207,16 @@ public class Game {
         } else {
             this.cellType = cellType;
             editButtons.get(index).getModel().setPressed(true);
+            editButtons.get(index).setBorder(new LineBorder(Color.BLACK, 3, true));
+
 
             for (int i = 0; i < editButtons.size(); i++) {
                 if (i != index) {
                     editButtons.get(i).getModel().setPressed(false);
+                    editButtons.get(i).setBorder(new LineBorder(Color.BLACK, 1, true));
                 }
             }
+
         }
     }
 
@@ -228,6 +242,7 @@ public class Game {
 
             } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | SecurityException
                     | IllegalArgumentException | InvocationTargetException e) {
+                        displayExeption(e);
             }
         }
     }
