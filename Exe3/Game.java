@@ -195,6 +195,11 @@ public class Game {
         editButtons.get(2).addActionListener(e -> setCellType(KillerCell.class, 2));
         editButtons.get(3).addActionListener(e -> setCellType(MouthCell.class, 3));
         editButtons.get(4).addActionListener(e -> setCellType(ProducerCell.class, 4));
+
+        // add border
+        for (JButton button : editButtons) {
+            button.setBorder(new LineBorder(Color.BLACK, 1, true));
+        }
     }
 
     private void setCellType(Class<? extends Cell> cellType, int index) {
