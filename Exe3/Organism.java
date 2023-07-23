@@ -44,9 +44,23 @@ public class Organism {
         energy = 0;
     }
 
-    public Organism(Organism other) {
-        // TODO: create copy constructor
-        // (for reproduction)
+    public Organism(Organism other, int distanceDif, int direction) {
+        board = other.board;
+        cells = new ArrayList<OrganismCell>(other.cells);
+
+        damage = 0;
+
+        Random random = new Random();
+        direction = random.nextInt(4);
+        age = 0;
+        energy = 0;
+
+        if (direction == 0) {
+            for (OrganismCell cell : cells) {
+                cell.setX(cell.getX() + distanceDif);
+            }
+        }
+
     }
 
     public List<OrganismCell> getCells() {
