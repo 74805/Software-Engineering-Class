@@ -72,7 +72,8 @@ public class Game {
 
                     Thread.sleep(100);
                 } catch (Exception e) {
-                    displayExeption(e);
+                    // if the thread was interrupted, exit the loop
+                    break;
                 }
             }
         });
