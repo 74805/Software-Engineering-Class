@@ -43,25 +43,6 @@ public class MoverCell extends OrganismCell {
         }
 
         organism.move();
-
-        // rotate the organism randomly
-        // if (Math.random() < 0.1) {
-        // switch ((int) (Math.random() * 3)) {
-        // case 0:
-        // organism.rotateRight();
-        // break;
-        // case 1:
-        // organism.rotateLeft();
-        // break;
-        // case 2:
-        // organism.rotateRight();
-        // organism.rotateRight();
-        // break;
-        // }
-
-        // // TODO: check if the new rotation is valid
-        // }
-
     }
 
 }

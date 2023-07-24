@@ -26,4 +26,14 @@ public enum State {
     public Class<? extends Cell> getCellType() {
         return associatedClass;
     }
+
+    public static State fromClass(Class<? extends Cell> cellType) {
+        for (State state : State.values()) {
+            if (state.getCellType() == cellType) {
+                return state;
+            }
+        }
+        return null;
+    }
+
 }
