@@ -1,5 +1,6 @@
 package Exe3.Cells.OrganismCells;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.function.Consumer;
 
 import Exe3.Organism;
@@ -27,7 +28,8 @@ public abstract class OrganismCell extends Cell {
     }
 
     // adjacentCells is a 3x3 matrix of cells, where the middle cell is the current
-    public abstract void operate(Cell[][] adjacentCells);
+    public abstract void operate(Cell[][] adjacentCells) throws NoSuchMethodException, SecurityException,
+            InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException;
 
     public Organism getOrganism() {
         return organism;

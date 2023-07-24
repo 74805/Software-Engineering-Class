@@ -82,6 +82,10 @@ public class Board {
                         Organism nextOrganism = cell.getNextOrganism();
                         if (nextOrganism != null) {
                             nextOrganism.addCell((OrganismCell) newCell);
+
+                            if (!organisms.contains(nextOrganism)) {
+                                organisms.add(nextOrganism);
+                            }
                         }
                     }
 

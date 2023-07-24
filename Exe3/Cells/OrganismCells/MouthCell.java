@@ -1,6 +1,7 @@
 package Exe3.Cells.OrganismCells;
 
 import java.awt.Color;
+import java.lang.reflect.InvocationTargetException;
 import java.util.function.Consumer;
 
 import Exe3.State;
@@ -38,7 +39,8 @@ public class MouthCell extends OrganismCell {
 
     // eat an adjacent food cell (if exists)
     @Override
-    public void operate(Cell[][] adjacentCells) {
+    public void operate(Cell[][] adjacentCells) throws NoSuchMethodException, SecurityException, InstantiationException,
+            IllegalAccessException, IllegalArgumentException, InvocationTargetException {
         for (Cell[] row : adjacentCells) {
             for (Cell cell : row) {
                 if (cell instanceof FoodCell && cell.getNextState() == State.SAME) {

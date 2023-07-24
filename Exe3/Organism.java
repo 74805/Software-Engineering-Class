@@ -1,5 +1,7 @@
 package Exe3;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -13,10 +15,8 @@ public class Organism {
     private Board board;
     private List<OrganismCell> cells;
 
-    private int maxX = 100;
-    private int minX = -1;
-    private int maxY = 100;
-    private int minY = -1;
+    private int length;
+    private int width;
 
     private int damage;
     private int energy; // how much food the organism ate
@@ -36,6 +36,8 @@ public class Organism {
         this.board = board;
         cells = new ArrayList<OrganismCell>();
 
+        length = 0;
+        width = 0;
         damage = 0;
 
         Random random = new Random();
@@ -44,9 +46,68 @@ public class Organism {
         energy = 0;
     }
 
-    public Organism(Organism other) {
-        // TODO: create copy constructor
-        // (for reproduction)
+    public Organism(Organism other, int distanceDif, int direction) throws NoSuchMethodException, SecurityException,
+            InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+        // check if there is room to reproduce
+        Cell[][] boardCells = other.board.getCells();
+        if (direction == 0) {
+            for (OrganismCell cell : other.cells) {
+                if (cell.getX() + distanceDif < 0 || cell.getX() + distanceDif >= boardCells.length) {
+                    return;
+                }
+                if (!(boardCells[cell.getX() + distanceDif][cell.getY()] instanceof EmptyCell)
+                        || boardCells[cell.getX() + distanceDif][cell.getY()].getNextState() != State.SAME) {
+                    return;
+                }
+            }
+        } else {
+            for (OrganismCell cell : other.cells) {
+                if (cell.getY() + distanceDif < 0 || cell.getY() + distanceDif >= boardCells[0].length) {
+                    return;
+                }
+                if (!(boardCells[cell.getX()][cell.getY() + distanceDif] instanceof EmptyCell)
+                        || boardCells[cell.getX()][cell.getY() + distanceDif].getNextState() != State.SAME) {
+                    return;
+                }
+            }
+        }
+
+        board = other.board;
+        cells = new ArrayList<OrganismCell>();
+        for (OrganismCell cell : other.cells) {
+            Class<?> associatedClass = cell.getClass();
+            Constructor<?> Copyconstructor = associatedClass.getDeclaredConstructor(Cell.class);
+
+            OrganismCell newCell;
+            if (direction == 0) {
+                newCell = (OrganismCell) Copyconstructor
+                        .newInstance(board.getCells()[cell.getX() + distanceDif][cell.getY()]);
+            } else {
+                newCell = (OrganismCell) Copyconstructor
+                        .newInstance(board.getCells()[cell.getX()][cell.getY() + distanceDif]);
+            }
+
+            newCell.setOrganism(this);
+            newCell.setNextOrganism(this);
+            if (direction == 0) {
+                newCell.setX(cell.getX() + distanceDif);
+                newCell.setY(cell.getY());
+            } else {
+                newCell.setX(cell.getX());
+                newCell.setY(cell.getY() + distanceDif);
+            }
+            addCell(newCell);
+        }
+
+        length = other.length;
+        width = other.width;
+        damage = 0;
+
+        Random random = new Random();
+        this.direction = random.nextInt(4);
+        age = 0;
+        energy = 0;
+        other.energy = 0;
     }
 
     public List<OrganismCell> getCells() {
@@ -54,20 +115,71 @@ public class Organism {
     }
 
     public void addCell(OrganismCell cell) {
+        boolean minX = true;
+        boolean maxX = true;
+        boolean minY = true;
+        boolean maxY = true;
+
+        for (OrganismCell organismCell : cells) {
+            if (organismCell.getX() <= cell.getX()) {
+                minX = false;
+            }
+
+            if (organismCell.getX() >= cell.getX()) {
+                maxX = false;
+            }
+
+            if (organismCell.getY() <= cell.getY()) {
+                minY = false;
+            }
+
+            if (organismCell.getY() >= cell.getY()) {
+                maxY = false;
+            }
+        }
+
+        if (minX || maxX) {
+            length += 1;
+        }
+        if (minY || maxY) {
+            width += 1;
+        }
+
         cells.add(cell);
         cell.setOrganism(this);
-
-        if (cell.getX() > maxX)
-            maxX = cell.getX();
-        else if (cell.getX() < minX)
-            minX = cell.getX();
-        if (cell.getY() > maxY)
-            maxY = cell.getY();
-        else if (cell.getY() < minY)
-            minY = cell.getY();
     }
 
     public void removeCell(OrganismCell cell) {
+        boolean minX = true;
+        boolean maxX = true;
+        boolean minY = true;
+        boolean maxY = true;
+
+        for (OrganismCell organismCell : cells) {
+            if (organismCell.getX() <= cell.getX()) {
+                minX = false;
+            }
+
+            if (organismCell.getX() >= cell.getX()) {
+                maxX = false;
+            }
+
+            if (organismCell.getY() <= cell.getY()) {
+                minY = false;
+            }
+
+            if (organismCell.getY() >= cell.getY()) {
+                maxY = false;
+            }
+        }
+
+        if (minX || maxX) {
+            length -= 1;
+        }
+        if (minY || maxY) {
+            width -= 1;
+        }
+
         cells.remove(cell);
     }
 
@@ -78,17 +190,22 @@ public class Organism {
     }
 
     public void operate() {
-        boolean moved = false;
-        for (OrganismCell cell : cells) {
-            if (cell instanceof MoverCell) {
-                if (!moved) {
-                    moved = true;
+        try {
+            boolean moved = false;
+            for (OrganismCell cell : cells) {
+                if (cell instanceof MoverCell) {
+                    if (!moved) {
+                        moved = true;
+                        cell.operate(cell.getAdjacentCells(board.getCells()));
+                    }
+                } else {
                     cell.operate(cell.getAdjacentCells(board.getCells()));
                 }
-            } else {
-                cell.operate(cell.getAdjacentCells(board.getCells()));
             }
+        } catch (Exception e) {
+
         }
+
     }
 
     // when touched by a killer cell, an organism will take damage. Once it has
@@ -103,10 +220,10 @@ public class Organism {
 
     // when a mouth cell from the organism touches a food cell it will gain energy
     // if the organism has enough energy - it reproduces
-    public void addEnergy() {
+    public void addEnergy() throws NoSuchMethodException, SecurityException, InstantiationException,
+            IllegalAccessException, IllegalArgumentException, InvocationTargetException {
         energy += 1;
         if (energy >= cells.size()) {
-            energy = 0;
             reproduce();
         }
     }
@@ -189,24 +306,42 @@ public class Organism {
         }
     }
 
-    public int getmaxX() {
-        return maxX;
-    }
+    public void reproduce() throws NoSuchMethodException, SecurityException, InstantiationException,
+            IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+        direction = 0;
 
-    public int getmaxY() {
-        return maxY;
-    }
+        Organism reproduced = null;
+        switch (direction) {
+            case 0:
+                reproduced = new Organism(this, -length - 2, 0);
 
-    public int getminX() {
-        return minX;
-    }
+                if (reproduced.getCells() != null) {
+                    break;
+                }
+            case 1:
+                reproduced = new Organism(this, width + 2, 1);
 
-    public int getminY() {
-        return minY;
-    }
+                if (reproduced.getCells() != null) {
+                    break;
+                }
+            case 2:
+                reproduced = new Organism(this, length + 2, 0);
 
-    public void reproduce() {
-        // TODO
-        // after creating mover cell
+                if (reproduced.getCells() != null) {
+                    break;
+                }
+            case 3:
+                reproduced = new Organism(this, -width - 2, 1);
+                break;
+        }
+
+        if (reproduced.getCells() != null) {
+            for (OrganismCell cell : reproduced.getCells()) {
+                cell.setNextState(State.fromClass(cell.getClass()));
+                cell.setNextOrganism(reproduced);
+                board.changeCell(cell);
+            }
+        }
+
     }
 }
