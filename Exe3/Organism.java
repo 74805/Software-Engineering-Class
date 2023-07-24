@@ -139,10 +139,10 @@ public class Organism {
         }
 
         if (minX || maxX) {
-            length += 1;
+            length++;
         }
         if (minY || maxY) {
-            width += 1;
+            width++;
         }
 
         cells.add(cell);
@@ -150,6 +150,12 @@ public class Organism {
     }
 
     public void removeCell(OrganismCell cell) {
+        if (!cells.contains(cell)) {
+            return;
+        }
+
+        cells.remove(cell);
+
         boolean minX = true;
         boolean maxX = true;
         boolean minY = true;
@@ -174,13 +180,11 @@ public class Organism {
         }
 
         if (minX || maxX) {
-            length -= 1;
+            length--;
         }
         if (minY || maxY) {
-            width -= 1;
+            width--;
         }
-
-        cells.remove(cell);
     }
 
     public void merge(Organism other) {
@@ -308,30 +312,31 @@ public class Organism {
 
     public void reproduce() throws NoSuchMethodException, SecurityException, InstantiationException,
             IllegalAccessException, IllegalArgumentException, InvocationTargetException {
-        direction = 0;
+        Random random = new Random();
+        direction = random.nextInt(4);
 
         Organism reproduced = null;
         switch (direction) {
             case 0:
-                reproduced = new Organism(this, -length - 2, 0);
+                reproduced = new Organism(this, -length - 1, 0);
 
                 if (reproduced.getCells() != null) {
                     break;
                 }
             case 1:
-                reproduced = new Organism(this, width + 2, 1);
+                reproduced = new Organism(this, width + 1, 1);
 
                 if (reproduced.getCells() != null) {
                     break;
                 }
             case 2:
-                reproduced = new Organism(this, length + 2, 0);
+                reproduced = new Organism(this, length + 1, 0);
 
                 if (reproduced.getCells() != null) {
                     break;
                 }
             case 3:
-                reproduced = new Organism(this, -width - 2, 1);
+                reproduced = new Organism(this, -width - 1, 1);
                 break;
         }
 
