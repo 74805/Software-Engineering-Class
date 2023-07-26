@@ -206,6 +206,11 @@ public class Organism {
                     cell.operate(cell.getAdjacentCells(board.getCells()));
                 }
             }
+
+            age++;
+            if (age >= cells.size() * LIFESPAN_MULTIPLIER) {
+                die();
+            }
         } catch (Exception e) {
 
         }
